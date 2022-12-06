@@ -57,18 +57,14 @@ jobs:
         mv -f build/common/*.sh build/${{matrix.target}}/
         sudo chmod -R +x build
         source build/${{matrix.target}}/common.sh && Diy_menu1
-    
-    - name: 给CPU检测做准备
+         
+    - name: CPU检测
       run: |
         sudo -E apt-get -qq update -y
         sudo -E apt-get -qq install -y gawk git gettext libssl-dev xsltproc zip git-core wget curl grep python2.7 python3 python3-pip python3-ply
         sudo timedatectl set-timezone "$TZ"
         git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --global user.name "github-actions[bot]"
-        
-    - name: CPU检测
-      run: |
-        cd ${GITHUB_WORKSPACE}
         export CPU_OPTIMIZATION="8272"
         source build/${FOLDER_NAME}/common.sh && CPU_Priority
         
