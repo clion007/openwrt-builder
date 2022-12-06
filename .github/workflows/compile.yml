@@ -69,7 +69,7 @@ jobs:
     - name: CPU检测
       run: |
         cd ${GITHUB_WORKSPACE}
-        export CPU_OPTIMIZATION="E5"
+        export CPU_OPTIMIZATION="8370"
         source build/${FOLDER_NAME}/common.sh && CPU_Priority
         
     - name: 部署编译环境
