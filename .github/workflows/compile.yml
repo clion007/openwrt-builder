@@ -9,7 +9,7 @@
 #
 
 
-name: compile
+name: 别摸我-compile
 on:
   workflow_dispatch:
   push:
