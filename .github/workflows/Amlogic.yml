@@ -15,12 +15,12 @@
 #
 #
 
-name: Amlogic-编
+name: Amlogic-编译晶晨系列
 on:
   workflow_dispatch:
     inputs:
       REPO_BRANCH:
-        description: '晶晨CPU系列2222'
+        description: '晶晨CPU系列'
         required: false
         default: 'master'
         type: choice
