@@ -91,7 +91,6 @@ jobs:
           cp -Rf shangyou/* repogx/
           rm -rf repogx/.github/workflows/*
           cp -Rf shangyou/.github/workflows/* repogx/.github/workflows/
-          
         else
           echo "未知错误,关闭同步更新上游仓库"
           exit 1
