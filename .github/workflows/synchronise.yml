@@ -17,9 +17,10 @@ on:
         default: '单文件同步,带备份'
         type: choice
         options:
+          - '不同步上游仓库,单纯消灭仓库的.bak备份文件'
           - '单文件同步,带备份'
           - '单文件同步,不要备份'
-          - '拉取整个上游仓库覆盖您现在的仓库'
+          - '拉取整个上游仓库覆盖您现在的仓库(无备份)'
 
 env:
   REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
@@ -41,7 +42,6 @@ jobs:
           echo "REPO_TOKEN密匙制作教程：https://git.io/jm.md"
           exit 1
         fi
-
     - name: 准备结束
       uses: actions/checkout@v3
       
@@ -57,28 +57,35 @@ jobs:
         
         if [[ -z "${{ github.event.inputs.fork }}" ]]; then
           echo "again-fork=0" >> ${GITHUB_ENV}
-        elif [[ "${{ github.event.inputs.fork }}" == '更新diy-part.sh和settings.ini,带备份' ]]; then
+        elif [[ "${{ github.event.inputs.fork }}" == '不同步上游仓库,单纯消灭仓库的.bak备份文件' ]]; then
           echo "again-fork=1" >> ${GITHUB_ENV}
-        elif [[ "${{ github.event.inputs.fork }}" == '更新diy-part.sh和settings.ini,不要备份' ]]; then
+        elif [[ "${{ github.event.inputs.fork }}" == '单文件同步,带备份' ]]; then
           echo "again-fork=2" >> ${GITHUB_ENV}
-        elif [[ "${{ github.event.inputs.fork }}" == '拉取整个上游仓库覆盖您现在的仓库' ]]; then
+        elif [[ "${{ github.event.inputs.fork }}" == '单文件同步,不要备份' ]]; then
           echo "again-fork=3" >> ${GITHUB_ENV}
+        elif [[ "${{ github.event.inputs.fork }}" == '拉取整个上游仓库覆盖您现在的仓库(无备份)' ]]; then
+          echo "again-fork=4" >> ${GITHUB_ENV}
         fi
         
     - name: 同步更新上游仓库
-      if: env.REPO_TOKEN && env.again-fork != '0'
+      if: env.REPO_TOKEN
       run: |
         cd ${GITHUB_WORKSPACE}
         git clone -b main https://github.com/281677160/autobuild.git shangyou
         git clone -b main https://github.com/${{github.repository}}.git repogx
         if [[ "${{ env.again-fork }}" == "1" ]]; then
-          echo "单文件同步,带备份"
-          bash <(curl -fsSL https://raw.githubusercontent.com/281677160/common-main/main/bendi/tongbu.sh)
-        elif [[ "${{ env.again-fork }}" == "2" ]]; then
-          echo "单文件同步,不要备份"
+          echo "不同步,单纯消灭仓库的.bak备份文件"
           export BENDI_SHANCHUBAK="1"
           bash <(curl -fsSL https://raw.githubusercontent.com/281677160/common-main/main/bendi/tongbu.sh)
+        elif [[ "${{ env.again-fork }}" == "2" ]]; then
+          echo "单文件同步,带备份"
+          export BENDI_SHANCHUBAK="2"
+          bash <(curl -fsSL https://raw.githubusercontent.com/281677160/common-main/main/bendi/tongbu.sh)
         elif [[ "${{ env.again-fork }}" == "3" ]]; then
+          echo "单文件同步,不要备份"
+          export BENDI_SHANCHUBAK="3"
+          bash <(curl -fsSL https://raw.githubusercontent.com/281677160/common-main/main/bendi/tongbu.sh)
+        elif [[ "${{ env.again-fork }}" == "4" ]]; then
           echo "拉取整个上游仓库覆盖您现在的仓库"
           rm -rf repogx/*
           cp -Rf shangyou/* repogx/
@@ -91,4 +98,4 @@ jobs:
         git add .
         git commit -m "Update $(date +%Y-%m%d-%H%M%S)"
         git push --quiet "https://${{ secrets.REPO_TOKEN }}@github.com/${{github.repository}}" HEAD:main
-        echo "同步完成，请注意查看[diy-part.sh]和[settings.ini]文件的变化和设置好!"
+        echo "同步完成，请注意查看文件的变化和设置好!"
