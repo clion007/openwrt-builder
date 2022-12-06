@@ -128,7 +128,7 @@ jobs:
       run: |
         cd ${GITHUB_WORKSPACE}
         git clone https://github.com/281677160/common-main build/common
-        mv -f build/common/*.sh build/${{matrix.target}}/
+        mv -f build/common/*.sh build/${{ env.FOLDER_NAME }}/
         chmod -R +x build
         export INPUTS_INFORMATION_NOTICE="${{ github.event.inputs.INFORMATION_NOTICE }}"
         export INPUTS_REPO_BRANCH="${{ github.event.inputs.REPO_BRANCH }}"
@@ -140,9 +140,9 @@ jobs:
         export INPUTS_COLLECTED_PACKAGES="${{ github.event.inputs.COLLECTED_PACKAGES }}"
         export INPUTS_CPU_SELECTION="${{ github.event.inputs.CPU_SELECTION }}"
         if [[ -n "${{ github.event.inputs.REPO_BRANCH }}" ]]; then
-          source build/${{matrix.target}}/common.sh && settings_variable
+          source build/${{ env.FOLDER_NAME }}/common.sh && settings_variable
         fi
-        source build/${{matrix.target}}/common.sh && Diy_menu1
+        source build/${{ env.FOLDER_NAME }}/common.sh && Diy_menu1
         
     - name: 部署编译环境
       env:
@@ -156,12 +156,12 @@ jobs:
         git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --global user.name "github-actions[bot]"
     
-    - name: 下载"${{matrix.target}}-${{ github.event.inputs.REPO_BRANCH }}"源码
+    - name: 下载"${{ env.FOLDER_NAME }}-${{ github.event.inputs.REPO_BRANCH }}"源码
       working-directory: /${{ env.DIY_WORK }}
       run: |
         git clone -b "${REPO_BRANCH}" --single-branch "${REPO_URL}" openwrt
         ln -sf /${{ env.DIY_WORK }}/openwrt ${GITHUB_WORKSPACE}/openwrt
-        source ${GITHUB_WORKSPACE}/build/${{matrix.target}}/common.sh && Diy_checkout
+        source ${GITHUB_WORKSPACE}/build/${{ env.FOLDER_NAME }}/common.sh && Diy_checkout
     
     - name: 公 告
       if: env.REPO_TOKEN
@@ -169,7 +169,7 @@ jobs:
         cd ${GITHUB_WORKSPACE}
         cp -Rf `find ./ -maxdepth 1 -type d ! -path './openwrt' ! -path './'` openwrt
         cd openwrt
-        source build/${{matrix.target}}/common.sh && Diy_menu2
+        source build/${{ env.FOLDER_NAME }}/common.sh && Diy_menu2
  
     - name: 增加插件源
       if: env.REPO_TOKEN
@@ -184,7 +184,7 @@ jobs:
       run: |
         cd openwrt
         source $BUILD_PATH/$DIY_PART_SH
-        source build/${{matrix.target}}/common.sh && Diy_Publicarea
+        source build/${{ env.FOLDER_NAME }}/common.sh && Diy_Publicarea
         
     - name: 加载源、补丁和files文件夹
       if: env.REPO_TOKEN
@@ -200,7 +200,7 @@ jobs:
         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
 
-    - name: 生成"${{matrix.target}}"配置文件
+    - name: 生成"${{ env.FOLDER_NAME }}"配置文件
       if: env.REPO_TOKEN
       id: compile
       run: |
@@ -243,7 +243,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
         
-    - name: 触发compile.yml启动"${{matrix.target}}"编译
+    - name: 触发compile.yml启动"${{ env.FOLDER_NAME }}"编译
       id: gitpush
       if: steps.compile.outcome == 'success' && env.REPO_TOKEN
       run: |
@@ -256,17 +256,17 @@ jobs:
       run: |
         if [[ "${{ env.INFORMATION_NOTICE }}" == "TG" ]]; then
           if [[ "${{steps.gitpush.outcome}}" == 'success' ]] && [[ "${{steps.compile.outcome}}" == 'success' ]]; then
-            curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=🎉 主人💕：您的编译脚本成功触发【${{matrix.target}}】文件夹编译【${{env.TARGET_PROFILE}}】固件中,请耐心等待...... 😋(${{env.Tongzhi_Date}})" "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage"
+            curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=🎉 主人💕：您的编译脚本成功触发【${{ env.FOLDER_NAME }}】文件夹编译【${{env.TARGET_PROFILE}}】固件中,请耐心等待...... 😋(${{env.Tongzhi_Date}})" "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage"
           else
-            curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=💥主人❌ ：上游扩展错误或者脚本错误,触发启动【${{matrix.target}}】失败,请点击触发脚本步骤查看详情!(${{env.Tongzhi_Date}})" "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage"
+            curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=💥主人❌ ：上游扩展错误或者脚本错误,触发启动【${{ env.FOLDER_NAME }}】失败,请点击触发脚本步骤查看详情!(${{env.Tongzhi_Date}})" "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage"
             exit 1
           fi
         fi
         if [[ "${{ env.INFORMATION_NOTICE }}" == "PUSH" ]]; then
           if [[ "${{steps.gitpush.outcome}}" == 'success' ]] && [[ "${{steps.compile.outcome}}" == 'success' ]]; then
-            curl -k --data token="${{ secrets.PUSH_PLUS_TOKEN }}" --data title="开始编译【${{matrix.target}}】" --data "content=🎉 主人💕：您的编译脚本成功触发【${{matrix.target}}】文件夹编译【${{env.TARGET_PROFILE}}】固件中,请耐心等待...... 😋(${{env.Tongzhi_Date}})" "http://www.pushplus.plus/send"
+            curl -k --data token="${{ secrets.PUSH_PLUS_TOKEN }}" --data title="开始编译【${{ env.FOLDER_NAME }}】" --data "content=🎉 主人💕：您的编译脚本成功触发【${{ env.FOLDER_NAME }}】文件夹编译【${{env.TARGET_PROFILE}}】固件中,请耐心等待...... 😋(${{env.Tongzhi_Date}})" "http://www.pushplus.plus/send"
           else
-            curl -k --data token="${{ secrets.PUSH_PLUS_TOKEN }}" --data title="触发启动失败" --data "content=💥主人❌ ：上游扩展错误或者脚本错误,触发启动【${{matrix.target}}】失败,请点击触发脚本步骤查看详情!(${{env.Tongzhi_Date}})" "http://www.pushplus.plus/send"
+            curl -k --data token="${{ secrets.PUSH_PLUS_TOKEN }}" --data title="触发启动失败" --data "content=💥主人❌ ：上游扩展错误或者脚本错误,触发启动【${{ env.FOLDER_NAME }}】失败,请点击触发脚本步骤查看详情!(${{env.Tongzhi_Date}})" "http://www.pushplus.plus/send"
             exit 1
           fi
         fi
