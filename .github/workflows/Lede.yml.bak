@@ -15,12 +15,12 @@
 #
 #
 
-name: Amlogic-编
+name: Lede-大雕
 on:
   workflow_dispatch:
     inputs:
       REPO_BRANCH:
-        description: '晶晨CPU系列2222'
+        description: '大雕源码'
         required: false
         default: 'master'
         type: choice
@@ -29,10 +29,14 @@ on:
       CONFIG_FILE:
         description: '配置文件'
         required: false
-        default: 'aarch64'
+        default: 'x86_64'
         type: choice
         options:
-          - 'aarch64'
+          - 'asus_rt-acrh17'
+          - 'd-team_newifi-d2'
+          - 'p2w_r619ac-128m'
+          - 'x86_32'
+          - 'x86_64'
       CPU_SELECTION:
         description: 'CPU优选,增加编译速度'
         required: false
@@ -72,8 +76,8 @@ on:
         required: false
         default: 'true'
         type: boolean
-      PACKAGING_FIRMWARE:
-        description: 'N1和晶晨系列固件自动打包成 .img 固件'
+      UPDATE_FIRMWARE_ONLINE:
+        description: '增加在线更新固件功能'
         required: false
         default: 'true'
         type: boolean
@@ -98,8 +102,8 @@ env:
   PUSH_PLUS_TOKEN: ${{ secrets.PUSH_PLUS_TOKEN }}
   TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
   TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-  SOURCE_CODE: AMLOGIC
-  FOLDER_NAME: Amlogic
+  SOURCE_CODE: COOLSNOWWOLF
+  FOLDER_NAME: Lede
   TZ: Asia/Shanghai
 
 jobs:
@@ -133,7 +137,7 @@ jobs:
         export INPUTS_UPLOAD_FIRMWARE="${{ github.event.inputs.UPLOAD_FIRMWARE }}"
         export INPUTS_UPLOAD_RELEASE="${{ github.event.inputs.UPLOAD_RELEASE }}"
         export INPUTS_CACHEWRTBUILD_SWITCH="${{ github.event.inputs.CACHEWRTBUILD_SWITCH }}"
-        export INPUTS_PACKAGING_FIRMWARE="${{ github.event.inputs.PACKAGING_FIRMWARE }}"
+        export INPUTS_UPDATE_FIRMWARE_ONLINE="${{ github.event.inputs.UPDATE_FIRMWARE_ONLINE }}"
         export INPUTS_COLLECTED_PACKAGES="${{ github.event.inputs.COLLECTED_PACKAGES }}"
         export INPUTS_CPU_SELECTION="${{ github.event.inputs.CPU_SELECTION }}"
         if [[ -n "${{ github.event.inputs.REPO_BRANCH }}" ]]; then
