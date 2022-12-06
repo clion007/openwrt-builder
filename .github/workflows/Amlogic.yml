@@ -32,7 +32,7 @@ on:
         default: 'aarch64'
         type: choice
         options:
-          - '.config'
+          - 'aarch64'
       CPU_SELECTION:
         description: 'CPU优选,增加编译速度'
         required: false
