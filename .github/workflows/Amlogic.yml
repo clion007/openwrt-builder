@@ -20,7 +20,7 @@ on:
   workflow_dispatch:
     inputs:
       REPO_BRANCH:
-        description: '晶晨CPU系列'
+        description: '晶晨CPU系列2222'
         required: false
         default: 'master'
         type: choice
