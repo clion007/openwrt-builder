@@ -29,7 +29,7 @@ on:
       CONFIG_FILE:
         description: '配置文件'
         required: false
-        default: 'x86_64'
+        default: 'aarch64'
         type: choice
         options:
           - '.config'
@@ -129,7 +129,7 @@ jobs:
         chmod -R +x build
         export INPUTS_INFORMATION_NOTICE="${{ github.event.inputs.INFORMATION_NOTICE }}"
         export INPUTS_REPO_BRANCH="${{ github.event.inputs.REPO_BRANCH }}"
-        export INPUTS_CONFIG_FILE="various-config/${{ github.event.inputs.CONFIG_FILE }}"
+        export INPUTS_CONFIG_FILE="seed/${{ github.event.inputs.CONFIG_FILE }}"
         export INPUTS_UPLOAD_FIRMWARE="${{ github.event.inputs.UPLOAD_FIRMWARE }}"
         export INPUTS_UPLOAD_RELEASE="${{ github.event.inputs.UPLOAD_RELEASE }}"
         export INPUTS_CACHEWRTBUILD_SWITCH="${{ github.event.inputs.CACHEWRTBUILD_SWITCH }}"
