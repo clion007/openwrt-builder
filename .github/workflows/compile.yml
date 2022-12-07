@@ -121,7 +121,7 @@ jobs:
         cd openwrt
         source ${BUILD_PATH}/common.sh && Diy_xinxi
         
-    - name: 缓存加速(7天内对应源码相同机型二次编译有效，每次只保留一个源码的缓存)
+    - name: 缓存加速
       if: env.CACHEWRTBUILD_SWITCH == 'true'
       uses: stupidloud/cachewrtbuild@main
       with:
