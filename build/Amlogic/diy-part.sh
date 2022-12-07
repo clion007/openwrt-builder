@@ -38,15 +38,15 @@ export Personal_Signature="$(TZ=UTC-8 date "+%Y.%m.%d")"  # 个性签名,你想�
 # 内核，机型，固件rootfs大小填入示例
 # export amlogic_model="此内填入机型，或多机型组合"
 # export amlogic_kernel="此内填入内核，或者多内核组合"
-# export auto_kernel="true" 是否自动检测最新内核来打包（true为是，false为不是，如果不是的话，内核版本要填写切对正确，要不然打包失败）
+# export auto_kernel="true" 是否自动检测最新内核来打包（true为是，false为不是，如果不是的话，内核版本要填写绝对正确，要不然打包失败）
 # 自动检测最新内核,比如您写的是 5.15.25 当前最高版本为 5.15.78 的话就自动打包5.15.78的
 # export rootfs_size="填入不低于500的数值，数值越大空间越大，一般960够了"
-# s905x3 s905d s912 a311d s922x s922x-n2 s922x-reva s905x3 s905x3-b s905x2
-# s912-m8s s905d s905d-ki s905x s905w s905 s905l3a s905x2-km3 s912
-# 可选内核 （5.4） （5.10） （5.15） （6.0）
+# 可用芯片：a311d, s922x, s905x3, s905x2, s905l3a, s912, s905d, s905x, s905w, s905
+# 对应支持什么机型，请看说明
+# 可选内核 （5.4.xx） （5.10.xx） （5.15.xx） （6.0.xx）
 
-export amlogic_model="s905x3_s905x2_s905x_s905w_s905d_s922x_s912"
-export amlogic_kernel="5.15.25_5.10.100"
+export amlogic_model="s905d_s905x_s912"
+export amlogic_kernel="5.10.01_5.15.01"
 export auto_kernel="true"
 export rootfs_size="960"
 
