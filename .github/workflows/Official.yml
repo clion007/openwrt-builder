@@ -15,7 +15,7 @@
 #
 #
 
-name: openwrt-官方
+name: Official-OP官方
 on:
   workflow_dispatch:
     inputs:
