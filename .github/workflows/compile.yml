@@ -42,7 +42,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [Lede]
+        target: [Amlogic]
 
         # [Lede,Immortalwrt,Lienol,Xwrt,Official,Amlogic]
 
