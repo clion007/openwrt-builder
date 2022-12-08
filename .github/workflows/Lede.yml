@@ -144,9 +144,7 @@ jobs:
         export INPUTS_UPDATE_FIRMWARE_ONLINE="${{ github.event.inputs.UPDATE_FIRMWARE_ONLINE }}"
         export INPUTS_COLLECTED_PACKAGES="${{ github.event.inputs.COLLECTED_PACKAGES }}"
         export INPUTS_CPU_SELECTION="${{ github.event.inputs.CPU_SELECTION }}"
-        if [[ -n "${{ github.event.inputs.REPO_BRANCH }}" ]]; then
-          source build/${{ env.FOLDER_NAME }}/common.sh && settings_variable
-        fi
+        source build/${{ env.FOLDER_NAME }}/common.sh && settings_variable
         source build/${{ env.FOLDER_NAME }}/common.sh && Diy_menu1
         
     - name: 部署编译环境
