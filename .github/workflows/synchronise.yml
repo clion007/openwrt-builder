@@ -1,3 +1,4 @@
+
 #
 # 同步上游仓库或者清理发布都需要用REPO_TOKEN密匙
 #
@@ -11,21 +12,40 @@ name: 同步上游仓库
 on:
   workflow_dispatch:
     inputs:
-      fork:
-        description: '同步上游仓库选择'
+      Synchro:
+        description: '====同步上游仓库===='
         required: false
-        default: '关闭'
+        default: 'false'
+        type: boolean
+      fork:
+        description: '请选择同步选项'
+        required: false
+        default: '单文件同步,带备份'
         type: choice
         options:
-          - '关闭'
           - '不同步上游仓库,单纯消灭仓库的.bak备份文件'
           - '单文件同步,带备份'
           - '单文件同步,不要备份'
           - '拉取整个上游仓库覆盖您现在的仓库(无备份)'
-      delete:
-        description: '删除机型文件夹,一次删除多个用英文逗号分隔'
+      Establish:
+        description: '====在build文件夹创建机型文件夹===='
+        required: false
+        default: 'false'
+        type: boolean
+      establish_sample:
+        description: '输入build文件夹里有的源码为蓝本(文件夹名称)'
         default: ''
-
+      establish_name:
+        description: '您需要创建的文件夹名称'
+        default: ''
+      Deletefile:
+        description: '====删除build里面的文件夹===='
+        required: false
+        default: 'false'
+        type: boolean
+      Deletefile_name:
+        description: '请输入要删除的文件夹名称,一次删除多个请用英文逗号分开'
+        default: ''
 env:
   REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
   TONGBU_CANGKU: 1
@@ -59,7 +79,7 @@ jobs:
         git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --global user.name "github-actions[bot]"
         
-        if [[ -z "${{ github.event.inputs.fork }}" ]] || [[ "${{ github.event.inputs.fork }}" == '关闭' ]]; then
+        if [[ -z "${{ github.event.inputs.fork }}" ]]; then
           echo "again-fork=0" >> ${GITHUB_ENV}
         elif [[ "${{ github.event.inputs.fork }}" == '不同步上游仓库,单纯消灭仓库的.bak备份文件' ]]; then
           echo "again-fork=1" >> ${GITHUB_ENV}
@@ -71,16 +91,20 @@ jobs:
           echo "again-fork=4" >> ${GITHUB_ENV}
         fi
         
-        if [[ -n "${{ github.event.inputs.delete }}" ]]; then
-          echo "again-delete=1" >> ${GITHUB_ENV}
+        if [[ -n "${{ github.event.inputs.establish_sample }}" ]] && [[ -n "${{ github.event.inputs.establish_name }}" ]]; then
+          echo "inputs_Establish=1" >> ${GITHUB_ENV}
+        fi
+        
+        if [[ -n "${{ github.event.inputs.Deletefile_name }}" ]]; then
+          echo "inputs_Deletefile=1" >> ${GITHUB_ENV}
         fi
         
     - name: 同步更新上游仓库
-      if: env.REPO_TOKEN && env.again-fork != '0'
+      if: env.REPO_TOKEN  && github.event.inputs.Synchro == 'true' && env.again-fork != '0'
       run: |
         cd ${GITHUB_WORKSPACE}
-        git clone -b main https://github.com/281677160/autobuild.git shangyou
-        git clone -b main https://github.com/${{github.repository}}.git repogx
+        rm -rf shangyou && git clone -b main https://github.com/281677160/autobuild.git shangyou
+        rm -rf repogx && git clone -b main https://github.com/${{github.repository}}.git repogx
         if [[ "${{ env.again-fork }}" == "1" ]]; then
           echo "不同步,单纯消灭仓库的.bak备份文件"
           export BENDI_SHANCHUBAK="1"
@@ -110,10 +134,54 @@ jobs:
         git push --quiet "https://${{ secrets.REPO_TOKEN }}@github.com/${{github.repository}}" HEAD:main
         echo "同步完成，请注意查看文件的变化和设置好!"
         
-    - name: 删除不需要的机型文件夹
-      if: env.REPO_TOKEN && env.again-fork == '0' && env.again-delete == '1'
+    - name: 建立机型文件夹
+      if: env.REPO_TOKEN && github.event.inputs.Establish == 'true' && env.inputs_Establish == '1'
       run: |
-        git clone -b main https://github.com/${{github.repository}}.git repogx
+        rm -rf shangyou && git clone -b main https://github.com/281677160/autobuild.git shangyou
+        rm -rf repogx && git clone -b main https://github.com/${{github.repository}}.git repogx
+        aa="${{ github.event.inputs.establish_sample }}"
+        bb="${{ github.event.inputs.establish_name }}"
+        if [[ ! -d "repogx/build/${bb}" ]]; then
+          cp -Rf repogx/build/"${aa}" repogx/build/"${bb}"
+          echo "[${bb}]文件夹创建完成"
+        else
+          echo "[${bb}]文件夹已存在"
+        fi
+        SOURCE_CODE1="$(grep 'SOURCE_CODE=' "repogx/build/${bb}/settings.ini" | cut -d '"' -f2)"
+        if [[ "${SOURCE_CODE1}" == "AMLOGIC" ]]; then
+          cp -Rf shangyou/.github/workflows/Amlogic.yml repogx/.github/workflows/${bb}.yml
+          nn="Amlogic"
+        elif [[ "${SOURCE_CODE1}" == "IMMORTALWRT" ]]; then
+          cp -Rf shangyou/.github/workflows/Immortalwrt.yml repogx/.github/workflows/${bb}.yml
+          nn="Immortalwrt"
+        elif [[ "${SOURCE_CODE1}" == "COOLSNOWWOLF" ]]; then
+          cp -Rf shangyou/.github/workflows/Lede.yml repogx/.github/workflows/${bb}.yml
+          nn="Lede"
+        elif [[ "${SOURCE_CODE1}" == "LIENOL" ]]; then
+          cp -Rf shangyou/.github/workflows/Lienol.yml repogx/.github/workflows/${bb}.yml
+          nn="Lienol"
+        elif [[ "${SOURCE_CODE1}" == "OFFICIAL" ]]; then
+          cp -Rf shangyou/.github/workflows/Official.yml repogx/.github/workflows/${bb}.yml
+          nn="Official"
+        elif [[ "${SOURCE_CODE1}" == "XWRT" ]]; then
+          cp -Rf shangyou/.github/workflows/Xwrt.yml repogx/.github/workflows/${bb}.yml
+          nn="Xwrt"
+        fi
+        
+        yml_name="$(grep 'name:' "repogx/.github/workflows/${bb}.yml"  |grep -v '^#' |awk 'NR==1')"
+        sed -i "s?${yml_name}?name: ${nn}-${bb}?g" "repogx/.github/workflows/${bb}.yml"
+        
+        sudo chmod -R +x ${GITHUB_WORKSPACE}/repogx
+        cd ${GITHUB_WORKSPACE}/repogx
+        git add .
+        git commit -m "Update $(date +%Y-%m%d-%H%M%S)"
+        git push --quiet "https://${{ secrets.REPO_TOKEN }}@github.com/${{github.repository}}" HEAD:main
+        echo "[${bb}]文件夹创建完成"
+        
+    - name: 删除不需要的机型文件夹
+      if: env.REPO_TOKEN && github.event.inputs.Deletefile == 'true' && env.inputs_Deletefile == '1'
+      run: |
+        rm -rf repogx && git clone -b main https://github.com/${{github.repository}}.git repogx
         aa="${{ github.event.inputs.delete }}"
         bb=(${aa//,/ })
         for cc in ${bb[@]}; do
