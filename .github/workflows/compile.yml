@@ -16,7 +16,7 @@ on:
     branches:
       - main
     paths:
-      - 'build/Lede/relevance/start'
+      - 'build/Amlogic/relevance/start'
 
 env:
   GITHUB_LINK: https://github.com/${{github.repository}}
@@ -42,7 +42,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [Lede]
+        target: [Amlogic]
 
         # [Lede,Immortalwrt,Lienol,Xwrt,Official,Amlogic]
 
@@ -62,7 +62,7 @@ jobs:
       run: |
         git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --global user.name "github-actions[bot]"
-        export CPU_PASSWORD="E5"
+        export CPU_PASSWORD=""
         export CPU_OPTIMIZATION="E5"
         source build/${FOLDER_NAME}/common.sh && CPU_Priority
         
