@@ -187,7 +187,7 @@ jobs:
           fi
         done
         
-    - name: 删除不需要的机型文件夹
+    - name: 执行程序
       if: github.event.inputs.Deletefile == 'true' || github.event.inputs.Establish == 'true' || github.event.inputs.Synchro == 'true'
       run: |
         sudo chmod -R +x ${GITHUB_WORKSPACE}/repogx
