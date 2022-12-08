@@ -14,9 +14,10 @@ on:
       fork:
         description: '同步上游仓库选择'
         required: false
-        default: '单文件同步,带备份'
+        default: '关闭'
         type: choice
         options:
+          - '关闭'
           - '不同步上游仓库,单纯消灭仓库的.bak备份文件'
           - '单文件同步,带备份'
           - '单文件同步,不要备份'
@@ -55,7 +56,7 @@ jobs:
         git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --global user.name "github-actions[bot]"
         
-        if [[ -z "${{ github.event.inputs.fork }}" ]]; then
+        if [[ -z "${{ github.event.inputs.fork }}" ]] || [[ "${{ github.event.inputs.fork }}" == '关闭' ]]; then
           echo "again-fork=0" >> ${GITHUB_ENV}
         elif [[ "${{ github.event.inputs.fork }}" == '不同步上游仓库,单纯消灭仓库的.bak备份文件' ]]; then
           echo "again-fork=1" >> ${GITHUB_ENV}
@@ -68,7 +69,7 @@ jobs:
         fi
         
     - name: 同步更新上游仓库
-      if: env.REPO_TOKEN
+      if: env.REPO_TOKEN && env.again-fork != '0'
       run: |
         cd ${GITHUB_WORKSPACE}
         git clone -b main https://github.com/281677160/autobuild.git shangyou
