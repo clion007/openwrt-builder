@@ -127,18 +127,16 @@ jobs:
           echo "未知错误,关闭同步更新上游仓库"
           exit 1
         fi
-        sudo chmod -R +x ${GITHUB_WORKSPACE}/repogx
-        cd ${GITHUB_WORKSPACE}/repogx
-        git add .
-        git commit -m "Update $(date +%Y-%m%d-%H%M%S)"
-        git push --quiet "https://${{ secrets.REPO_TOKEN }}@github.com/${{github.repository}}" HEAD:main
-        echo "同步完成，请注意查看文件的变化和设置好!"
         
     - name: 建立机型文件夹
       if: env.REPO_TOKEN && github.event.inputs.Establish == 'true' && env.inputs_Establish == '1'
       run: |
-        rm -rf shangyou && git clone -b main https://github.com/281677160/autobuild.git shangyou
-        rm -rf repogx && git clone -b main https://github.com/${{github.repository}}.git repogx
+        if [[ ! -d shangyou ]]; then
+          git clone -b main https://github.com/281677160/autobuild.git shangyou
+        fi
+        if [[ ! -d repogx ]]; then
+          rm -rf repogx && git clone -b main https://github.com/${{github.repository}}.git repogx
+        fi
         aa="${{ github.event.inputs.establish_sample }}"
         bb="${{ github.event.inputs.establish_name }}"
         if [[ ! -d "repogx/build/${bb}" ]]; then
@@ -171,18 +169,13 @@ jobs:
         yml_name="$(grep 'name:' "repogx/.github/workflows/${bb}.yml"  |grep -v '^#' |awk 'NR==1')"
         sed -i "s?${yml_name}?name: ${nn}-${bb}?g" "repogx/.github/workflows/${bb}.yml"
         
-        sudo chmod -R +x ${GITHUB_WORKSPACE}/repogx
-        cd ${GITHUB_WORKSPACE}/repogx
-        git add .
-        git commit -m "Update $(date +%Y-%m%d-%H%M%S)"
-        git push --quiet "https://${{ secrets.REPO_TOKEN }}@github.com/${{github.repository}}" HEAD:main
-        echo "[${bb}]文件夹创建完成"
-        
     - name: 删除不需要的机型文件夹
       if: env.REPO_TOKEN && github.event.inputs.Deletefile == 'true' && env.inputs_Deletefile == '1'
       run: |
-        rm -rf repogx && git clone -b main https://github.com/${{github.repository}}.git repogx
-        aa="${{ github.event.inputs.delete }}"
+        if [[ ! -d repogx ]]; then
+          rm -rf repogx && git clone -b main https://github.com/${{github.repository}}.git repogx
+        fi
+        aa="${{ github.event.inputs.Deletefile_name }}"
         bb=(${aa//,/ })
         for cc in ${bb[@]}; do
           if [[ -d "repogx/build/${cc}" ]]; then
@@ -193,6 +186,10 @@ jobs:
             echo "[${cc}]文件夹不存在"
           fi
         done
+        
+    - name: 删除不需要的机型文件夹
+      if: github.event.inputs.Deletefile == 'true' || github.event.inputs.Establish == 'true' || github.event.inputs.Synchro == 'true'
+      run: |
         sudo chmod -R +x ${GITHUB_WORKSPACE}/repogx
         cd ${GITHUB_WORKSPACE}/repogx
         git add .
