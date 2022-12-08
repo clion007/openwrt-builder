@@ -71,7 +71,7 @@ jobs:
           echo "again-fork=4" >> ${GITHUB_ENV}
         fi
         
-        if [[ -z "${{ github.event.inputs.fork }}" ]]; then
+        if [[ -n "${{ github.event.inputs.delete }}" ]]; then
           echo "again-delete=1" >> ${GITHUB_ENV}
         fi
         
@@ -114,17 +114,16 @@ jobs:
       if: env.REPO_TOKEN && env.again-fork == '0' && env.again-delete == '1'
       run: |
         git clone -b main https://github.com/${{github.repository}}.git repogx
-        aa=${{ github.event.inputs.delete }}
+        aa="${{ github.event.inputs.delete }}"
         bb=(${aa//,/ })
-        for X in $(ls -1 ${GITHUB_WORKSPACE}/repogx/build); do
-           dd=${X}
-        done
         for cc in ${bb[@]}; do
-         if [[ "${cc}" == "${dd}" ]]; then
-          rm -rf ${GITHUB_WORKSPACE}/repogx/build/*"${cc}"*
-         else
-          echo "[${cc}]文件夹不存在"
-         fi
+          if [[ -d "repogx/build/${cc}" ]]; then
+            rm -rf repogx/build/"$cc"
+            rm -rf $(grep -rl "target: \[$cc\]" "repogx/.github/workflows" |sed 's/^[ ]*//g' |grep -v '^#\|compile')
+            echo "已删除[${cc}]文件夹"
+          else
+            echo "[${cc}]文件夹不存在"
+          fi
         done
         sudo chmod -R +x ${GITHUB_WORKSPACE}/repogx
         cd ${GITHUB_WORKSPACE}/repogx
