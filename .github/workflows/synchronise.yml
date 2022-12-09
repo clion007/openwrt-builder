@@ -153,4 +153,3 @@ jobs:
         git add .
         git commit -m "Update $(date +%Y-%m%d-%H%M%S)"
         git push --quiet "https://${{ secrets.REPO_TOKEN }}@github.com/${{github.repository}}" HEAD:main
-        echo "删除机型文件夹完成!"
