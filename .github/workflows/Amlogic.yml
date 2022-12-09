@@ -15,7 +15,7 @@
 #
 #
 
-name: Amlogic-Amlogic
+name: Amlogic-编译晶晨系列
 on:
   workflow_dispatch:
     inputs:
