@@ -44,8 +44,6 @@ jobs:
       matrix:
         target: [Lede]
 
-        # [Lede,Immortalwrt,Lienol,Xwrt,Official,Amlogic]
-
     steps:    
     - name: 准备结束
       uses: actions/checkout@v3
