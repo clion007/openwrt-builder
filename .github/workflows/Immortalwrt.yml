@@ -101,8 +101,6 @@ env:
   PUSH_PLUS_TOKEN: ${{ secrets.PUSH_PLUS_TOKEN }}
   TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
   TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-  SOURCE_CODE: IMMORTALWRT
-  FOLDER_NAME: Immortalwrt
   TZ: Asia/Shanghai
 
 jobs:
@@ -110,6 +108,15 @@ jobs:
     name: 启动"${{ github.event.inputs.REPO_BRANCH }}"触发编译
     runs-on: ubuntu-20.04
     if: ${{ github.event.repository.owner.id }} == ${{ github.event.sender.id }}
+    
+    env:
+      FOLDER_NAME: ${{ matrix.target }}
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [Immortalwrt]
+        
+        # 请勿对 target: [Immortalwrt] 做任何修改
         
     steps:
     - name: 密匙检测（密匙为空则退出）
@@ -136,12 +143,10 @@ jobs:
         export INPUTS_UPLOAD_FIRMWARE="${{ github.event.inputs.UPLOAD_FIRMWARE }}"
         export INPUTS_UPLOAD_RELEASE="${{ github.event.inputs.UPLOAD_RELEASE }}"
         export INPUTS_CACHEWRTBUILD_SWITCH="${{ github.event.inputs.CACHEWRTBUILD_SWITCH }}"
-        export INPUTS_UPDATE_FIRMWARE_ONLINE="${{ github.event.inputs.UPDATE_FIRMWARE_ONLINE }}"
+        export INPUTS_PACKAGING_FIRMWARE="${{ github.event.inputs.PACKAGING_FIRMWARE }}"
         export INPUTS_COLLECTED_PACKAGES="${{ github.event.inputs.COLLECTED_PACKAGES }}"
         export INPUTS_CPU_SELECTION="${{ github.event.inputs.CPU_SELECTION }}"
-        if [[ -n "${{ github.event.inputs.REPO_BRANCH }}" ]]; then
-          source build/${{ env.FOLDER_NAME }}/common.sh && settings_variable
-        fi
+        source build/${{ env.FOLDER_NAME }}/common.sh && settings_variable
         source build/${{ env.FOLDER_NAME }}/common.sh && Diy_menu1
         
     - name: 部署编译环境
