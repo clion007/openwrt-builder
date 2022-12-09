@@ -169,6 +169,10 @@ jobs:
         yml_name="$(grep 'name:' "repogx/.github/workflows/${bb}.yml"  |grep -v '^#' |awk 'NR==1')"
         sed -i "s?${yml_name}?name: ${nn}-${bb}?g" "repogx/.github/workflows/${bb}.yml"
         
+        TARGE1="$(grep 'target: \[' yml_name |sed 's/^[ ]*//g' |sed 's/\[/\\&/' |sed 's/\]/\\&/')"
+        TARGE2="target: \\[${bb}\\]"
+        sed -i "s/${TARGE1}/${TARGE2}/g" yml_name
+        
     - name: 删除不需要的机型文件夹
       if: env.REPO_TOKEN && github.event.inputs.Deletefile == 'true' && env.inputs_Deletefile == '1'
       run: |
