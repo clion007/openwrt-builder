@@ -84,6 +84,8 @@ jobs:
         if [[ `grep -c "shangyou" tongbu.sh` -eq '0' ]]; then
           echo "应用文件下载失败"
           exit 1
+        else
+          sudo chmod +x ${GITHUB_WORKSPACE}/tongbu.sh
         fi
         sudo timedatectl set-timezone "$TZ"
         git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
