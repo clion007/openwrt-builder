@@ -48,6 +48,7 @@ on:
         default: ''
 env:
   REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
+  GIT_REPOSITORY: ${{github.repository}}
   TONGBU_CANGKU: 1
   TZ: Asia/Shanghai
 
@@ -92,10 +93,13 @@ jobs:
         fi
         
         if [[ -n "${{ github.event.inputs.establish_sample }}" ]] && [[ -n "${{ github.event.inputs.establish_name }}" ]]; then
+          echo "inputs_establish_sample=${{ github.event.inputs.establish_sample }}" >> ${GITHUB_ENV}
+          echo "inputs_establish_name=${{ github.event.inputs.establish_name }}" >> ${GITHUB_ENV}
           echo "inputs_Establish=1" >> ${GITHUB_ENV}
         fi
         
         if [[ -n "${{ github.event.inputs.Deletefile_name }}" ]]; then
+          echo "inputs_Deletefile_name=${{ github.event.inputs.Deletefile_name }}" >> ${GITHUB_ENV}
           echo "inputs_Deletefile=1" >> ${GITHUB_ENV}
         fi
         
@@ -104,7 +108,7 @@ jobs:
       run: |
         cd ${GITHUB_WORKSPACE}
         rm -rf shangyou && git clone -b main https://github.com/281677160/autobuild.git shangyou
-        rm -rf repogx && git clone -b main https://github.com/${{github.repository}}.git repogx
+        rm -rf repogx && git clone -b main https://github.com/${GIT_REPOSITORY}.git repogx
         if [[ "${{ env.again-fork }}" == "1" ]]; then
           echo "不同步,单纯消灭仓库的.bak备份文件"
           export BENDI_SHANCHUBAK="1"
@@ -135,12 +139,13 @@ jobs:
           git clone -b main https://github.com/281677160/autobuild.git shangyou
         fi
         if [[ ! -d repogx ]]; then
-          rm -rf repogx && git clone -b main https://github.com/${{github.repository}}.git repogx
+          rm -rf repogx && git clone -b main https://github.com/${GIT_REPOSITORY}.git repogx
         fi
-        aa="${{ github.event.inputs.establish_sample }}"
-        bb="${{ github.event.inputs.establish_name }}"
+        aa="${inputs_establish_sample}"
+        bb="${inputs_establish_name}"
         if [[ ! -d "repogx/build/${bb}" ]]; then
           cp -Rf repogx/build/"${aa}" repogx/build/"${bb}"
+          rm -rf repogx/build/${bb}/relevance/*ini
           echo "[${bb}]文件夹创建完成"
         else
           echo "[${bb}]文件夹已存在"
@@ -169,17 +174,17 @@ jobs:
         yml_name="$(grep 'name:' "repogx/.github/workflows/${bb}.yml"  |grep -v '^#' |awk 'NR==1')"
         sed -i "s?${yml_name}?name: ${nn}-${bb}?g" "repogx/.github/workflows/${bb}.yml"
         
-        TARGE1="$(grep 'target: \[' yml_name |sed 's/^[ ]*//g' |sed 's/\[/\\&/' |sed 's/\]/\\&/')"
+        TARGE1="target: \\[.*\\]"
         TARGE2="target: \\[${bb}\\]"
-        sed -i "s/${TARGE1}/${TARGE2}/g" yml_name
+        sed -i "s/${TARGE1}/${TARGE2}/g" repogx/.github/workflows/${bb}.yml
         
     - name: 删除不需要的机型文件夹
       if: env.REPO_TOKEN && github.event.inputs.Deletefile == 'true' && env.inputs_Deletefile == '1'
       run: |
         if [[ ! -d repogx ]]; then
-          rm -rf repogx && git clone -b main https://github.com/${{github.repository}}.git repogx
+          rm -rf repogx && git clone -b main https://github.com/${GIT_REPOSITORY}.git repogx
         fi
-        aa="${{ github.event.inputs.Deletefile_name }}"
+        aa="${inputs_Deletefile_name}"
         bb=(${aa//,/ })
         for cc in ${bb[@]}; do
           if [[ -d "repogx/build/${cc}" ]]; then
