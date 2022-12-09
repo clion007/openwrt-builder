@@ -76,7 +76,6 @@ jobs:
       run: |
         sudo -E apt-get -qq update
         sudo -E apt-get -qq install -y git subversion git-core wget curl grep
-        
         wget -q https://raw.githubusercontent.com/281677160/common-main/main/bendi/tongbu.sh -O ${GITHUB_WORKSPACE}/tongbu.sh
         if [[ $? -ne 0 ]]; then
           curl -fsSL https://raw.githubusercontent.com/281677160/common-main/main/bendi/tongbu.sh > ${GITHUB_WORKSPACE}/tongbu.sh
@@ -119,7 +118,7 @@ jobs:
       run: |
         cd ${GITHUB_WORKSPACE}
         rm -rf shangyou && git clone -b main https://github.com/281677160/autobuild.git shangyou
-        rm -rf repogx && git clone -b main https://github.com/${GIT_REPOSITORY}.git repogx
+        rm -rf repogx && git clone -b main https://github.com/${{github.repository}}.git repogx
         if [[ "${{ env.again-fork }}" == "1" ]]; then
           echo "不同步,单纯消灭仓库的.bak备份文件"
           source ${GITHUB_WORKSPACE}/tongbu.sh && menu1
