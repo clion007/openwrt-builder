@@ -106,7 +106,7 @@ env:
 
 jobs:
   build:
-    name: 启动"${{ github.event.inputs.REPO_BRANCH }}"触发编译
+    name: 启动"${{ matrix.target }}-${{ github.event.inputs.REPO_BRANCH }}"触发编译
     runs-on: ubuntu-22.04
     if: ${{ github.event.repository.owner.id }} == ${{ github.event.sender.id }}
     
@@ -162,7 +162,7 @@ jobs:
         git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --global user.name "github-actions[bot]"
     
-    - name: 下载"${{ env.FOLDER_NAME }}-${{ github.event.inputs.REPO_BRANCH }}"源码
+    - name: 下载"${{ matrix.target }}-${{ github.event.inputs.REPO_BRANCH }}"源码
       working-directory: /${{ env.DIY_WORK }}
       run: |
         git clone -b "${REPO_BRANCH}" --single-branch "${REPO_URL}" openwrt
@@ -206,7 +206,7 @@ jobs:
         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
 
-    - name: 生成"${{ env.FOLDER_NAME }}"配置文件
+    - name: 生成"${{ matrix.target }}"配置文件
       if: env.REPO_TOKEN
       id: compile
       run: |
