@@ -204,7 +204,6 @@ jobs:
       run: |
         cd openwrt
         source ${BUILD_PATH}/common.sh && Diy_menu4
-        sleep 8
     
     - name: SSH远程连接（制作.config配置文件）
       if: github.event.inputs.SSH_ACTION == 'true'
