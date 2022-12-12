@@ -145,27 +145,6 @@ jobs:
         make -j$(nproc) || make -j1 V=s
         echo "date=$(date "+%Y%m%d%H%M%S")" >> ${GITHUB_ENV}
         
-    - name: 开始二次编译固件
-      continue-on-error: true
-      run: |
-        cd ${GITHUB_WORKSPACE}
-        mkdir -p tar_gz
-        sudo tar -czf openwrt.tar.gz openwrt && sync
-        mv openwrt.tar.gz tar_gz/openwrt2.tar.gz
-        cd tar_gz
-        echo "tar_gz=$PWD" >> ${GITHUB_ENV}
-        
-    - name: 发布固件
-      continue-on-error: true
-      uses: ncipollo/release-action@main
-      with:
-        name: openwrt
-        tag: openwrt
-        token: ${{ secrets.REPO_TOKEN }}
-        allowUpdates: true
-        body: ${{ env.Tongzhi_Date }}
-        artifacts: "${{ env.tar_gz }}/*"
-        
     - name: 打包晶晨系列固件
       continue-on-error: true
       if: steps.compile.outcome == 'success' && env.PACKAGING_FIRMWARE == 'true'
