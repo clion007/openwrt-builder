@@ -128,7 +128,6 @@ CONFIG_PACKAGE_luci-app-wolplus=y
 # CONFIG_PACKAGE_luci-app-zerotier is not set
 CONFIG_PACKAGE_luci-i18n-argon-config-zh-cn=y
 CONFIG_PACKAGE_luci-i18n-gost-zh-cn=y
-CONFIG_PACKAGE_luci-i18n-oscam-zh-cn=y
 CONFIG_PACKAGE_luci-i18n-wolplus-zh-cn=y
 CONFIG_PACKAGE_luci-proto-ipv6=y
 # CONFIG_PACKAGE_luci-proto-wireguard is not set
