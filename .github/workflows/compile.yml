@@ -11,7 +11,6 @@
 
 name: 根源-compile
 on:
-  workflow_dispatch:
   push:
     branches:
       - main
