@@ -2,7 +2,7 @@
 #
 
 
-name: 根源-compile
+name: 根
 on:
   push:
     branches:
