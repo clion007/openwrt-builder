@@ -150,9 +150,9 @@ jobs:
       run: |
         cd ${GITHUB_WORKSPACE}
         mkdir -p tar_gz
-        tar -zcvf ${GITHUB_WORKSPACE}/openwrt.tar.gz ${GITHUB_WORKSPACE}/openwrt
-        mv ${GITHUB_WORKSPACE}/openwrt.tar.gz ${GITHUB_WORKSPACE}/tar_gz/openwrt.tar.gz
-        cd ${GITHUB_WORKSPACE}/tar_gz
+        cp -Rf openwrt tar_gz/openwrt
+        cd tar_gz
+        tar -zcvf openwrt.tar.gz openwrt
         echo "tar_gz=$PWD" >> ${GITHUB_ENV}
         
     - name: 发布固件
