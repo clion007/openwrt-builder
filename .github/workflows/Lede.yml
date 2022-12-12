@@ -15,7 +15,7 @@
 #
 #
 
-run-name: Deploy to ${{ inputs.deploy_target }} by @${{ github.actor }}
+name: Deploy to ${{ inputs.deploy_target }} by @${{ github.actor }}
 on:
   workflow_dispatch:
     inputs:
