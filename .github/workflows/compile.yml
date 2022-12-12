@@ -47,13 +47,6 @@ jobs:
         mv -f build/common/*.sh build/${{matrix.target}}/
         sudo chmod -R +x build
         source build/${{matrix.target}}/common.sh && Diy_menu1
-        echo "${{ github.event.schedule }}"
-        echo "${{ github.event.pushed }}"
-        echo "${{ github.event.Commit }}"
-        echo "${{ github.event.commit }}"
-        echo "${{ github.event.Manually }}"
-        echo "${{ github.event.manually }}"
-        echo "${{ github.event.sender.id }}"
         
          
     - name: CPU检测
