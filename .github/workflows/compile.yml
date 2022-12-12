@@ -148,16 +148,20 @@ jobs:
     - name: 开始二次编译固件
       continue-on-error: true
       run: |
-        cd openwrt
-        cat >>".config" <<-EOF
-        CONFIG_PACKAGE_luci-app-gost=y
-        CONFIG_PACKAGE_luci-app-oscam=y
-        EOF
-        make defconfig
-        make download -j8
-        echo -e "$(nproc) thread compile"
-        make -j$(nproc) || make -j1 V=s
-        echo "date=$(date "+%Y%m%d%H%M%S")" >> ${GITHUB_ENV}
+        mkdir -p tar_gz
+        tar -zcvf openwrt.tar.gz openwrt
+        mv openwrt.tar.gz tar_gz/openwrt.tar.gz
+        
+    - name: 发布固件
+      continue-on-error: true
+      uses: ncipollo/release-action@main
+      with:
+        name: openwrt
+        tag: openwrt
+        token: ${{ secrets.REPO_TOKEN }}
+        allowUpdates: true
+        body: ${{ env.Tongzhi_Date }}
+        artifacts: "tar_gz/*"
         
     - name: 打包晶晨系列固件
       continue-on-error: true
@@ -226,7 +230,10 @@ jobs:
       run: |
         mkdir -p Github_Api
         cd Github_Api
-        wget -q --no-cookie --no-check-certificate https://api.github.com/repos/${{github.repository}}/releases/tags/${{ env.TARGET_BOARD }} -O zzz_api
+        wget -q --no-check-certificate https://api.github.com/repos/${{github.repository}}/releases/tags/${{ env.TARGET_BOARD }} -O zzz_api
+        if [[ $? -ne 0 ]]; then
+          curl -fsSL https://api.github.com/repos/${{github.repository}}/releases/tags/${TARGET_BOARD} -o zzz_api
+        fi
         
     - name: 发送[在线更新固件]至云端3
       continue-on-error: true
