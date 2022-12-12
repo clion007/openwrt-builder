@@ -134,27 +134,7 @@ jobs:
         fi
     
     - name: 准备结束
-      uses: actions/checkout@v3
-      
-      
-    - name: 发送[在线更新固件]至云端2
-      continue-on-error: true
-      run: |
-        mkdir -p Github_Api
-        cd Github_Api
-        wget -q --no-cookie --no-check-certificate https://api.github.com/repos/${{github.repository}}/releases/tags/x86 -O zzz_api
-        
-    - name: 发送[在线更新固件]至云端3
-      continue-on-error: true
-      uses: ncipollo/release-action@main
-      with:
-        name: AutoUpdate-${{ env.TARGET_BOARD }}
-        tag: ${{ env.TARGET_BOARD }}
-        token: ${{ secrets.REPO_TOKEN }}
-        artifacts: "Github_Api/*"
-        allowUpdates: true
-        body: ${{ env.Tongzhi_Date }}
-      
+      uses: actions/checkout@v3  
 
     - name: 读取脚本设置
       run: |
