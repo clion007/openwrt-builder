@@ -58,8 +58,8 @@ jobs:
         echo "${{ github.event.schedule }}"
         echo "${{ github.event.push.id }}"
         echo "${{ github.event.paths.id }}"
-        echo "${{ github.event.workflow_dispatch }}"
-        echo "${{ github.event.workflow_dispatch.id }}"
+        echo "${{ github.event.trigger }}"
+        echo "${{ github.event.trigger.id }}"
         echo "${{ github.event.sender.id }}"
         
          
