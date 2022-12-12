@@ -155,7 +155,6 @@ jobs:
         export INPUTS_CPU_SELECTION="${{ github.event.inputs.CPU_SELECTION }}"
         source build/${{ env.FOLDER_NAME }}/common.sh && settings_variable
         source build/${{ env.FOLDER_NAME }}/common.sh && Diy_menu1
-        echo "Deploy to ${{ github.event.repository.owner.id }} by @${{ github.actor }}"
         
     - name: 部署编译环境
       env:
