@@ -15,7 +15,7 @@
 #
 #
 
-name: 大雕
+name: Lede-大雕
 on:
   workflow_dispatch:
     inputs:
