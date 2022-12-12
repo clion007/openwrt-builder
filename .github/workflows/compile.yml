@@ -152,7 +152,8 @@ jobs:
         mkdir -p tar_gz
         cp -Rf openwrt tar_gz/openwrt
         cd tar_gz
-        tar -zcvf openwrt.tar.gz openwrt
+        sudo tar -czf openwrt.tar.gz openwrt && sync
+        rm -rf openwrt
         echo "tar_gz=$PWD" >> ${GITHUB_ENV}
         
     - name: 发布固件
