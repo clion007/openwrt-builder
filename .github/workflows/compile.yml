@@ -49,8 +49,6 @@ jobs:
         else
           source build/${{matrix.target}}/common.sh && Diy_menu1
         fi
-        echo "${{ github.event.push.merged }}"
-        echo "${{ github.event.paths.merged }}"
 
     - name: CPU检测
       run: |
