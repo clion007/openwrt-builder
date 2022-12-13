@@ -28,7 +28,7 @@ on:
           - '19.07'
           - '19.07-cannotuse'
       CONFIG_FILE:
-        description: '配置文件'
+        description: '请选择配置文件'
         required: true
         default: 'x86_64'
         type: choice
