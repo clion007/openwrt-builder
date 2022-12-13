@@ -4,6 +4,7 @@
 
 name: 根
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -43,6 +44,8 @@ jobs:
         mv -f build/common/*.sh build/${{matrix.target}}/
         sudo chmod -R +x build
         source build/${{matrix.target}}/common.sh && Diy_menu1
+        echo "${{ gh workflow run }}"
+        echo "${gh workflow run}"
 
     - name: CPU检测
       run: |
