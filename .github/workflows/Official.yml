@@ -234,10 +234,10 @@ jobs:
       if: env.REPO_TOKEN
       uses: Mattraks/delete-workflow-runs@v2
       with:
-          token: ${{ secrets.REPO_TOKEN }}
-          repository: ${{ github.repository }}
-          retain_days: ${{ env.RETAIN_DAYS }}
-          keep_minimum_runs: 1
+        token: ${{ secrets.REPO_TOKEN }}
+        repository: ${{ github.repository }}
+        retain_days: ${{ env.RETAIN_DAYS }}
+        keep_minimum_runs: 1
     
     - name: 删除releases
       continue-on-error: true
@@ -250,7 +250,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
         
-    - name: 触发compile.yml启动"${{ env.FOLDER_NAME }}"编译
+    - name: 触发compile.yml启动"${{ matrix.target }}"编译
       id: gitpush
       if: steps.compile.outcome == 'success' && env.REPO_TOKEN
       run: |
