@@ -38,7 +38,6 @@ export Personal_Signature="$(TZ=UTC-8 date "+%Y.%m.%d")"  # 个性签名,你想�
 sed -i 's?"终端"?"TTYD"?g' 2>/dev/null `grep -Eorl '"终端"' 'feeds' 'package'`
 sed -i 's?"aMule设置"?"电驴下载"?g' 2>/dev/null `grep -Eorl '"aMule设置"' 'feeds' 'package'`
 sed -i 's?"网络存储"?"NAS"?g' 2>/dev/null `grep -Eorl '"网络存储"' 'feeds' 'package'`
-sed -i 's?"Turbo ACC 网络加速"?"网络加速"?g' 2>/dev/null `grep -Eorl '"Turbo ACC 网络加速"' 'feeds' 'package'`
 sed -i 's?"实时流量监测"?"流量"?g' 2>/dev/null `grep -Eorl '"实时流量监测"' 'feeds' 'package'`
 sed -i 's?"KMS 服务器"?"KMS激活"?g' 2>/dev/null `grep -Eorl '"KMS 服务器"' 'feeds' 'package'`
 sed -i 's?"TTYD 终端"?"TTYD"?g' 2>/dev/null `grep -Eorl '"TTYD 终端"' 'feeds' 'package'`
