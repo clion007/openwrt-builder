@@ -21,7 +21,8 @@ env:
   TZ: Asia/Shanghai
 
 jobs:
-  log-the-inputs:
+  build:
+    name: 编译 "${{matrix.target}}"
     runs-on: ubuntu-22.04
     if: ${{ github.event.repository.owner.id }} == ${{ github.event.sender.id }}
     
@@ -43,17 +44,19 @@ jobs:
         mv -f build/common/*.sh build/${{matrix.target}}/
         sudo chmod -R +x build
         source build/${{matrix.target}}/common.sh && Diy_menu1
-        echo "1 ${{ github.event.inputs }}"
-        echo "2 ${{ github.event.description }}"
-        echo "3 ${{ github.event.workflow }}"
-        echo "4 ${{ github.event.dispatch }}"
+        echo "Manually_Run=${{ github.event.workflow }}" >> ${GITHUB_ENV}
 
     - name: CPU检测
       run: |
         git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --global user.name "github-actions[bot]"
-        export CPU_PASSWORD="1670913063"
-        export CPU_OPTIMIZATION="E5"
+        if [[ -z "${{ github.event.workflow }}" ]]; then
+          export CPU_PASSWORD="1670913063"
+          export CPU_OPTIMIZATION="E5"
+        else
+          export CPU_EMPTY="1"
+          source "${GITHUB_WORKSPACE}/build/${FOLDER_NAME}/settings.ini"
+        fi
         source build/${FOLDER_NAME}/common.sh && CPU_Priority
         
     - name: 部署编译环境
