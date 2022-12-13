@@ -43,10 +43,10 @@ jobs:
         mv -f build/common/*.sh build/${{matrix.target}}/
         sudo chmod -R +x build
         source build/${{matrix.target}}/common.sh && Diy_menu1
-        echo "${{ github.event.inputs }}"
-        echo "${{ github.event.description }}"
-        echo "${{ github.event.workflow }}"
-        echo "${{ github.event.dispatch }}"
+        echo "1 ${{ github.event.inputs }}"
+        echo "2 ${{ github.event.description }}"
+        echo "3 ${{ github.event.workflow }}"
+        echo "4 ${{ github.event.dispatch }}"
 
     - name: CPU检测
       run: |
