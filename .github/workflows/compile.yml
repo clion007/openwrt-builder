@@ -2,7 +2,7 @@
 #
 
 
-name: 根
+name: 主程序
 on:
   workflow_dispatch:
   push:
