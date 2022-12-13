@@ -19,21 +19,21 @@ on:
     inputs:
       REPO_BRANCH:
         description: '晶晨CPU系列'
-        required: false
+        required: true
         default: 'master'
         type: choice
         options:
           - 'master'
       CONFIG_FILE:
         description: '配置文件'
-        required: false
+        required: true
         default: 'aarch64'
         type: choice
         options:
           - 'aarch64'
       CPU_SELECTION:
         description: 'CPU优选,增加编译速度'
-        required: false
+        required: true
         default: '弃用E5系列'
         type: choice
         options:
@@ -43,7 +43,7 @@ on:
           - '选择8171M'
       INFORMATION_NOTICE:
         description: 'Telegram或pushplus信息通知'
-        required: false
+        required: true
         default: '关闭'
         type: choice
         options:
