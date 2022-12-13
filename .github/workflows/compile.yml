@@ -46,6 +46,8 @@ jobs:
         if [[ -n "${{ github.event.workflow }}" ]]; then
           export Manually_Run="1"
           source build/${{matrix.target}}/common.sh && Diy_menu1
+        else
+          source build/${{matrix.target}}/common.sh && Diy_menu1
         fi
 
     - name: CPU检测
