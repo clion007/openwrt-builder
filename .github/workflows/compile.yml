@@ -43,8 +43,10 @@ jobs:
         git clone https://github.com/281677160/common-main build/common
         mv -f build/common/*.sh build/${{matrix.target}}/
         sudo chmod -R +x build
-        source build/${{matrix.target}}/common.sh && Diy_menu1
-        echo "Manually_Run=${{ github.event.workflow }}" >> ${GITHUB_ENV}
+        if [[ -n "${{ github.event.workflow }}" ]]; then
+          export Manually_Run="1"
+          source build/${{matrix.target}}/common.sh && Diy_menu1
+        fi
 
     - name: CPU检测
       run: |
