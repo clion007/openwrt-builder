@@ -19,9 +19,9 @@ name: Lede-大雕
 on:
   workflow_dispatch:
     inputs:
-      REPO_BRANCH:
-        description: '大雕源码'
-        required: false
+      logLevel:
+        description: 'Log level'
+        required: true
         default: 'master'
         type: choice
         options:
