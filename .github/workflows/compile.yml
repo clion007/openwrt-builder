@@ -79,7 +79,7 @@ jobs:
         cd ${GITHUB_WORKSPACE}
         cp -Rf `find ./ -maxdepth 1 -type d ! -path './openwrt' ! -path './'` openwrt
         cd openwrt
-        source build/${{matrix.target}}/common.sh && Diy_menu2
+        source ${BUILD_PATH}/common.sh && Diy_menu2
  
     - name: 增加插件源
       run: |
@@ -90,7 +90,7 @@ jobs:
       run: |
         cd openwrt
         source $BUILD_PATH/$DIY_PART_SH
-        source build/${{matrix.target}}/common.sh && Diy_Publicarea
+        source ${BUILD_PATH}/common.sh && Diy_Publicarea
         
     - name: 加载源、补丁和files文件夹
       run: |
