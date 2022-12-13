@@ -44,7 +44,8 @@ jobs:
         mv -f build/common/*.sh build/${{matrix.target}}/
         sudo chmod -R +x build
         source build/${{matrix.target}}/common.sh && Diy_menu1
-        echo "${{ workflow_dispatch }}"
+        echo "${{ github.event.workflow_dispatch }}"
+        echo "${{ github.event.workflow_run }}"
 
     - name: CPU检测
       run: |
