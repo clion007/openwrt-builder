@@ -21,7 +21,7 @@ on:
     inputs:
       REPO_BRANCH:
         description: 'Lienol源码-请选择分支'
-        required: false
+        required: true
         default: 'master'
         type: choice
         options:
@@ -31,14 +31,14 @@ on:
           - '19.07-cannotuse'
       CONFIG_FILE:
         description: '配置文件'
-        required: false
+        required: true
         default: 'x86_64'
         type: choice
         options:
           - 'x86_64'
       CPU_SELECTION:
         description: 'CPU优选,增加编译速度'
-        required: false
+        required: true
         default: '弃用E5系列'
         type: choice
         options:
@@ -48,7 +48,7 @@ on:
           - '选择8171M'
       INFORMATION_NOTICE:
         description: 'Telegram或pushplus信息通知'
-        required: false
+        required: true
         default: '关闭'
         type: choice
         options:
@@ -98,9 +98,6 @@ env:
   RUN_NUMBER: ${{github.run_number}}
   RUN_WORKFLOW: ${{github.workflow}}
   REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
-  PUSH_PLUS_TOKEN: ${{ secrets.PUSH_PLUS_TOKEN }}
-  TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-  TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
   TZ: Asia/Shanghai
 
 jobs:
