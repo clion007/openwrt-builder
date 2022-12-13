@@ -45,7 +45,6 @@ jobs:
         sudo chmod -R +x build
         source build/${{matrix.target}}/common.sh && Diy_menu1
         echo "${{ gh workflow run }}"
-        echo "${gh workflow run}"
 
     - name: CPU检测
       run: |
