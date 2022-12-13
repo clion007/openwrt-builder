@@ -43,8 +43,7 @@ jobs:
         mv -f build/common/*.sh build/${{matrix.target}}/
         sudo chmod -R +x build
         source build/${{matrix.target}}/common.sh && Diy_menu1
-        
-         
+
     - name: CPU检测
       run: |
         git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
