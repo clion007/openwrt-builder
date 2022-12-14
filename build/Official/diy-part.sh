@@ -35,15 +35,14 @@ export Personal_Signature="$(TZ=UTC-8 date "+%Y.%m.%d")"  # 个性签名,你想�
 
 
 # 修改插件名字
-sed -i 's?"终端"?"TTYD"?g' 2>/dev/null `grep -Eorl '"终端"' 'feeds' 'package'`
-sed -i 's?"网络存储"?"NAS"?g' 2>/dev/null `grep -Eorl '"网络存储"' 'feeds' 'package'`
-sed -i 's?"实时流量监测"?"流量"?g' 2>/dev/null `grep -Eorl '"实时流量监测"' 'feeds' 'package'`
-sed -i 's?"KMS 服务器"?"KMS激活"?g' 2>/dev/null `grep -Eorl '"KMS 服务器"' 'feeds' 'package'`
-sed -i 's?"TTYD 终端"?"TTYD"?g' 2>/dev/null `grep -Eorl '"TTYD 终端"' 'feeds' 'package'`
-sed -i 's?"USB 打印服务器"?"打印服务"?g' 2>/dev/null `grep -Eorl '"USB 打印服务器"' 'feeds' 'package'`
-sed -i 's?"Web 管理"?"Web管理"?g' 2>/dev/null `grep -Eorl '"Web 管理"' 'feeds' 'package'`
-sed -i 's?"管理权"?"改密码"?g' 2>/dev/null `grep -Eorl '"管理权"' 'feeds' 'package'`
-sed -i 's?"带宽监控"?"监控"?g' 2>/dev/null `grep -Eorl '"带宽监控"' 'feeds' 'package'`
+sed -i 's/"终端"/"TTYD"/g' `egrep "终端" -rl ./`
+sed -i 's/"网络存储"/"NAS"/g' `egrep "网络存储" -rl ./`
+sed -i 's/"实时流量监测"/"流量"/g' `egrep "实时流量监测" -rl ./`
+sed -i 's/"KMS 服务器"/"KMS激活"/g' `egrep "KMS 服务器" -rl ./`
+sed -i 's/"USB 打印服务器"/"打印服务"/g' `egrep "USB 打印服务器" -rl ./`
+sed -i 's/"Web 管理"/"Web管理"/g' `egrep "Web 管理" -rl ./`
+sed -i 's/"管理权"/"改密码"/g' `egrep "管理权" -rl ./`
+sed -i 's/"带宽监控"/"监控"/g' `egrep "带宽监控" -rl ./`
 
 
 # 整理固件包时候,删除您不想要的固件或者文件,让它不需要上传到Actions空间(根据编译机型变化,自行调整删除名称)
