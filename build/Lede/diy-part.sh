@@ -36,16 +36,16 @@ export Personal_Signature="$(TZ=UTC-8 date "+%Y.%m.%d")"  # 个性签名,你想�
 
 # 修改插件名字
 for X in "${HOME_PATH}/feeds" "${HOME_PATH}/package"; do
-sed -i 's/"aMule设置"/"电驴下载"/g' `egrep "aMule设置" -rl ${X}`
-sed -i 's/"网络存储"/"NAS"/g' `egrep "网络存储" -rl ${X}`
-sed -i 's/"Turbo ACC 网络加速"/"网络加速"/g' `egrep "Turbo ACC 网络加速" -rl ${X}`
-sed -i 's/"实时流量监测"/"流量"/g' `egrep "实时流量监测" -rl ${X}`
-sed -i 's/"KMS 服务器"/"KMS激活"/g' `egrep "KMS 服务器" -rl ${X}`
-sed -i 's/"TTYD 终端"/"命令窗"/g' `egrep "TTYD 终端" -rl ${X}`
-sed -i 's/"USB 打印服务器"/"打印服务"/g' `egrep "USB 打印服务器" -rl ${X}`
-sed -i 's/"Web 管理"/"Web管理"/g' `egrep "Web 管理" -rl ${X}`
-sed -i 's/"管理权"/"改密码"/g' `egrep "管理权" -rl ${X}`
-sed -i 's/"带宽监控"/"监控"/g' `egrep "带宽监控" -rl ${X}`
+sed -i 's/"aMule设置"/"电驴下载"/g' `egrep "aMule设置" -rl ${X} || true`
+sed -i 's/"网络存储"/"NAS"/g' `egrep "网络存储" -rl ${X} || true`
+sed -i 's/"Turbo ACC 网络加速"/"网络加速"/g' `egrep "Turbo ACC 网络加速" -rl ${X} || true`
+sed -i 's/"实时流量监测"/"流量"/g' `egrep "实时流量监测" -rl ${X} || true`
+sed -i 's/"KMS 服务器"/"KMS激活"/g' `egrep "KMS 服务器" -rl ${X} || true`
+sed -i 's/"TTYD 终端"/"命令窗"/g' `egrep "TTYD 终端" -rl ${X} || true`
+sed -i 's/"USB 打印服务器"/"打印服务"/g' `egrep "USB 打印服务器" -rl ${X} || true`
+sed -i 's/"Web 管理"/"Web管理"/g' `egrep "Web 管理" -rl ${X} || true`
+sed -i 's/"管理权"/"改密码"/g' `egrep "管理权" -rl ${X} || true`
+sed -i 's/"带宽监控"/"监控"/g' `egrep "带宽监控" -rl ${X} || true`
 done
 
 # 整理固件包时候,删除您不想要的固件或者文件,让它不需要上传到Actions空间(根据编译机型变化,自行调整删除名称)
