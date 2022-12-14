@@ -35,7 +35,7 @@ export Personal_Signature="$(TZ=UTC-8 date "+%Y.%m.%d")"  # 个性签名,你想�
 # 更换固件内核
 export Kernel_Patchver="6.1"                  # 更换内核版本,前提是您编译的机型源码内保证有其他内核存在(0为关闭,写上其他表示替换)
 
-# 设置固件免密码登录（进入后台可自行修改密码）
+# 设置固件免密码登录
 export Confidentiality_free="0"               # 设置首次登录后台密码为空（进入openwrt后自行修改密码）(1为开,0为关闭)
 
 # 增加AdGuardHome插件时把核心一起下载好
