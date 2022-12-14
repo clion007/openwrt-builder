@@ -19,7 +19,7 @@ export Lan_DNS="0"                          # 旁路由设置 DNS(多个DNS要�
 export IPv4_Broadcast="0"                   # 设置 IPv4 广播(填0为关闭)
 export Close_DHCP="0"                       # 旁路由关闭DHCP功能(1为开,0为关闭)
 export Delete_Bridge="0"                    # 旁路由去掉桥接模式(1为开,0为关闭)
-export Create_IPV6_interface="0"            # 爱快+OP双系统时,爱快接管IPV6,在OP创建IPV6的lan口接收IPV6信息(1为开,0为关闭)
+export Create_IPV6_interface="0"            # 爱快+OP双系统时,爱快接管IPV6,在OP创建IPV6的lan口接收IPV6信息,其实就是编译IPV6固件+创建IPV6 LAN口(1为开,0为关闭)
 
 # IPV6
 export Package_IPv6helper="0"               # 编译IPV6固件(1为开,0为关闭)
