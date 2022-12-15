@@ -33,10 +33,10 @@ export OpenClash_Core="1"                   # 编译固件增加OpenClash时,把
 export Personal_Signature="$(TZ=UTC-8 date "+%Y.%m.%d")"  # 个性签名,你想写啥就写啥，(填0为不作修改)
 
 # 更换固件内核
-export Kernel_Patchver="6.1"                  # 更换内核版本,在对应源码的[target/linux/架构]查看patches-x.x,看看x.x有啥就有啥内核了(填入内核版本号,填0为不作修改)
+export Kernel_Patchver="0"                    # 更换内核版本,在对应源码的[target/linux/架构]查看patches-x.x,看看x.x有啥就有啥内核了(填入内核版本号,填0为不作修改)
 
-# 设置固件免密码登录
-export Confidentiality_free="0"               # 设置首次登录后台密码为空（进入openwrt后自行修改密码）(1为启用命令,填0为不作修改)
+# 设置免密码登录(个别源码本身就没密码的)
+export Confidentiality_free="1"               # 设置首次登录后台密码为空（进入openwrt后自行修改密码）(1为启用命令,填0为不作修改)
 
 # 增加AdGuardHome插件时把核心一起下载好
 export AdGuardHome_Core="0"                   # 编译固件增加AdGuardHome时,把核心下载好,需要注意的是一个核心20多MB的,小闪存机子搞不来(1为启用命令,填0为不需要核心)
