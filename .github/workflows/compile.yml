@@ -65,11 +65,6 @@ jobs:
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
-        if [[ "${{ env.SOURCE_CODE }}" == "AMLOGIC" ]]; then
-          docker rmi `docker images -q`
-          sudo -E apt-get -qq remove -y --purge azure-cli ghc* zulu* llvm* firefox google* powershell openjdk* msodbcsql17 mongodb* moby* snapd* mysql*
-        fi
-        sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /usr/lib/jvm /opt/ghc /swapfile
         source ${GITHUB_WORKSPACE}/build/${{matrix.target}}/common.sh && Diy_update
         sudo timedatectl set-timezone "$TZ"
         sudo mkdir -p /${{ env.DIY_WORK }}
