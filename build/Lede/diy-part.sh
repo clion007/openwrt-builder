@@ -10,7 +10,7 @@ export Netmask_netm="255.255.255.0"        # IPv4 子网掩码（默认：255.25
 export Op_name="OpenWrt-123"               # 修改主机名称为OpenWrt-123(填0为不作修改)
 
 # 默认主题设置
-export Required_Topic="argon"               # 将bootstrap替换您需要的主题为必选主题,名称必须写对,源码内必须有该主题 (填写主题名称,填0为不作修改)
+export Required_Topic="argon"               # 将bootstrap替换您需要的主题为必选主题(可自行更改您要的,源码要带此主题就行,填写名称也要写对) (填写主题名称,填0为不作修改)
 export Default_Theme="argon"                # 多主题时,选择某主题为默认第一主题 (填写主题名称,填0为不作修改)
 
 # 旁路由选项
