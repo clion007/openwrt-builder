@@ -45,7 +45,7 @@ export AdGuardHome_Core="0"                   # 编译固件增加AdGuardHome时
 export ttyd_Nopassword="0"                    # 设置ttyd免密登录(1为启用命令,填0为不作修改)
 export Delete_NotRequired="1"                 # 个别机型内一堆其他机型固件,删除其他机型的,只保留当前主机型固件(1为启用命令,填0为不作修改)
 export Remove_Firewall="0"                    # 删除DNS强制重定向53端口防火墙规则(1为启用命令,填0为不作修改)
-export Cancel_running="1"                     # 取消路由器每天跑分任务(1为启用命令,填0为不作修改)
+export Cancel_running="1"                     # 取消路由器每天跑分任务(个别源码本身不带次功能)(1为启用命令,填0为不作修改)
 
 
 
