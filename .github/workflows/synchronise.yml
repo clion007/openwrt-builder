@@ -53,7 +53,7 @@ env:
 jobs:
   build:
     name: 启动"同步,创建,删除"程序
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     if: ${{ github.event.repository.owner.id }} == ${{ github.event.sender.id }}
     
     steps:
