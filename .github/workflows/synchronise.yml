@@ -1,6 +1,7 @@
-
 #
-# 同步上游仓库或者清理发布都需要用REPO_TOKEN密匙
+# 同步程序,请勿修改文件名称（synchronise.yml）
+#
+# 同步上游仓库和使用此仓库都需要用到REPO_TOKEN密匙
 #
 # REPO_TOKEN密匙制作教程：https://git.io/jm.md
 #
@@ -50,11 +51,10 @@ env:
   TZ: Asia/Shanghai
 
 jobs:
-  del_runs:
-    runs-on: ubuntu-22.04
+  build:
+    name: 启动"同步,创建,删除"程序
+    runs-on: ubuntu-20.04
     if: ${{ github.event.repository.owner.id }} == ${{ github.event.sender.id }}
-    
-    name: 同步上游仓库
     
     steps:
     - name: 密匙检测（密匙为空则退出）
