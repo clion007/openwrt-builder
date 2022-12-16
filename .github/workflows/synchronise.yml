@@ -5,7 +5,7 @@
 # REPO_TOKEN密匙制作教程：https://git.io/jm.md
 #
 
-name: 创建,删除,同步
+name: 同步,创建,删除
 on:
   workflow_dispatch:
     inputs:
