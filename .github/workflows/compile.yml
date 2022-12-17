@@ -205,9 +205,9 @@ jobs:
       run: |
         mkdir -p Github_Api
         cd Github_Api
-        wget -q --no-check-certificate https://api.github.com/repos/${{github.repository}}/releases/tags/${{ env.TARGET_BOARD }} -O zzz_api
+        wget -q --no-check-certificate https://api.github.com/repos/${{github.repository}}/releases/tags/${{ env.TARGET_BOARD }}?state=closed -O zzz_api
         if [[ $? -ne 0 ]]; then
-          curl -fsSL https://api.github.com/repos/${{github.repository}}/releases/tags/${TARGET_BOARD} -o zzz_api
+          curl -fsSL https://api.github.com/repos/${{github.repository}}/releases/tags/${TARGET_BOARD}?state=closed -o zzz_api
         fi
         
     - name: 发送[在线更新固件]至云端3
