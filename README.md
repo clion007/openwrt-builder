@@ -21,7 +21,7 @@
 <br />
 </details>
 
-
+https://api.github.com/repos/vernesong/OpenClash/contents/core-lateset/premium
 ---
 <details>
 <summary>🆘点击查看编译教程</summary>
