@@ -211,9 +211,9 @@ jobs:
       run: |
         cd openwrt
         source ${BUILD_PATH}/common.sh && Diy_menu5
-        echo "${{ steps.compile.outcome }}"
         
     - name: 上传.config配置文件在 github actions
+      continue-on-error: true
       if: steps.compile.outcome == 'success'
       uses: actions/upload-artifact@main
       with:
@@ -258,22 +258,13 @@ jobs:
         source ${BUILD_PATH}/common.sh && build_openwrt
         
     - name: 电报机器人或pushplus信息通知
-      continue-on-error: true
-      if: env.PUSH_PLUS_TOKEN && env.INFORMATION_NOTICE == 'PUSH' || env.TELEGRAM_BOT_TOKEN && env.INFORMATION_NOTICE == 'TG'
+      if: ${{ secrets.PUSH_PLUS_TOKEN }} && env.INFORMATION_NOTICE == 'PUSH' || ${{ secrets.TELEGRAM_BOT_TOKEN }} && env.INFORMATION_NOTICE == 'TG'
+      env:
+        PUSH_PLUS_TOKEN: ${{ secrets.PUSH_PLUS_TOKEN }}
+        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        compiles: ${{ steps.compile.outcome }}
+        gitpushs: ${{ steps.gitpush.outcome }}
       run: |
-        if [[ "${{ env.INFORMATION_NOTICE }}" == "TG" ]]; then
-          if [[ "${{steps.gitpush.outcome}}" == 'success' ]] && [[ "${{steps.compile.outcome}}" == 'success' ]]; then
-            curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=🎉 主人💕：您的编译脚本成功触发【${{ env.FOLDER_NAME }}】文件夹编译【${{env.TARGET_PROFILE}}】固件中,请耐心等待...... 😋(${{env.Tongzhi_Date}})" "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage"
-          else
-            curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=💥主人❌ ：上游扩展错误或者脚本错误,触发启动【${{ env.FOLDER_NAME }}】失败,请点击触发脚本步骤查看详情!(${{env.Tongzhi_Date}})" "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage"
-            exit 1
-          fi
-        fi
-        if [[ "${{ env.INFORMATION_NOTICE }}" == "PUSH" ]]; then
-          if [[ "${{steps.gitpush.outcome}}" == 'success' ]] && [[ "${{steps.compile.outcome}}" == 'success' ]]; then
-            curl -k --data token="${{ secrets.PUSH_PLUS_TOKEN }}" --data title="开始编译【${{ env.FOLDER_NAME }}】" --data "content=🎉 主人💕：您的编译脚本成功触发【${{ env.FOLDER_NAME }}】文件夹编译【${{env.TARGET_PROFILE}}】固件中,请耐心等待...... 😋(${{env.Tongzhi_Date}})" "http://www.pushplus.plus/send"
-          else
-            curl -k --data token="${{ secrets.PUSH_PLUS_TOKEN }}" --data title="触发启动失败" --data "content=💥主人❌ ：上游扩展错误或者脚本错误,触发启动【${{ env.FOLDER_NAME }}】失败,请点击触发脚本步骤查看详情!(${{env.Tongzhi_Date}})" "http://www.pushplus.plus/send"
-            exit 1
-          fi
-        fi
+        source ${BUILD_PATH}/common.sh && Diy_tg_push
+
