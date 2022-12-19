@@ -204,8 +204,8 @@ jobs:
         source ${BUILD_PATH}/common.sh && Diy_menu5
         
     - name: 上传.config配置文件在 github actions
-      if: steps.compile.outcome == 'success'
       continue-on-error: true
+      if: steps.compile.outcome == 'success'
       uses: actions/upload-artifact@main
       with:
         name: .config_${{ env.SOURCE }}_${{ env.LUCI_EDITION }}_${{ env.TARGET_PROFILE }}_${{ env.Firmware_Date }}
