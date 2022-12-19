@@ -211,7 +211,7 @@ jobs:
       run: |
         cd openwrt
         source ${BUILD_PATH}/common.sh && Diy_menu5
-        echo "status=success" >> ${GITHUB_OUTPUT}
+        echo "${{ steps.compile.outcome }}"
         
     - name: 上传.config配置文件在 github actions
       if: steps.compile.outcome == 'success'
@@ -227,7 +227,7 @@ jobs:
         cd openwrt
         source ${BUILD_PATH}/common.sh && Diy_xinxi
         echo "${{ steps.compile.outcome }}"
-        echo "${{ steps.compile.outputs.status }}"
+        echo "outcomes=${{ steps.compile.outcome }}" >> ${GITHUB_ENV}
     
     - name: 清理Actions空间
       continue-on-error: true
