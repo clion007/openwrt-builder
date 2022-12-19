@@ -101,6 +101,8 @@ env:
   RUN_NUMBER: ${{github.run_number}}
   RUN_WORKFLOW: ${{github.workflow}}
   REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
+  PUSH_PLUS_TOKEN: ${{ secrets.PUSH_PLUS_TOKEN }}
+  TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
   TZ: Asia/Shanghai
 
 jobs:
@@ -258,11 +260,9 @@ jobs:
         source ${BUILD_PATH}/common.sh && build_openwrt
         
     - name: 电报机器人或pushplus信息通知
-      if: ${{ secrets.PUSH_PLUS_TOKEN }} && env.INFORMATION_NOTICE == 'PUSH' || ${{ secrets.TELEGRAM_BOT_TOKEN }} && env.INFORMATION_NOTICE == 'TG'
+      if: env.PUSH_PLUS_TOKEN && env.INFORMATION_NOTICE == 'PUSH' || env.TELEGRAM_BOT_TOKEN && env.INFORMATION_NOTICE == 'TG'
       env:
-        PUSH_PLUS_TOKEN: ${{ secrets.PUSH_PLUS_TOKEN }}
         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         compiles: ${{ steps.compile.outcome }}
         gitpushs: ${{ steps.gitpush.outcome }}
       run: |
