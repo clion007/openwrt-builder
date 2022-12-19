@@ -266,5 +266,5 @@ jobs:
         compiles: ${{ steps.compile.outcome }}
         gitpushs: ${{ steps.gitpush.outcome }}
       run: |
-        source ${BUILD_PATH}/common.sh && Diy_tg_push
+        source ${BUILD_PATH}/common.sh && Diy_trigger
 
