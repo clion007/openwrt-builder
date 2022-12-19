@@ -98,6 +98,7 @@ env:
   REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
   PUSH_PLUS_TOKEN: ${{ secrets.PUSH_PLUS_TOKEN }}
   TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+  TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
   TZ: Asia/Shanghai
 
 jobs:
@@ -197,9 +198,6 @@ jobs:
     - name: SSH远程连接（制作.config配置文件）
       if: github.event.inputs.SSH_ACTION == 'true'
       uses: danshui-git/debugger-action@main
-      env:
-        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
 
     - name: 生成"${{ matrix.target }}"配置文件
       continue-on-error: true
@@ -210,8 +208,8 @@ jobs:
         source ${BUILD_PATH}/common.sh && Diy_menu5
         
     - name: 上传.config配置文件在 github actions
-      if: steps.compile.outcome == 'success'
       continue-on-error: true
+      if: steps.compile.outcome == 'success'
       uses: actions/upload-artifact@main
       with:
         name: .config_${{ env.SOURCE }}_${{ env.LUCI_EDITION }}_${{ env.TARGET_PROFILE }}_${{ env.Firmware_Date }}
@@ -256,7 +254,6 @@ jobs:
     - name: 电报机器人或pushplus信息通知
       if: env.PUSH_PLUS_TOKEN && env.INFORMATION_NOTICE == 'PUSH' || env.TELEGRAM_BOT_TOKEN && env.INFORMATION_NOTICE == 'TG'
       env:
-        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         compiles: ${{ steps.compile.outcome }}
         gitpushs: ${{ steps.gitpush.outcome }}
       run: |
