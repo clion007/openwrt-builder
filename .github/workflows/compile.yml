@@ -142,13 +142,8 @@ jobs:
     - name: 打包晶晨系列固件
       continue-on-error: true
       if: steps.compile.outcome == 'success' && env.PACKAGING_FIRMWARE == 'true'
-      uses: ophub/amlogic-s9xxx-openwrt@main
-      with:
-        openwrt_path: openwrt/bin/targets/*/*/*rootfs.tar.gz
-        openwrt_board: ${{ env.amlogic_model }}
-        openwrt_kernel: ${{ env.amlogic_kernel }}
-        auto_kernel: ${{ env.auto_kernel }}
-        openwrt_size: ${{ env.rootfs_size }}
+      run: |
+        source ${BUILD_PATH}/common.sh && Package_amlogic
 
     - name: 整理固件文件夹(需配合diy-part.sh设定使用)
       continue-on-error: true
