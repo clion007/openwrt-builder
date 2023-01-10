@@ -220,6 +220,7 @@ jobs:
         body: ${{ env.Tongzhi_Date }}
 
     - name: 电报机器人或pushplus信息通知
+      continue-on-error: true
       if: env.PUSH_PLUS_TOKEN && env.INFORMATION_NOTICE == 'PUSH' || env.TELEGRAM_BOT_TOKEN && env.INFORMATION_NOTICE == 'TG'
       env:
         compiles: ${{ steps.compile.outcome }}
