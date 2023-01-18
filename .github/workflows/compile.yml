@@ -132,7 +132,6 @@ jobs:
         make download -j8
     
     - name: 开始编译固件
-      continue-on-error: true
       id: compile
       run: |
         cd openwrt
