@@ -210,7 +210,7 @@ jobs:
       id: compile
       run: |
         cd openwrt
-        source ${BUILD_PATH}/common.sh && Diy_menu55
+        source ${BUILD_PATH}/common.sh && Diy_menu5
         
     - name: 上传.config配置文件在 github actions
       continue-on-error: true
