@@ -206,6 +206,7 @@ jobs:
       uses: danshui-git/debugger-action@main
 
     - name: 生成"${{ matrix.target }}"配置文件
+      continue-on-error: true
       if: env.REPO_TOKEN
       id: compile
       run: |
@@ -260,6 +261,7 @@ jobs:
         
     - name: 电报机器人或pushplus信息通知
       continue-on-error: true
+      if: env.PUSH_PLUS_TOKEN && env.INFORMATION_NOTICE == 'PUSH' || env.TELEGRAM_BOT_TOKEN && env.INFORMATION_NOTICE == 'TG'
       env:
         compiles: ${{ steps.compile.outcome }}
         gitpushs: ${{ steps.gitpush.outcome }}
