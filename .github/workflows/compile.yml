@@ -225,6 +225,6 @@ jobs:
       if: env.PUSH_PLUS_TOKEN && env.INFORMATION_NOTICE == 'PUSH' || env.TELEGRAM_BOT_TOKEN && env.INFORMATION_NOTICE == 'TG'
       env:
         compiles: ${{ steps.compile.outcome }}
-        regulars: ${{ steps.regular.outcome }}
+        gitpushs: ${{ steps.gitpush.outcome }}
       run: |
         source ${BUILD_PATH}/common.sh && Diy_compiles
