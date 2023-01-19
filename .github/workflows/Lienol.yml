@@ -20,13 +20,12 @@ on:
       REPO_BRANCH:
         description: 'Lienol源码-请选择分支'
         required: true
-        default: '21.02'
+        default: '19.07'
         type: choice
         options:
           - 'master'
           - '21.02'
           - '19.07'
-          - '19.07-cannotuse'
       CONFIG_FILE:
         description: '请选择配置文件'
         required: true
