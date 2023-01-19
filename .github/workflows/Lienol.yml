@@ -201,7 +201,6 @@ jobs:
       uses: danshui-git/debugger-action@main
 
     - name: 生成"${{ matrix.target }}"配置文件
-      continue-on-error: true
       if: env.REPO_TOKEN
       id: compile
       run: |
@@ -209,7 +208,6 @@ jobs:
         source ${BUILD_PATH}/common.sh && Diy_menu5
         
     - name: 上传.config配置文件在 github actions
-      continue-on-error: true
       if: steps.compile.outcome == 'success'
       uses: actions/upload-artifact@main
       with:
@@ -226,7 +224,6 @@ jobs:
         echo "outcomes=${{ steps.compile.outcome }}" >> ${GITHUB_ENV}
     
     - name: 清理Actions空间
-      continue-on-error: true
       if: env.REPO_TOKEN
       uses: Mattraks/delete-workflow-runs@v2
       with:
@@ -236,7 +233,6 @@ jobs:
         keep_minimum_runs: 1
     
     - name: 删除releases
-      continue-on-error: true
       if: env.REPO_TOKEN
       uses: danshui-git/delete-older-releases@main
       with:
@@ -247,7 +243,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
         
     - name: 触发compile.yml启动"${{ matrix.target }}"编译
-      continue-on-error: true
       id: gitpush
       if: steps.compile.outcome == 'success' && env.REPO_TOKEN
       run: |
@@ -255,7 +250,6 @@ jobs:
         source ${BUILD_PATH}/common.sh && build_openwrt
         
     - name: 电报机器人或pushplus信息通知
-      continue-on-error: true
       if: env.PUSH_PLUS_TOKEN && env.INFORMATION_NOTICE == 'PUSH' || env.TELEGRAM_BOT_TOKEN && env.INFORMATION_NOTICE == 'TG'
       env:
         compiles: ${{ steps.compile.outcome }}
