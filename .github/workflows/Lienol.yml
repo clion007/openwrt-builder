@@ -33,7 +33,6 @@ on:
         type: choice
         options:
           - 'x86_64'
-          - '1200'
       CPU_SELECTION:
         description: 'CPU优选,增加编译速度'
         required: true
