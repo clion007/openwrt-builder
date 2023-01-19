@@ -20,7 +20,7 @@ on:
       REPO_BRANCH:
         description: 'Lienol源码-请选择分支'
         required: true
-        default: 'master'
+        default: '21.02'
         type: choice
         options:
           - 'master'
