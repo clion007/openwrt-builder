@@ -250,12 +250,12 @@ jobs:
       if: env.PUSH_PLUS_TOKEN && env.INFORMATION_NOTICE == 'PUSH' || env.TELEGRAM_BOT_TOKEN && env.INFORMATION_NOTICE == 'TG'
       run: |
         if [[ "${{ env.INFORMATION_NOTICE }}" == "TG" ]]; then
-          if [[ "${{steps.clone.outcome}}" == 'success' ]] && [[ "${{steps.gitpush.outcome}}" == 'success' ]] && [[ "${{steps.compile.outcome}}" == 'success' ]]; then
+          if [[ "${{steps.gitpush.outcome}}" == 'success' ]]; then
             curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=🎉 主人💕：您的编译脚本成功触发【${{matrix.target}}】文件夹编译【${{env.TARGET_PROFILE}}】固件中,请耐心等待...... 😋(${{env.Tongzhi_Date}})" "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage"
           fi
         fi
         if [[ "${{ env.INFORMATION_NOTICE }}" == "PUSH" ]]; then
-          if [[ "${{steps.clone.outcome}}" == 'success' ]] && [[ "${{steps.gitpush.outcome}}" == 'success' ]] && [[ "${{steps.compile.outcome}}" == 'success' ]]; then
+          if [[ "${{steps.gitpush.outcome}}" == 'success' ]]; then
             curl -k --data token="${{ secrets.PUSH_PLUS_TOKEN }}" --data title="开始编译【${{matrix.target}}】" --data "content=🎉 主人💕：您的编译脚本成功触发【${{matrix.target}}】文件夹编译【${{env.TARGET_PROFILE}}】固件中,请耐心等待...... 😋(${{env.Tongzhi_Date}})" "http://www.pushplus.plus/send"
           fi
         fi
