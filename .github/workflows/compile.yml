@@ -145,6 +145,7 @@ jobs:
         source ${BUILD_PATH}/common.sh && Package_amlogic
 
     - name: 整理固件文件夹(需配合diy-part.sh设定使用)
+      continue-on-error: true
       if: steps.compile.outcome == 'success'
       id: organizer
       run: |
