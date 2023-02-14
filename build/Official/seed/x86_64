@@ -3,6 +3,7 @@ CONFIG_TARGET_x86_64=y
 CONFIG_TARGET_x86_64_Generic=y
 CONFIG_PACKAGE_6rd=y
 CONFIG_PACKAGE_6to4=y
+CONFIG_PACKAGE_alist=y
 # CONFIG_PACKAGE_dnsmasq_full_conntrack is not set
 CONFIG_PACKAGE_kmod-iptunnel=y
 CONFIG_PACKAGE_kmod-iptunnel4=y
