@@ -219,7 +219,6 @@ jobs:
       run: |
         cd openwrt
         source ${BUILD_PATH}/common.sh && Diy_xinxi
-        echo "outcomes=${{ steps.compile.outcome }}" >> ${GITHUB_ENV}
     
     - name: 清理Actions空间
       continue-on-error: true
