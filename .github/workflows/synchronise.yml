@@ -31,8 +31,18 @@ on:
         default: 'false'
         type: boolean
       establish_sample:
-        description: '输入build文件夹里有的源码为蓝本(文件夹名称)'
-        default: ''
+        description: '请选择创建文件夹的源码'
+        required: true
+        default: '请选择'
+        type: choice
+        options:
+          - '请选择'
+          - 'Amlogic'
+          - 'Immortalwrt'
+          - 'Lede'
+          - 'Lienol'
+          - 'Official'
+          - 'Xwrt'
       establish_name:
         description: '您需要创建的文件夹名称'
         default: ''
