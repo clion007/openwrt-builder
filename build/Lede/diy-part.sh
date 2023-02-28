@@ -48,7 +48,7 @@ export Disable_53_redirection="0"            # 删除DNS强制重定向53端口�
 export Cancel_running="0"                    # 取消路由器每天跑分任务(个别源码本身不带此功能)(1为启用命令,填0为不作修改)
 
 # 大雕源码替换mac80211源码
-export Replace_mac80211="0"                  # 大雕源码编译mac80211会错误,尝试替换官方的mac80211试试(1为启用命令,填0为不作修改)
+export Replace_mac80211="1"                  # 大雕源码编译mac80211会错误,尝试替换官方的mac80211试试(1为启用命令,填0为不作修改)
 
 
 
