@@ -23,9 +23,9 @@ on:
         default: '19.07'
         type: choice
         options:
-          - 'master'
-          - '21.02'
           - '19.07'
+          - '21.02'
+          - 'master'
           - '19.07-test'
       CONFIG_FILE:
         description: '请选择配置文件'
