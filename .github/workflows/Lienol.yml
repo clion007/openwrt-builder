@@ -25,6 +25,7 @@ on:
         options:
           - '19.07'
           - '21.02'
+          - '22.03'
           - 'master'
           - '19.07-test'
       CONFIG_FILE:
