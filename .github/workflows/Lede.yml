@@ -39,6 +39,7 @@ on:
           - 'xiaomi_redmi-router-ac2100'
           - 'xiaomi_redmi-router-ax6s'
           - 'xiaoyu_xy-c5'
+          - 'phicomm_k2p'
       CPU_SELECTION:
         description: 'CPU优选,增加编译速度'
         required: true
