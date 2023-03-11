@@ -103,9 +103,9 @@ jobs:
       if: steps.compile.outcome == 'success' && env.UPLOAD_RELEASE == 'true' && env.REPO_TOKEN
       uses: ncipollo/release-action@main
       with:
-        name: ${{ env.amlogic_kernel }} - firmware
+        name: ${{ env.amlogic_kernel }}-firmware
         tag: ${{ env.date }}
         token: ${{ secrets.REPO_TOKEN }}
         allowUpdates: true
-        body: amlogic - firmware
+        body: amlogic-firmware
         artifacts: "${{ env.FIRMWARE_PATH }}/*"
