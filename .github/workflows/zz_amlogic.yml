@@ -55,13 +55,25 @@ jobs:
         sudo -E apt-get -qq update -y
         sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /usr/lib/jvm /opt/ghc /swapfile
         sudo -E apt-get -y install $(curl -fsSL https://is.gd/depend_ubuntu2204_openwrt)
+        sudo -E apt-get -qq autoremove --purge
+        sudo -E apt-get -qq clean
         sudo timedatectl set-timezone "$TZ"
         sudo mkdir -p /workdir
         sudo chown $USER:$GROUPS /workdir
+    
+    - name: Clone source code
+      working-directory: /workdir
+      run: |
+        df -hT $PWD
+        mkdir -p openwrt
+        ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
+        echo "HOME_PATH=${GITHUB_WORKSPACE}/openwrt" >> ${GITHUB_ENV}
 
     - name: 打包固件
       run: |
         cd ${GITHUB_WORKSPACE}
+        cp -Rf `find ./ -maxdepth 1 -type d ! -path './openwrt' ! -path './'` openwrt
+        cd openwrt
         source build/${{matrix.target}}/common.sh && Package_amlogic2
         
     - name: 上传固件在 github actions
