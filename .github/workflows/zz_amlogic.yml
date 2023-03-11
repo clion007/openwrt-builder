@@ -3,7 +3,7 @@
 #
 
 
-name: 打包晶晨固件
+name: 单独打包晶晨固件
 on:
   push:
     branches:
