@@ -75,12 +75,12 @@ jobs:
         echo "amlogic_kernel=${{ github.event.inputs.amlogic_kernel }}" >> ${GITHUB_ENV}
         echo "rootfs_size=${{ github.event.inputs.rootfs_size }}" >> ${GITHUB_ENV}
         echo "auto_kernel=${{ github.event.inputs.auto_kernel }}" >> ${GITHUB_ENV}
-        if [[ -z "${{ github.event.inputs.UPLOAD_FIRMWARE }}" ]]; then
-          echo "UPLOAD_FIRMWARE=true" >> ${GITHUB_ENV}
-          echo "UPLOAD_RELEASE=true" >> ${GITHUB_ENV}
-        else
+        if [[ -n "${{ github.event.inputs.UPLOAD_FIRMWARE }}" ]]; then
           echo "UPLOAD_FIRMWARE=${{ github.event.inputs.UPLOAD_FIRMWARE }}" >> ${GITHUB_ENV}
           echo "UPLOAD_RELEASE=${{ github.event.inputs.UPLOAD_RELEASE }}" >> ${GITHUB_ENV}
+        else
+          echo "UPLOAD_FIRMWARE=true" >> ${GITHUB_ENV}
+          echo "UPLOAD_RELEASE=true" >> ${GITHUB_ENV}
         fi
       
     - name: 部署编译环境
