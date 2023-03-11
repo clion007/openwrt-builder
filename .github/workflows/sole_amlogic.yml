@@ -8,13 +8,30 @@ on:
   repository_dispatch:
   workflow_dispatch:
     inputs:
+      amlogic_model:
+        description: '输入打包的机型,比如：s905d 或 s905d_s905x2'
+        default: ''
+      amlogic_kernel:
+        description: '输入打包的内核,比如：5.4.233 或 5.4.233_6.1.14'
+        default: ''
+      rootfs_size:
+        description: '设置rootfs大小（单位：MiB）'
+        default: ''
+      auto_kernel:
+        description: '是否自动检测最新内核'
+        required: true
+        default: 'true'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
       UPLOAD_FIRMWARE:
         description: '上传固件到 Github Artifacts'
         required: false
         default: 'false'
         type: boolean
       UPLOAD_RELEASE:
-        description: '上传固件到 Github Releases'
+        description: '发布固件到 Github Releases'
         required: false
         default: 'true'
         type: boolean
@@ -59,6 +76,10 @@ jobs:
         git clone https://github.com/281677160/common-main build/common
         mv -f build/common/*.sh build/${{ env.FOLDER_NAME }}/
         chmod -R +x build
+        echo "amlogic_model=${{ github.event.inputs.amlogic_model }}" >> ${GITHUB_ENV}
+        echo "amlogic_kernel=${{ github.event.inputs.amlogic_kernel }}" >> ${GITHUB_ENV}
+        echo "rootfs_size=${{ github.event.inputs.rootfs_size }}" >> ${GITHUB_ENV}
+        echo "auto_kernel=${{ github.event.inputs.auto_kernel }}" >> ${GITHUB_ENV}
         echo "UPLOAD_FIRMWARE=${{ github.event.inputs.UPLOAD_FIRMWARE }}" >> ${GITHUB_ENV}
         echo "UPLOAD_RELEASE=${{ github.event.inputs.UPLOAD_RELEASE }}" >> ${GITHUB_ENV}
       
