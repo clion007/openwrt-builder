@@ -5,6 +5,7 @@
 
 name: 单独打包晶晨固件
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
