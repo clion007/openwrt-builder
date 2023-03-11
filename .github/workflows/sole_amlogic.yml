@@ -96,7 +96,7 @@ jobs:
       if: steps.compile.outcome == 'success' && env.UPLOAD_FIRMWARE == 'true'
       uses: actions/upload-artifact@v3
       with:
-        name: amlogic-firmware
+        name: amlogic_${{ env.amlogic_kernel }}-firmware
         path: ${{ env.FIRMWARE_PATH }}
         
     - name: 发布固件
@@ -107,5 +107,5 @@ jobs:
         tag: ${{ env.date }}
         token: ${{ secrets.REPO_TOKEN }}
         allowUpdates: true
-        body: amlogic-firmware
+        body: ${{ env.date }}
         artifacts: "${{ env.FIRMWARE_PATH }}/*"
