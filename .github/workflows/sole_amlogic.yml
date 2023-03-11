@@ -118,14 +118,14 @@ jobs:
       if: steps.compile.outcome == 'success' && env.UPLOAD_FIRMWARE == 'true'
       uses: actions/upload-artifact@v3
       with:
-        name: amlogic_${{ env.amlogic_kernel }}-firmware
+        name: OpenWrt-${{ env.source_codename }}-${{ env.date_tg }}-firmware
         path: ${{ env.FIRMWARE_PATH }}
         
     - name: 发布固件
       if: steps.compile.outcome == 'success' && env.UPLOAD_RELEASE == 'true' && env.REPO_TOKEN
       uses: ncipollo/release-action@main
       with:
-        name: OpenWrt${{ env.source_codename }}_${{ env.date_tg }}
+        name: OpenWrt-${{ env.source_codename }}-${{ env.date_tg }}
         tag: ${{ env.date }}
         token: ${{ secrets.REPO_TOKEN }}
         allowUpdates: true
