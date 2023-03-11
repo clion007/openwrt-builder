@@ -1,0 +1,54 @@
+#
+# 编译主程序,请勿修改文件名称（compile.yml）
+#
+
+
+name: 打包晶晨固件
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'build/Lede/relevance/start'
+
+env:
+  GITHUB_LINK: https://github.com/${{github.repository}}
+  GIT_ACTOR: ${{github.actor}}
+  GIT_REPOSITORY: ${{github.repository}}
+  RUN_NUMBER: ${{github.run_number}}
+  RUN_WORKFLOW: ${{github.workflow}}
+  REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
+  PUSH_PLUS_TOKEN: ${{ secrets.PUSH_PLUS_TOKEN }}
+  TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+  TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+  TZ: Asia/Shanghai
+
+jobs:
+  build:
+    name: 编译 "${{matrix.target}}"
+    runs-on: ubuntu-22.04
+    if: ${{ github.event.repository.owner.id }} == ${{ github.event.sender.id }}
+    
+    env:
+      FOLDER_NAME: ${{ matrix.target }}
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [Lede]
+
+    steps:    
+    - name: 准备结束
+      uses: actions/checkout@v3
+
+    - name: 读取脚本设置
+      run: |
+        cd ${GITHUB_WORKSPACE}
+        git clone https://github.com/281677160/common-main build/common
+        mv -f build/common/*.sh build/${{matrix.target}}/
+        sudo chmod -R +x build
+        if [[ -n "${{ github.event.workflow }}" ]]; then
+          export Manually_Run="1"
+          source build/${{matrix.target}}/common.sh && Diy_menu1
+        else
+          source build/${{matrix.target}}/common.sh && Diy_menu1
+        fi
