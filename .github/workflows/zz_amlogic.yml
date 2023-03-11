@@ -5,7 +5,19 @@
 
 name: 单独打包晶晨固件
 on:
+  repository_dispatch:
   workflow_dispatch:
+    inputs:
+      UPLOAD_FIRMWARE:
+        description: '上传固件到 Github Artifacts'
+        required: false
+        default: 'false'
+        type: boolean
+      UPLOAD_RELEASE:
+        description: '上传固件到 Github Releases'
+        required: false
+        default: 'true'
+        type: boolean
   push:
     branches:
       - main
@@ -47,6 +59,8 @@ jobs:
         git clone https://github.com/281677160/common-main build/common
         mv -f build/common/*.sh build/${{ env.FOLDER_NAME }}/
         chmod -R +x build
+        echo "UPLOAD_FIRMWARE=${{ github.event.inputs.UPLOAD_FIRMWARE }}" >> ${GITHUB_ENV}
+        echo "UPLOAD_RELEASE=${{ github.event.inputs.UPLOAD_RELEASE }}" >> ${GITHUB_ENV}
       
     - name: 部署编译环境
       env:
@@ -61,7 +75,7 @@ jobs:
         sudo mkdir -p /workdir
         sudo chown $USER:$GROUPS /workdir
     
-    - name: Clone source code
+    - name: 建立打包文件夹
       working-directory: /workdir
       run: |
         df -hT $PWD
@@ -70,6 +84,7 @@ jobs:
         echo "HOME_PATH=${GITHUB_WORKSPACE}/openwrt" >> ${GITHUB_ENV}
 
     - name: 打包固件
+      id: compile
       run: |
         cd ${GITHUB_WORKSPACE}
         cp -Rf `find ./ -maxdepth 1 -type d ! -path './openwrt' ! -path './'` openwrt
@@ -77,12 +92,14 @@ jobs:
         source build/${{matrix.target}}/common.sh && Package_amlogic2
         
     - name: 上传固件在 github actions
+      if: steps.compile.outcome == 'success' && env.UPLOAD_FIRMWARE == 'true'
       uses: actions/upload-artifact@v3
       with:
         name: amlogic-firmware
         path: ${{ env.FIRMWARE_PATH }}
         
     - name: 发布固件
+      if: steps.compile.outcome == 'success' && env.UPLOAD_RELEASE == 'true' && env.REPO_TOKEN
       uses: ncipollo/release-action@main
       with:
         name: amlogic
