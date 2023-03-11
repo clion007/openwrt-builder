@@ -45,11 +45,37 @@ jobs:
       run: |
         cd ${GITHUB_WORKSPACE}
         git clone https://github.com/281677160/common-main build/common
-        mv -f build/common/*.sh build/${{matrix.target}}/
-        sudo chmod -R +x build
-        if [[ -n "${{ github.event.workflow }}" ]]; then
-          export Manually_Run="1"
-          source build/${{matrix.target}}/common.sh && Diy_menu1
-        else
-          source build/${{matrix.target}}/common.sh && Diy_menu1
-        fi
+        mv -f build/common/*.sh build/${{ env.FOLDER_NAME }}/
+        chmod -R +x build
+      
+    - name: 部署编译环境
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        sudo -E apt-get -qq update -y
+        sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /usr/lib/jvm /opt/ghc /swapfile
+        sudo -E apt-get -y install $(curl -fsSL https://is.gd/depend_ubuntu2204_openwrt)
+        sudo timedatectl set-timezone "$TZ"
+        sudo mkdir -p /workdir
+        sudo chown $USER:$GROUPS /workdir
+
+    - name: 打包固件
+      run: |
+        cd ${GITHUB_WORKSPACE}
+        source build/${{matrix.target}}/common.sh && Package_amlogic2
+        
+    - name: 上传固件在 github actions
+      uses: actions/upload-artifact@v3
+      with:
+        name: amlogic-firmware
+        path: ${{ env.FIRMWARE_PATH }}
+        
+    - name: 发布固件
+      uses: ncipollo/release-action@main
+      with:
+        name: amlogic
+        tag: amlogic2
+        token: ${{ secrets.REPO_TOKEN }}
+        allowUpdates: true
+        body: amlogic
+        artifacts: "${{ env.FIRMWARE_PATH }}/*"
