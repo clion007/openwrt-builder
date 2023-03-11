@@ -9,10 +9,10 @@ on:
   workflow_dispatch:
     inputs:
       amlogic_model:
-        description: '输入打包的机型,比如：s905d 或 s905d_s905x2'
+        description: '输入机型,比如：s905d 或 s905d_s905x2'
         default: ''
       amlogic_kernel:
-        description: '输入打包的内核,比如：5.4.233 或 5.4.233_6.1.14'
+        description: '输入内核,比如：5.4.233 或 5.4.233_6.1.14'
         default: ''
       rootfs_size:
         description: '设置rootfs大小（单位：MiB）'
