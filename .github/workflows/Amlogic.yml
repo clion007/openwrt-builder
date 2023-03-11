@@ -171,6 +171,10 @@ jobs:
         cp -Rf `find ./ -maxdepth 1 -type d ! -path './openwrt' ! -path './'` openwrt
         cd openwrt
         source build/${{ env.FOLDER_NAME }}/common.sh && Diy_menu2
+        
+    - name: 打包晶晨系列固件2
+      run: |
+        source ${BUILD_PATH}/common.sh && openwrt_armvirt
  
     - name: 增加插件源
       if: env.REPO_TOKEN
@@ -257,7 +261,3 @@ jobs:
             curl -k --data token="${{ secrets.PUSH_PLUS_TOKEN }}" --data title="开始编译【${{matrix.target}}】" --data "content=🎉 主人💕：您的编译脚本成功触发【${{matrix.target}}】文件夹编译【${REPO_BRANCH}分支的${{env.TARGET_PROFILE}}】固件中,请耐心等待...... 😋(${{env.WAREHOUSE_MAN}}仓库的#${{env.RUN_NUMBER}}号)！($(date +%Y年%m月%d号%H时%M分))💐" "http://www.pushplus.plus/send"
           fi
         fi
-        
-    - name: 打包晶晨系列固件2
-      run: |
-        source ${BUILD_PATH}/common.sh && openwrt_armvirt
