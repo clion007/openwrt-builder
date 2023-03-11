@@ -34,7 +34,7 @@ on:
     branches:
       - main
     paths:
-      - 'build/Amlogic/relevance/start1'
+      - 'build/Amlogic/relevance/amstart'
 
 env:
   GITHUB_LINK: https://github.com/${{github.repository}}
