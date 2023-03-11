@@ -126,7 +126,7 @@ jobs:
       uses: ncipollo/release-action@main
       with:
         name: OpenWrt-${{ env.source_codename }}-${{ env.date_tg }}
-        tag: ${{ env.date }}
+        tag: a${{ env.date }}
         token: ${{ secrets.REPO_TOKEN }}
         allowUpdates: true
         body: ${{ env.date }}
