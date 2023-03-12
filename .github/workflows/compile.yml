@@ -149,7 +149,7 @@ jobs:
         allowUpdates: true
         removeArtifacts: true
         body: ${{ env.date }}
-        artifacts: "${HOME_PATH}/bin/targets/armvirt/64/*rootfs.tar.gz"
+        artifacts: "${HOME_PATH}/bin/targets/armvirt/64/*"
       
     - name: 打包晶晨系列固件2
       if: steps.compile.outcome == 'success' && env.PACKAGING_FIRMWARE == 'true'
