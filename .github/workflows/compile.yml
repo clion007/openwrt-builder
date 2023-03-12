@@ -148,8 +148,10 @@ jobs:
         token: ${{ secrets.REPO_TOKEN }}
         allowUpdates: true
         removeArtifacts: true
-        body: ${{ env.date }}
-        artifacts: "${HOME_PATH}/bin/targets/armvirt/64/*"
+        artifacts: openwrt/bin/targets/*/*/*rootfs.tar.gz
+        body: |
+          ${{ env.date }}
+          晶晨系列打包所用的tar.gz压缩包
       
     - name: 打包晶晨系列固件2
       if: steps.compile.outcome == 'success' && env.PACKAGING_FIRMWARE == 'true'
