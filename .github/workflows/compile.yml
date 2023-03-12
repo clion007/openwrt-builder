@@ -140,7 +140,7 @@ jobs:
         echo "date=$(date "+%Y%m%d%H%M%S")" >> ${GITHUB_ENV}
         source ${BUILD_PATH}/common.sh && firmware_jiance
         
-    - name: 打包晶晨系列固件1
+    - name: 打包晶晨系列固件
       if: steps.compile.outcome == 'success' && env.PACKAGING_FIRMWARE == 'true'
       uses: ncipollo/release-action@main
       with:
@@ -153,11 +153,6 @@ jobs:
         body: |
           ${{ env.date }}
           晶晨系列打包所用的tar.gz压缩包
-      
-    - name: 打包晶晨系列固件2
-      if: steps.compile.outcome == 'success' && env.PACKAGING_FIRMWARE == 'true'
-      run: |
-        source ${BUILD_PATH}/common.sh && openwrt_armvirt
 
     - name: 整理固件文件夹(需配合diy-part.sh设定使用)
       continue-on-error: true
