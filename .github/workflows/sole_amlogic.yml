@@ -71,6 +71,8 @@ jobs:
         git clone https://github.com/281677160/common-main build/common
         mv -f build/common/*.sh build/${{ env.FOLDER_NAME }}/
         chmod -R +x build
+        if [[ `grep -c "UPLOAD_FIRMWARE" build/${FOLDER_NAME}/relevance/amstart` -eq '1' ]]; then
+        
         echo "amlogic_model=${{ github.event.inputs.amlogic_model }}" >> ${GITHUB_ENV}
         echo "amlogic_kernel=${{ github.event.inputs.amlogic_kernel }}" >> ${GITHUB_ENV}
         echo "rootfs_size=${{ github.event.inputs.rootfs_size }}" >> ${GITHUB_ENV}
