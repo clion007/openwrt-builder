@@ -156,4 +156,4 @@ jobs:
         artifacts: "${{ env.FIRMWARE_PATH }}/*"
         body: |
           发布日期：${{ env.date_tg }}
-          源码来源：${{ env.env.source_codename }}
+          源码来源：${{ env.source_codename }}
