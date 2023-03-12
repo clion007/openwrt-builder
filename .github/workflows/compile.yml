@@ -185,7 +185,7 @@ jobs:
       uses: ncipollo/release-action@main
       with:
         name: ${{ env.SOURCE }}-${{ env.PROMPT_TING }}
-        tag: ${{ env.date }}
+        tag: a${{ env.date }}
         token: ${{ secrets.REPO_TOKEN }}
         allowUpdates: true
         body: ${{ env.Tongzhi_Date }}
