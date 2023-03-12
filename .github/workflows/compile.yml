@@ -143,7 +143,7 @@ jobs:
       if: steps.compile.outcome == 'success' && env.PACKAGING_FIRMWARE == 'true'
       uses: ncipollo/release-action@main
       with:
-        name: ${{ env.SOURCE }}-${{ env.PROMPT_TING }}
+        name: ${{ env.SOURCE }}-${{ env.LUCI_EDITION }}
         tag: targz
         token: ${{ secrets.REPO_TOKEN }}
         allowUpdates: true
