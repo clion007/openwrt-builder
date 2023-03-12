@@ -34,7 +34,7 @@ on:
     branches:
       - main
     paths:
-      - 'build/Amlogic/relevance/amstart'
+      - 'build/Immortalwrt/relevance/amstart'
 
 env:
   GITHUB_LINK: https://github.com/${{github.repository}}
@@ -59,7 +59,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [Amlogic]
+        target: [Immortalwrt]
 
     steps:    
     - name: 准备结束
