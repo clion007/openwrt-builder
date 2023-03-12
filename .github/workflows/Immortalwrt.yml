@@ -198,7 +198,7 @@ jobs:
     
     - name: SSH远程连接（制作.config配置文件）
       if: github.event.inputs.SSH_ACTION == 'true'
-      uses: P3TERX/ssh2actions@v1.0.0
+      uses: danshui-git/debugger-action@main
 
     - name: 生成"${{ matrix.target }}"配置文件
       if: env.REPO_TOKEN
