@@ -35,7 +35,7 @@ on:
     branches:
       - main
     paths:
-      - 'build/Lienol/relevance/amstart'
+      - 'build/Xwrt/relevance/amstart'
 
 env:
   GITHUB_LINK: https://github.com/${{github.repository}}
@@ -60,7 +60,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [Lienol]
+        target: [Xwrt]
 
     steps:    
     - name: 准备结束
