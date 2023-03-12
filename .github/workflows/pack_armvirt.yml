@@ -121,7 +121,7 @@ jobs:
         cd ${GITHUB_WORKSPACE}
         cp -Rf `find ./ -maxdepth 1 -type d ! -path './openwrt' ! -path './'` openwrt
         cd openwrt
-        source build/${{matrix.target}}/common.sh && Package_amlogic2
+        source build/${{matrix.target}}/common.sh && Package_amlogic
         echo "date=$(date "+%Y%m%d%H%M%S")" >> ${GITHUB_ENV}
         echo "date_tg=$(date +"%m.%d.%H%M")" >> ${GITHUB_ENV}
          
