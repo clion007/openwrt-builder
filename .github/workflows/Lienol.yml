@@ -34,6 +34,7 @@ on:
         default: 'x86_64'
         type: choice
         options:
+          - 'aarch64'
           - 'x86_64'
       CPU_SELECTION:
         description: 'CPU优选,增加编译速度'
