@@ -72,7 +72,7 @@ jobs:
         git clone https://github.com/281677160/common-main build/common
         mv -f build/common/*.sh build/${{ env.FOLDER_NAME }}/
         chmod -R +x build
-        if [[ `grep -c "UPLOAD_FIRMWARE" build/${FOLDER_NAME}/relevance/amlogic.ini` -eq '1' ]]; then
+        if [[ -f "build/${FOLDER_NAME}/relevance/amlogic.ini" ]]; then
           source build/${FOLDER_NAME}/relevance/amlogic.ini
         fi
         if [[ -n "${{ github.event.inputs.UPLOAD_FIRMWARE }}" ]]; then
