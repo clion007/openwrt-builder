@@ -33,6 +33,7 @@ on:
         default: 'x86_64'
         type: choice
         options:
+          - 'aarch64'
           - 'x86_64'
           - 'phicomm_k3'
           - '1907-phicomm-k3'
