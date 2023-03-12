@@ -50,6 +50,24 @@ export Cancel_running="1"                    # 取消路由器每天跑分任务
 
 
 
+# 设置打包固件的机型和内核组合（可用内核是时时变化的,过老的内核就删除的，所以要选择什么内核请看说明）
+# 内核，机型，固件rootfs大小填入示例
+# export amlogic_model="此内填入可用芯片，或多芯片组合。比如：s905d 或 s905d_s905x2"
+# export amlogic_kernel="此内填入内核，或者多内核组合。比如：5.4.233 或 5.4.233_6.1.14"
+# export auto_kernel="true" 是否自动检测最新内核来打包（true为是，false为不是，如果不是的话，要填写当前有的准确内核版本）
+# 自动检测最新内核,比如您写的是 5.15.25 当前最高版本为 5.15.78 的话就自动打包5.15.78的,不自动检测的话,就打包 5.15.25
+# export rootfs_size="填入不低于500的数值，数值越大空间越大，一般960够了"
+# 可用芯片：a311d, s922x, s905x3, s905x2, s905l3a, s912, s905d, s905x, s905w, s905
+# 对应支持什么机型，请看说明
+# 可选内核 （5.4.xx） （5.10.xx） （5.15.xx） （6.1.xx）
+
+export amlogic_model="s905d"
+export amlogic_kernel="5.10.01_6.1.01"
+export auto_kernel="true"
+export rootfs_size="960"
+
+
+
 # 修改插件名字
 sed -i 's/"终端"/"TTYD"/g' `egrep "终端" -rl ./`
 sed -i 's/"网络存储"/"NAS"/g' `egrep "网络存储" -rl ./`
