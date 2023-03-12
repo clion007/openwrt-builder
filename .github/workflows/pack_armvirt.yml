@@ -49,6 +49,7 @@ env:
   TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
   TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
   TZ: Asia/Shanghai
+  Input_Optio: $1
 
 jobs:
   build:
@@ -94,6 +95,8 @@ jobs:
           echo "UPLOAD_FIRMWARE=true" >> ${GITHUB_ENV}
           echo "UPLOAD_RELEASE=true" >> ${GITHUB_ENV}
         fi
+        echo "${Input_Optio}"
+        echo "${{ env.Input_Optio }}"
       
     - name: 部署编译环境
       env:
