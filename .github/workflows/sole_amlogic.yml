@@ -79,10 +79,10 @@ jobs:
         echo "amlogic_kernel=${{ github.event.inputs.amlogic_kernel }}" >> ${GITHUB_ENV}
         echo "rootfs_size=${{ github.event.inputs.rootfs_size }}" >> ${GITHUB_ENV}
         echo "auto_kernel=${{ github.event.inputs.auto_kernel }}" >> ${GITHUB_ENV}
-        if [[ -n "${UPLOAD_FIRMWARE}" ]]; then
+        if [[ -n "${{ github.event.inputs.UPLOAD_FIRMWARE }}" ]]; then
           echo "UPLOAD_FIRMWARE=${UPLOAD_FIRMWARE}" >> ${GITHUB_ENV}
           echo "UPLOAD_RELEASE=${UPLOAD_RELEASE}" >> ${GITHUB_ENV}
-        elif [[ -n "${{ github.event.inputs.UPLOAD_FIRMWARE }}" ]]; then
+        elif [[ -n "${UPLOAD_FIRMWARE}" ]]; then
           echo "UPLOAD_FIRMWARE=${{ github.event.inputs.UPLOAD_FIRMWARE }}" >> ${GITHUB_ENV}
           echo "UPLOAD_RELEASE=${{ github.event.inputs.UPLOAD_RELEASE }}" >> ${GITHUB_ENV}
         else
