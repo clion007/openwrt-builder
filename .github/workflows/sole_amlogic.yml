@@ -1,9 +1,9 @@
 #
-# 单独打包晶晨固件（sole_amlogic.yml）
+# 打包晶晨固件,请勿修改文件名称（sole_amlogic.yml）
 #
 
 
-name: 单独打包晶晨固件
+name: 打包晶晨固件
 on:
   repository_dispatch:
   workflow_dispatch:
