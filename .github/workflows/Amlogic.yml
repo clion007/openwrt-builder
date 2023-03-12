@@ -171,10 +171,6 @@ jobs:
         cp -Rf `find ./ -maxdepth 1 -type d ! -path './openwrt' ! -path './'` openwrt
         cd openwrt
         source build/${{ env.FOLDER_NAME }}/common.sh && Diy_menu2
-        
-    - name: 打包晶晨系列固件2
-      run: |
-        source ${BUILD_PATH}/common.sh && openwrt_armvirt
  
     - name: 增加插件源
       if: env.REPO_TOKEN
