@@ -144,15 +144,15 @@ jobs:
       if: steps.compile.outcome == 'success' && env.PACKAGING_FIRMWARE == 'true'
       uses: ncipollo/release-action@main
       with:
-        name: ${{ env.SOURCE }}-${{ env.LUCI_EDITION }}
+        name: 晶晨系列打包所用的tar.gz压缩包
         tag: targz
         token: ${{ secrets.REPO_TOKEN }}
         allowUpdates: true
         removeArtifacts: true
         artifacts: openwrt/bin/targets/*/*/*rootfs.tar.gz
         body: |
-          ${{ env.date }}
-          晶晨系列打包所用的tar.gz压缩包
+          发布时间：${{ env.date }}
+          所用源码：${{ env.SOURCE }}-${{ env.LUCI_EDITION }}
 
     - name: 整理固件文件夹(需配合diy-part.sh设定使用)
       continue-on-error: true
