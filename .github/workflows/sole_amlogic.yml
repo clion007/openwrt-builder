@@ -18,8 +18,10 @@ on:
         description: '设置rootfs大小（单位：MiB）'
         default: ''
       auto_kernel:
-        description: '是否自动检测最新内核（true 或 false）'
-        default: ''
+        description: '是否自动检测最新内核'
+        required: false
+        default: 'false'
+        type: boolean
       UPLOAD_FIRMWARE:
         description: '上传固件到 Github Artifacts'
         required: false
