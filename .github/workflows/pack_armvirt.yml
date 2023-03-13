@@ -43,7 +43,7 @@ on:
     branches:
       - main
     paths:
-      - '.github/workflows/pack_arm'
+      - 'pack_arm'
 
 env:
   GITHUB_LINK: https://github.com/${{github.repository}}
@@ -127,6 +127,7 @@ jobs:
         mkdir -p openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
         echo "HOME_PATH=${GITHUB_WORKSPACE}/openwrt" >> ${GITHUB_ENV}
+    
     - name: 打包固件
       id: compile
       run: |
