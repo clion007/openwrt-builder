@@ -43,7 +43,7 @@ on:
     branches:
       - main
     paths:
-      - 'build/Immortalwrt/relevance/amstart'
+      - 'build/Lede/relevance/amstart'
 
 env:
   GITHUB_LINK: https://github.com/${{github.repository}}
