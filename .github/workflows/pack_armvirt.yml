@@ -31,6 +31,11 @@ on:
         required: false
         default: 'true'
         type: boolean
+      UPLOAD_WETRANSFER:
+        description: '上传固件到 WETRANSFER'
+        required: false
+        default: 'false'
+        type: boolean
   push:
     branches:
       - main
@@ -106,6 +111,11 @@ jobs:
         else
           echo "UPLOAD_RELEASE=${UPLOAD_RELEASE}" >> ${GITHUB_ENV}
         fi
+        if [[ -n "${{ github.event.inputs.UPLOAD_WETRANSFER }}" ]]; then
+          echo "UPLOAD_WETRANSFER=${{ github.event.inputs.UPLOAD_WETRANSFER }}" >> ${GITHUB_ENV}
+        else
+          echo "UPLOAD_WETRANSFER=${UPLOAD_WETRANSFER}" >> ${GITHUB_ENV}
+        fi
       
     - name: 部署编译环境
       env:
@@ -153,3 +163,12 @@ jobs:
         body: |
           发布日期：${{ env.date_tg }}
           源码来源：${{ env.source_codename }}
+          
+    - name: 上传固件到「WeTransfer」
+      if: steps.compile.outcome == 'success' && env.UPLOAD_WETRANSFER == 'true'
+      run: |
+        curl -fsSL git.io/file-transfer | sh
+        ./transfer wet -s -p 16 --no-progress ${{ env.FIRMWARE_PATH }} 2>&1 | tee wetransfer.log
+        echo "##### WETRANSFER：$(cat wetransfer.log | grep https | cut -f3 -d" ")" >> update_log.txt
+        sed -i "s/Download Link/WETRANSFER/g" wetransfer.log
+        echo "::warning file=wetransfer.com::$(cat wetransfer.log | grep https)"
