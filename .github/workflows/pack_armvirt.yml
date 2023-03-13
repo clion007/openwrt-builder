@@ -2,28 +2,94 @@
 # 打包晶晨固件,请勿修改文件名称（pack_armvirt.yml）
 #
 
-name: 打包晶晨固件
+name: Build OpenWrt with lede
+
 on:
   repository_dispatch:
   workflow_dispatch:
     inputs:
-      amlogic_model:
-        description: '输入机型,比如：s905d 或 s905d_s905x2'
+      CONFIG_FILE:
+        description: '请选择源码'
         required: true
-        default: ''
-      amlogic_kernel:
-        description: '输入内核,比如：5.10.172 或 5.15.97_6.1.16'
-        required: true
-        default: ''
-      rootfs_size:
-        description: '设置rootfs大小(单位：MiB),比如：960'
-        required: true
-        default: ''
-      auto_kernel:
-        description: '是否自动检测最新内核'
+        default: 'lede'
+        type: choice
+        options:
+          - 'lede'
+          - 'immortalwrt'
+          - 'official'
+      openwrt_board:
+        description: "Select device board"
         required: false
-        default: 'true'
+        default: "all"
+        type: choice
+        options:
+          - all
+          - s922x_s905x3_s905d_s912_s905l3a
+          - r66s_r68s_h66k_h68k_e25
+          - eaidk-610_king3399_tn3399_kylin3399
+          - vplus_tqc-a01_tanix-tx6
+          - a311d
+          - s922x
+          - s922x-reva
+          - s922x-ct2000
+          - s905x3
+          - s905x3-b
+          - s905x2
+          - s912
+          - s912-m8s
+          - s905d
+          - s905d-ki
+          - s905x
+          - s905w
+          - s905
+          - s905l2
+          - s905l3
+          - s905l3a
+          - s905l3b
+          - s905lb-r3300l
+          - rock5b
+          - h88k
+          - r66s
+          - r68s
+          - h66k
+          - h68k
+          - e25
+          - eaidk-610
+          - king3399
+          - tn3399
+          - kylin3399
+          - beikeyun
+          - l1pro
+          - vplus
+          - tqc-a01
+          - tanix-tx6
+      openwrt_kernel:
+        description: "Select kernel version"
+        required: false
+        default: "5.15.85_6.1.1"
+        type: choice
+        options:
+          - 5.4.225_5.10.160_5.15.85
+          - 5.4.225_5.10.160
+          - 5.10.160_5.15.85
+          - 5.15.85_6.1.1
+          - 5.4.225
+          - 5.10.160
+          - 5.15.85
+          - 6.1.1
+      auto_kernel:
+        description: "Auto use the latest kernel"
+        required: false
+        default: true
         type: boolean
+      kernel_repo:
+        description: "Set the kernel repository"
+        required: false
+        default: "https://github.com/ophub/kernel/tree/main/pub"
+      openwrt_size:
+        description: "Set the rootfs size(Unit: MiB)"
+        required: false
+        default: "1024"
       UPLOAD_FIRMWARE:
         description: '上传固件到 Github Artifacts'
         required: false
@@ -39,6 +105,7 @@ on:
         required: false
         default: 'false'
         type: boolean
+        
   push:
     branches:
       - main
@@ -49,13 +116,8 @@ env:
   GITHUB_LINK: https://github.com/${{github.repository}}
   GIT_ACTOR: ${{github.actor}}
   GIT_REPOSITORY: ${{github.repository}}
-  RUN_NUMBER: ${{github.run_number}}
-  RUN_WORKFLOW: ${{github.workflow}}
-  REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
-  PUSH_PLUS_TOKEN: ${{ secrets.PUSH_PLUS_TOKEN }}
-  TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-  TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-  TZ: Asia/Shanghai
+  TZ: America/New_York
+  gh_token: ${{ secrets.GH_TOKEN }}
 
 jobs:
   build:
@@ -69,32 +131,35 @@ jobs:
 
     - name: 读取脚本设置
       run: |
-        cd ${GITHUB_WORKSPACE}
-        git clone https://github.com/281677160/common-main build/common
-        chmod -R +x build
-        if [[ -f "build/${FOLDER_NAME}/relevance/amlogic.ini" ]]; then
-          source build/${FOLDER_NAME}/relevance/amlogic.ini
+        if [[ -f "relevance/amlogic.ini" ]] && [[ -z "${{ github.event.inputs.openwrt_board }}" ]]; then
+          source relevance/amlogic.ini
         fi
-        if [[ -n "${{ github.event.inputs.amlogic_model }}" ]]; then
-          echo "amlogic_model=${{ github.event.inputs.amlogic_model }}" >> ${GITHUB_ENV}
+        if [[ -n "${{ github.event.inputs.openwrt_board }}" ]]; then
+          echo "openwrt_board=${{ github.event.inputs.openwrt_board }}" >> ${GITHUB_ENV}
         else
-          echo "amlogic_model=${amlogic_model}" >> ${GITHUB_ENV}
+          echo "openwrt_board=${openwrt_board}" >> ${GITHUB_ENV}
         fi
-        if [[ -n "${{ github.event.inputs.amlogic_kernel }}" ]]; then
-          echo "amlogic_kernel=${{ github.event.inputs.amlogic_kernel }}" >> ${GITHUB_ENV}
+        if [[ -n "${{ github.event.inputs.openwrt_kernel }}" ]]; then
+          echo "openwrt_kernel=${{ github.event.inputs.openwrt_kernel }}" >> ${GITHUB_ENV}
         else
-          echo "amlogic_kernel=${amlogic_kernel}" >> ${GITHUB_ENV}
-        fi
-        if [[ -n "${{ github.event.inputs.rootfs_size }}" ]]; then
-          echo "rootfs_size=${{ github.event.inputs.rootfs_size }}" >> ${GITHUB_ENV}
-        else
-          echo "rootfs_size=${rootfs_size}" >> ${GITHUB_ENV}
+          echo "openwrt_kernel=${openwrt_kernel}" >> ${GITHUB_ENV}
         fi
         if [[ -n "${{ github.event.inputs.auto_kernel }}" ]]; then
           echo "auto_kernel=${{ github.event.inputs.auto_kernel }}" >> ${GITHUB_ENV}
         else
           echo "auto_kernel=${auto_kernel}" >> ${GITHUB_ENV}
         fi
+        if [[ -n "${{ github.event.inputs.kernel_repo }}" ]]; then
+          echo "kernel_repo=${{ github.event.inputs.kernel_repo }}" >> ${GITHUB_ENV}
+        else
+          echo "kernel_repo=${kernel_repo}" >> ${GITHUB_ENV}
+        fi
+        if [[ -n "${{ github.event.inputs.openwrt_size }}" ]]; then
+          echo "openwrt_size=${{ github.event.inputs.openwrt_size }}" >> ${GITHUB_ENV}
+        else
+          echo "openwrt_size=${openwrt_size}" >> ${GITHUB_ENV}
+        fi
+        
         if [[ -n "${{ github.event.inputs.UPLOAD_FIRMWARE }}" ]]; then
           echo "UPLOAD_FIRMWARE=${{ github.event.inputs.UPLOAD_FIRMWARE }}" >> ${GITHUB_ENV}
         else
@@ -124,19 +189,21 @@ jobs:
       working-directory: /workdir
       run: |
         df -hT $PWD
-        mkdir -p openwrt
+        mkdir -p openwrt/bin/targets/armvirt/64
+        cd openwrt/bin/targets/armvirt/64
+        wget -q ${GITHUB_LINK}/releases/download/targz/openwrt-armvirt-64-default-rootfs.tar.gz -O openwrt-armvirt-64-default-rootfs.tar.gz
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
-        echo "HOME_PATH=${GITHUB_WORKSPACE}/openwrt" >> ${GITHUB_ENV}
 
-    - name: 打包固件
-      id: compile
-      run: |
-        cd ${GITHUB_WORKSPACE}
-        cp -Rf `find ./ -maxdepth 1 -type d ! -path './openwrt' ! -path './'` openwrt
-        cd openwrt
-        source build/common/common.sh && Package_amlogic
-        echo "date=$(date "+%Y%m%d%H%M%S")" >> ${GITHUB_ENV}
-        echo "date_tg=$(date +"%Y年%m月%d日%H时%M分")" >> ${GITHUB_ENV}
+    - name: Build OpenWrt firmware
+      uses: ophub/amlogic-s9xxx-openwrt@main
+      with:
+        openwrt_path: openwrt/bin/targets/*/*/*rootfs.tar.gz
+        openwrt_board: ${{ env.openwrt_board }}
+        openwrt_kernel: ${{ env.openwrt_kernel }}
+        auto_kernel: ${{ env.auto_kernel }}
+        kernel_repo: ${{ env.kernel_repo }}
+        openwrt_size: ${{ env.openwrt_size }}
+        gh_token: ${{ secrets.GH_TOKEN }}
          
     - name: 上传固件在 github actions
       if: steps.compile.outcome == 'success' && env.UPLOAD_FIRMWARE == 'true'
