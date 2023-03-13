@@ -13,9 +13,11 @@ on:
         default: ''
       amlogic_kernel:
         description: '输入内核,比如：5.10.172 或 5.15.97_6.1.16'
+        required: true
         default: ''
       rootfs_size:
         description: '设置rootfs大小(单位：MiB),比如：960'
+        required: true
         default: ''
       auto_kernel:
         description: '是否自动检测最新内核'
