@@ -68,7 +68,6 @@ jobs:
       run: |
         cd ${GITHUB_WORKSPACE}
         git clone https://github.com/281677160/common-main build/common
-        mv -f build/common/*.sh build/${{ env.FOLDER_NAME }}/
         chmod -R +x build
         if [[ -f "build/${FOLDER_NAME}/relevance/amlogic.ini" ]]; then
           source build/${FOLDER_NAME}/relevance/amlogic.ini
@@ -113,7 +112,7 @@ jobs:
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
-        source ${GITHUB_WORKSPACE}/build/${{matrix.target}}/common.sh && Diy_update
+        source ${GITHUB_WORKSPACE}/build/common/common.sh && Diy_update
         sudo timedatectl set-timezone "$TZ"
         sudo mkdir -p /workdir
         sudo chown $USER:$GROUPS /workdir
@@ -132,7 +131,7 @@ jobs:
         cd ${GITHUB_WORKSPACE}
         cp -Rf `find ./ -maxdepth 1 -type d ! -path './openwrt' ! -path './'` openwrt
         cd openwrt
-        source build/${{matrix.target}}/common.sh && Package_amlogic
+        source build/common/common.sh && Package_amlogic
         echo "date=$(date "+%Y%m%d%H%M%S")" >> ${GITHUB_ENV}
         echo "date_tg=$(date +"%Y年%m月%d日%H时%M分")" >> ${GITHUB_ENV}
          
