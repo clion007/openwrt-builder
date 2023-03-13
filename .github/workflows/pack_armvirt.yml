@@ -8,7 +8,7 @@ on:
   repository_dispatch:
   workflow_dispatch:
     inputs:
-      CONFIG_FILE:
+      code_name:
         description: '请选择源码'
         required: true
         default: 'lede'
@@ -134,6 +134,11 @@ jobs:
         if [[ -f "relevance/amlogic.ini" ]] && [[ -z "${{ github.event.inputs.openwrt_board }}" ]]; then
           source relevance/amlogic.ini
         fi
+        if [[ -n "${{ github.event.inputs.code_name }}" ]]; then
+          echo "code_name=${{ github.event.inputs.code_name }}" >> ${GITHUB_ENV}
+        else
+          echo "code_name=${code_name}" >> ${GITHUB_ENV}
+        fi
         if [[ -n "${{ github.event.inputs.openwrt_board }}" ]]; then
           echo "openwrt_board=${{ github.event.inputs.openwrt_board }}" >> ${GITHUB_ENV}
         else
@@ -175,6 +180,7 @@ jobs:
         else
           echo "UPLOAD_WETRANSFER=${UPLOAD_WETRANSFER}" >> ${GITHUB_ENV}
         fi
+
       
     - name: 部署编译环境
       env:
@@ -193,6 +199,7 @@ jobs:
         cd openwrt/bin/targets/armvirt/64
         wget -q ${GITHUB_LINK}/releases/download/targz/openwrt-armvirt-64-default-rootfs.tar.gz -O openwrt-armvirt-64-default-rootfs.tar.gz
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
+        echo "build_tag=OpenWrt_${{ env.code_name }}_$(date +"%m.%d.%H%M")" >> ${GITHUB_OUTPUT}
 
     - name: Build OpenWrt firmware
       uses: ophub/amlogic-s9xxx-openwrt@main
@@ -213,17 +220,21 @@ jobs:
         path: ${{ env.FIRMWARE_PATH }}
         
     - name: 发布固件到 Github Releases
-      if: steps.compile.outcome == 'success' && env.UPLOAD_RELEASE == 'true' && env.REPO_TOKEN
       uses: ncipollo/release-action@main
       with:
-        name: ${{ env.amlogic_model }} 固件
-        tag: a${{ env.date }}
-        token: ${{ secrets.REPO_TOKEN }}
+        tag: ${{ steps.compile.outputs.build_tag }}
+        artifacts: ${{ env.PACKAGED_OUTPUTPATH }}/*
         allowUpdates: true
-        artifacts: "${{ env.FIRMWARE_PATH }}/*"
+        token: ${{ secrets.GH_TOKEN }}
         body: |
-          发布日期：${{ env.date_tg }}
-          源码来源：${{ env.source_codename }}
+          This is OpenWrt firmware for Amlogic and Rockchip
+          * Firmware information
+          Default IP: 192.168.1.1
+          Default username: root
+          Default password: password
+          Default WIFI name: OpenWrt
+          Default WIFI password: none
+          Install to EMMC: Login to OpenWrt → System → Amlogic Service → Install OpenWrt
           
     - name: 上传固件到「WeTransfer」
       if: steps.compile.outcome == 'success' && env.UPLOAD_WETRANSFER == 'true'
