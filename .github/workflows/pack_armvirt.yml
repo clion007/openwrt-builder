@@ -59,13 +59,6 @@ jobs:
     name: 打包晶晨固件
     runs-on: ubuntu-22.04
     if: ${{ github.event.repository.owner.id }} == ${{ github.event.sender.id }}
-    
-    env:
-      FOLDER_NAME: ${{ matrix.target }}
-    strategy:
-      fail-fast: false
-      matrix:
-        target: [Lienol]
 
     steps:    
     - name: 准备结束
