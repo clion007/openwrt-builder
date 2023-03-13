@@ -70,7 +70,6 @@ jobs:
         git clone https://github.com/281677160/common-main build/common
         mv -f build/common/*.sh build/${{ env.FOLDER_NAME }}/
         chmod -R +x build
-        source build/${{matrix.target}}/common.sh && Diy_variable
         if [[ -f "build/${FOLDER_NAME}/relevance/amlogic.ini" ]]; then
           source build/${FOLDER_NAME}/relevance/amlogic.ini
         fi
