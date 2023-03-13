@@ -40,7 +40,7 @@ on:
     branches:
       - main
     paths:
-      - 'build/Lienol/relevance/amstart'
+      - '.github/workflows/pack_armvirt.yml'
 
 env:
   GITHUB_LINK: https://github.com/${{github.repository}}
