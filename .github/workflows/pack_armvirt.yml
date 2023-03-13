@@ -43,7 +43,7 @@ on:
     branches:
       - main
     paths:
-      - 'pack_arm'
+      - 'build/Lienol/relevance/amstart'
 
 env:
   GITHUB_LINK: https://github.com/${{github.repository}}
