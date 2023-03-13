@@ -9,6 +9,7 @@ on:
     inputs:
       amlogic_model:
         description: '输入机型,比如：s905d 或 s905d_s905x2'
+        type: choice
         default: ''
       amlogic_kernel:
         description: '输入内核,比如：5.10.172 或 5.15.97_6.1.16'
