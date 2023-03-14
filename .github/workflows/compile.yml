@@ -136,7 +136,7 @@ jobs:
       run: |
         cd openwrt
         echo -e "$(nproc) thread compile"
-        make -j$(nproc) V=s 2>&1 | tee build.log | grep -i "Error 2" && tail -20 build.log && compile_error="1"
+        make -j$(nproc) V=s | tee build.log | grep -i "Error 2" && tail -20 build.log && compile_error="1"
         echo "date=$(date "+%Y%m%d%H%M%S")" >> ${GITHUB_ENV}
         [[ "${compile_error}" != "1" ]] && source ${BUILD_PATH}/common.sh && firmware_jiance
         
