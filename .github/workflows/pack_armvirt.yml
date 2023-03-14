@@ -51,6 +51,7 @@ env:
   REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
   TZ: Asia/Shanghai
   FOLDER_NAME: Immortalwrt
+  SOURCE: Immortalwrt
 
 jobs:
   build:
