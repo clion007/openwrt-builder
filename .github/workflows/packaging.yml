@@ -112,7 +112,7 @@ jobs:
         cd openwrt
         source build/common/common.sh && Package_amlogic
         echo "date=$(date "+%Y%m%d%H%M%S")" >> ${GITHUB_ENV}
-        echo "date_tg=$(date +"%Y年%m月%d日%H时%M分")" >> ${GITHUB_ENV}
+        echo "date_tg=$(date +"%Y.%m%d.%H%M")" >> ${GITHUB_ENV}
          
     - name: 上传固件在 github actions
       if: steps.compile.outcome == 'success' && env.UPLOAD_FIRMWARE == 'true'
