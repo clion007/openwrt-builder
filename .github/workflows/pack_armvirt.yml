@@ -68,8 +68,8 @@ jobs:
         cd ${GITHUB_WORKSPACE}
         git clone https://github.com/281677160/common-main build/common
         chmod -R +x build
-        if [[ -f "build/${FOLDER_NAME}/relevance/amlogic.ini" ]] && [[ -z "${{ github.event.inputs.amlogic_model }}" ]]; then
-          source build/${FOLDER_NAME}/relevance/amlogic.ini
+        if [[ -f "build/${FOLDER_NAME}/relevance/${SOURCE}.ini" ]] && [[ -z "${{ github.event.inputs.amlogic_model }}" ]]; then
+          source build/${FOLDER_NAME}/relevance/${SOURCE}.ini
         fi
         if [[ -n "${{ github.event.inputs.amlogic_model }}" ]]; then
           echo "amlogic_model=${{ github.event.inputs.amlogic_model }}" >> ${GITHUB_ENV}
