@@ -148,7 +148,7 @@ jobs:
         tag: targz
         token: ${{ secrets.REPO_TOKEN }}
         allowUpdates: true
-        removeArtifacts: true
+        replacesArtifacts: true
         artifacts: openwrt/bin/targets/*/*/*rootfs.tar.gz
         body: |
           发布时间：${{ env.date }}
