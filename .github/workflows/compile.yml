@@ -136,9 +136,9 @@ jobs:
       run: |
         cd openwrt
         echo -e "$(nproc) thread compile"
-        make -j$(nproc) || make -j1 V=s
+        make -j$(nproc) V=s 2>&1 | tee build.log | grep -i "Error 2" && tail -20 build.log && compile_error="1"
         echo "date=$(date "+%Y%m%d%H%M%S")" >> ${GITHUB_ENV}
-        # source ${BUILD_PATH}/common.sh && firmware_jiance
+        [[ "${compile_error}" != "1" ]] && source ${BUILD_PATH}/common.sh && firmware_jiance
         
     - name: 打包晶晨系列固件
       if: steps.compile.outcome == 'success' && env.PACKAGING_FIRMWARE == 'true'
