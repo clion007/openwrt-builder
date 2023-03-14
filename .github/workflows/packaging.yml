@@ -7,6 +7,17 @@ on:
   repository_dispatch:
   workflow_dispatch:
     inputs:
+      source_branch:
+        description: '选择源码'
+        required: true
+        default: 'Lede'
+        type: choice
+        options:
+          - 'Lede'
+          - 'Immortalwrt'
+          - 'Official'
+          - 'Xwrt'
+          - 'Lienol'
       amlogic_model:
         description: '输入机型,比如：s905d 或 s905d_s905x2'
         required: true
@@ -69,6 +80,7 @@ jobs:
         git clone https://github.com/281677160/common-main build/common
         chmod -R +x build
         if [[ -n "${{ github.event.inputs.amlogic_model }}" ]]; then
+          echo "SOURCE=${{ inputs.source_branch }}" >> ${GITHUB_ENV}
           echo "amlogic_model=${{ github.event.inputs.amlogic_model }}" >> ${GITHUB_ENV}
           echo "amlogic_kernel=${{ github.event.inputs.amlogic_kernel }}" >> ${GITHUB_ENV}
           echo "rootfs_size=${{ github.event.inputs.rootfs_size }}" >> ${GITHUB_ENV}
@@ -78,6 +90,7 @@ jobs:
           echo "UPLOAD_WETRANSFER=${{ github.event.inputs.UPLOAD_WETRANSFER }}" >> ${GITHUB_ENV}
         else
           source build/${FOLDER_NAME}/relevance/${SOURCE}.ini
+          echo "SOURCE=${SOURCE}" >> ${GITHUB_ENV}
           echo "amlogic_model=${amlogic_model}" >> ${GITHUB_ENV}
           echo "amlogic_kernel=${amlogic_kernel}" >> ${GITHUB_ENV}
           echo "rootfs_size=${rootfs_size}" >> ${GITHUB_ENV}
