@@ -149,7 +149,7 @@ jobs:
         token: ${{ secrets.REPO_TOKEN }}
         allowUpdates: true
         replacesArtifacts: true
-        artifacts: openwrt/bin/targets/*/*/*rootfs.tar.gz
+        artifacts: openwrt/targz/*rootfs.tar.gz
 
     - name: 整理固件文件夹(需配合diy-part.sh设定使用)
       continue-on-error: true
