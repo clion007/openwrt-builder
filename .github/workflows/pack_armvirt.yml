@@ -43,14 +43,14 @@ on:
     branches:
       - main
     paths:
-      - 'build/Lede/relevance/amstart'
+      - 'build/Immortalwrt/relevance/amstart'
 
 env:
   GITHUB_LINK: https://github.com/${{github.repository}}
   GIT_REPOSITORY: ${{github.repository}}
   REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
   TZ: Asia/Shanghai
-  FOLDER_NAME: Lede
+  FOLDER_NAME: Immortalwrt
 
 jobs:
   build:
