@@ -202,12 +202,6 @@ jobs:
       run: |
         cd openwrt
         source ${BUILD_PATH}/common.sh && Diy_menu4
-        
-    - name: 触发打包.yml文件启动工作
-      run: |
-        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-        git config --global user.name "github-actions[bot]"
-        source ${BUILD_PATH}/common.sh && openwrt_armvirt
     
     - name: SSH远程连接（制作.config配置文件）
       if: github.event.inputs.SSH_ACTION == 'true'
