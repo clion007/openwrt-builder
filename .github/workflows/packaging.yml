@@ -43,15 +43,15 @@ on:
     branches:
       - main
     paths:
-      - 'build/Official/relevance/Officialstart'
+      - 'build/Xwrt/relevance/Xwrtstart'
 
 env:
   GITHUB_LINK: https://github.com/${{github.repository}}
   GIT_REPOSITORY: ${{github.repository}}
   REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
   TZ: Asia/Shanghai
-  FOLDER_NAME: Official
-  SOURCE: Official
+  FOLDER_NAME: Xwrt
+  SOURCE: Xwrt
 
 jobs:
   build:
