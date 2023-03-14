@@ -144,7 +144,7 @@ jobs:
       if: steps.compile.outcome == 'success' && env.PACKAGING_FIRMWARE == 'true'
       uses: ncipollo/release-action@main
       with:
-        name: rootfs.tar.gz包
+        name: rootfs.tar.gz
         tag: targz
         token: ${{ secrets.REPO_TOKEN }}
         allowUpdates: true
