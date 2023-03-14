@@ -125,14 +125,12 @@ jobs:
       if: steps.compile.outcome == 'success' && env.UPLOAD_RELEASE == 'true' && env.REPO_TOKEN
       uses: ncipollo/release-action@main
       with:
-        name: ${{ env.amlogic_model }} 固件(${{ env.source_codename }})
-        tag: a${{ env.date }}
+        name: ${{ env.amlogic_model }}-${{ env.date_tg }}(${{ env.source_codename }})
+        tag: ${{ env.source_codename }}
         token: ${{ secrets.REPO_TOKEN }}
         allowUpdates: true
+        removeArtifacts: true
         artifacts: "${{ env.FIRMWARE_PATH }}/*"
-        body: |
-          发布日期：${{ env.date_tg }}
-          源码来源：${{ env.source_codename }}
           
     - name: 上传固件到「WeTransfer」
       if: steps.compile.outcome == 'success' && env.UPLOAD_WETRANSFER == 'true'
