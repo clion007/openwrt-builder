@@ -139,7 +139,7 @@ jobs:
       uses: ncipollo/release-action@main
       with:
         name: ${{ env.amlogic_model }}-${{ env.date_tg }}(${{ env.source_codename }})
-        tag: ${{ env.source_codename }}
+        tag: ${{ env.date }}
         token: ${{ secrets.REPO_TOKEN }}
         allowUpdates: true
         removeArtifacts: true
