@@ -18,14 +18,14 @@ on:
   workflow_dispatch:
     inputs:
       REPO_BRANCH:
-        description: '官方源码-请选择分支'
+        description: '天灵源码-请选择分支'
         required: true
-        default: 'openwrt-22.03'
+        default: 'openwrt-21.02'
         type: choice
         options:
-          - 'openwrt-22.03'
           - 'openwrt-21.02'
-          - 'openwrt-19.07'
+          - 'openwrt-18.06-k5.4'
+          - 'openwrt-18.06'
           - 'master'
       CONFIG_FILE:
         description: '请选择配置文件'
@@ -33,10 +33,8 @@ on:
         default: 'x86_64'
         type: choice
         options:
-          - 'aarch64'
           - 'x86_64'
-          - 'phicomm_k3'
-          - '1907-phicomm-k3'
+          - 'aarch64'
       CPU_SELECTION:
         description: 'CPU优选,增加编译速度'
         required: true
