@@ -10,10 +10,10 @@ on:
       source_branch:
         description: '选择源码(先确认您已经编译了有)'
         required: true
-        default: 'Immortalwrt'
+        default: 'Lede'
         type: choice
         options:
-          - 'Immortalwrt'
+          - 'Lede'
           - 'Immortalwrt'
           - 'Official'
           - 'Xwrt'
