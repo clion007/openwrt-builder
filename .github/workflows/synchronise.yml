@@ -33,17 +33,16 @@ on:
       establish_sample:
         description: '请选择创建文件夹的源码'
         required: false
-        default: '请选择'
+        default: 'Lede'
         type: choice
         options:
-          - '请选择'
-          - 'Immortalwrt'
           - 'Lede'
+          - 'Immortalwrt'
           - 'Lienol'
           - 'Official'
           - 'Xwrt'
       establish_name:
-        description: '您需要创建的文件夹名称'
+        description: '输入您需要创建的文件夹名称'
         required: false
         default: ''
       Deletefile:
@@ -98,35 +97,43 @@ jobs:
           sudo chmod +x ${GITHUB_WORKSPACE}/tongbu.sh
         fi
         
-        if [[ -z "${{ github.event.inputs.fork }}" ]]; then
-          echo "again-fork=0" >> ${GITHUB_ENV}
-        elif [[ "${{ github.event.inputs.fork }}" == '不同步上游仓库,单纯删除仓库的.bak备份文件' ]]; then
-          echo "again-fork=1" >> ${GITHUB_ENV}
-        elif [[ "${{ github.event.inputs.fork }}" == '单文件同步,带备份' ]]; then
-          echo "again-fork=2" >> ${GITHUB_ENV}
-        elif [[ "${{ github.event.inputs.fork }}" == '单文件同步,不要备份' ]]; then
-          echo "again-fork=3" >> ${GITHUB_ENV}
-        elif [[ "${{ github.event.inputs.fork }}" == '拉取整个上游仓库覆盖您现在的仓库(无备份)' ]]; then
-          echo "again-fork=4" >> ${GITHUB_ENV}
+        if [[ "${{ inputs.Synchro }}" == "true" ]]; then
+          if [[ "${{ inputs.fork }}" == '不同步上游仓库,单纯删除仓库的.bak备份文件' ]]; then
+            echo "again-fork=1" >> ${GITHUB_ENV}
+          elif [[ "${{ inputs.fork }}" == '单文件同步,带备份' ]]; then
+            echo "again-fork=2" >> ${GITHUB_ENV}
+          elif [[ "${{ inputs.fork }}" == '单文件同步,不要备份' ]]; then
+            echo "again-fork=3" >> ${GITHUB_ENV}
+          elif [[ "${{ inputs.fork }}" == '拉取整个上游仓库覆盖您现在的仓库(无备份)' ]]; then
+            echo "again-fork=4" >> ${GITHUB_ENV}
+          fi
         fi
         
-        if [[ -n "${{ github.event.inputs.establish_sample }}" ]] && [[ -n "${{ github.event.inputs.establish_name }}" ]]; then
-          echo "inputs_establish_sample=${{ github.event.inputs.establish_sample }}" >> ${GITHUB_ENV}
-          echo "inputs_establish_name=${{ github.event.inputs.establish_name }}" >> ${GITHUB_ENV}
-          echo "inputs_Establish=1" >> ${GITHUB_ENV}
+        if [[ "${{ inputs.Establish }}" == "true" ]]; then
+          if [[ -n "${{ inputs.establish_sample }}" ]] && [[ -n "${{ inputs.establish_name }}" ]]; then
+            echo "inputs_establish_sample=${{ inputs.establish_sample }}" >> ${GITHUB_ENV}
+            echo "inputs_establish_name=${{ inputs.establish_name }}" >> ${GITHUB_ENV}
+          else
+            echo "缺少建立文件文件名称"
+            exit 1
+          fi
         fi
         
-        if [[ -n "${{ github.event.inputs.Deletefile_name }}" ]]; then
-          echo "inputs_Deletefile_name=${{ github.event.inputs.Deletefile_name }}" >> ${GITHUB_ENV}
-          echo "inputs_Deletefile=1" >> ${GITHUB_ENV}
+        if [[ "${{ inputs.Deletefile }}" == "true" ]]; then
+          if [[ -n "${{ inputs.Deletefile_name }}" ]]; then
+            echo "inputs_Deletefile_name=${{ inputs.Deletefile_name }}" >> ${GITHUB_ENV}
+          else
+            echo "缺少删除文件名称"
+            exit 1
+          fi
         fi
+        
+        echo "${{ inputs.Synchro }}"
         
     - name: 同步更新上游仓库
-      if: env.REPO_TOKEN  && github.event.inputs.Synchro == 'true' && env.again-fork != '0'
+      if: env.REPO_TOKEN  && inputs.Synchro == 'true'
       run: |
         cd ${GITHUB_WORKSPACE}
-        rm -rf shangyou && git clone -b main https://github.com/281677160/autobuild.git shangyou
-        rm -rf repogx && git clone -b main https://github.com/${{github.repository}}.git repogx
         if [[ "${{ env.again-fork }}" == "1" ]]; then
           echo "不同步,单纯消灭仓库的.bak备份文件"
           source ${GITHUB_WORKSPACE}/tongbu.sh && menu1
@@ -145,19 +152,18 @@ jobs:
         fi
         
     - name: 建立机型文件夹
-      if: env.REPO_TOKEN && github.event.inputs.Establish == 'true' && env.inputs_Establish == '1'
+      if: env.REPO_TOKEN && inputs.Establish == 'true'
       run: |
         source ${GITHUB_WORKSPACE}/tongbu.sh && github_establish
         
     - name: 删除不需要的机型文件夹
-      if: env.REPO_TOKEN && github.event.inputs.Deletefile == 'true' && env.inputs_Deletefile == '1'
+      if: env.REPO_TOKEN && inputs.Deletefile == 'true'
       run: |
         source ${GITHUB_WORKSPACE}/tongbu.sh && github_deletefile
         
     - name: 执行程序
-      if: github.event.inputs.Deletefile == 'true' || github.event.inputs.Establish == 'true' || github.event.inputs.Synchro == 'true'
+      if: env.REPO_TOKEN && inputs.Deletefile == 'true' || inputs.Establish == 'true' || inputs.Synchro == 'true'
       run: |
-        sudo chmod -R +x ${GITHUB_WORKSPACE}/repogx
         cd ${GITHUB_WORKSPACE}/repogx
         git add .
         git commit -m "Update $(date +%Y-%m%d-%H%M%S)"
