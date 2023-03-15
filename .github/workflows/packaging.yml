@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
     inputs:
       source_branch:
-        description: '选择源码'
+        description: '选择源码(先确认您已经编译了有)'
         required: true
         default: 'Lede'
         type: choice
