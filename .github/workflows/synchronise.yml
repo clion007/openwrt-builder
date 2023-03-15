@@ -11,13 +11,13 @@ on:
   workflow_dispatch:
     inputs:
       Synchro:
-        description: '====同步上游仓库===='
-        required: false
-        default: 'false'
+        description: '===同步上游仓库==='
+        required: true
+        default: 'true'
         type: boolean
       fork:
         description: '请选择同步选项'
-        required: false
+        required: true
         default: '单文件同步,带备份'
         type: choice
         options:
@@ -26,13 +26,13 @@ on:
           - '不同步上游仓库,单纯删除仓库的.bak备份文件'
           - '拉取整个上游仓库覆盖您现在的仓库(无备份)'
       Establish:
-        description: '====在build文件夹创建机型文件夹===='
+        description: '===在build文件夹创建机型文件夹==='
         required: false
         default: 'false'
         type: boolean
       establish_sample:
         description: '请选择创建文件夹的源码'
-        required: true
+        required: false
         default: '请选择'
         type: choice
         options:
@@ -44,14 +44,16 @@ on:
           - 'Xwrt'
       establish_name:
         description: '您需要创建的文件夹名称'
+        required: false
         default: ''
       Deletefile:
-        description: '====删除build里面的文件夹===='
+        description: '===删除build里面的文件夹==='
         required: false
         default: 'false'
         type: boolean
       Deletefile_name:
         description: '请输入要删除的文件夹名称,一次删除多个请用英文逗号分开'
+        required: false
         default: ''
 env:
   REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
@@ -98,7 +100,7 @@ jobs:
         
         if [[ -z "${{ github.event.inputs.fork }}" ]]; then
           echo "again-fork=0" >> ${GITHUB_ENV}
-        elif [[ "${{ github.event.inputs.fork }}" == '不同步上游仓库,单纯消灭仓库的.bak备份文件' ]]; then
+        elif [[ "${{ github.event.inputs.fork }}" == '不同步上游仓库,单纯删除仓库的.bak备份文件' ]]; then
           echo "again-fork=1" >> ${GITHUB_ENV}
         elif [[ "${{ github.event.inputs.fork }}" == '单文件同步,带备份' ]]; then
           echo "again-fork=2" >> ${GITHUB_ENV}
