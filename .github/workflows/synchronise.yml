@@ -129,7 +129,7 @@ jobs:
         fi
         
     - name: 同步更新上游仓库
-      if: env.REPO_TOKEN  && inputs.Synchro == 'true'
+      if: env.REPO_TOKEN  && github.event.inputs.Synchro == 'true'
       run: |
         cd ${GITHUB_WORKSPACE}
         if [[ "${{ env.again-fork }}" == "1" ]]; then
@@ -150,17 +150,17 @@ jobs:
         fi
         
     - name: 建立机型文件夹
-      if: env.REPO_TOKEN && inputs.Establish == 'true'
+      if: env.REPO_TOKEN && github.event.inputs.Establish == 'true'
       run: |
         source ${GITHUB_WORKSPACE}/tongbu.sh && github_establish
         
     - name: 删除不需要的机型文件夹
-      if: env.REPO_TOKEN && inputs.Deletefile == 'true'
+      if: env.REPO_TOKEN && github.event.inputs.Deletefile == 'true'
       run: |
         source ${GITHUB_WORKSPACE}/tongbu.sh && github_deletefile
         
     - name: 执行程序
-      if: env.REPO_TOKEN && inputs.Deletefile == 'true' || inputs.Establish == 'true' || inputs.Synchro == 'true'
+      if: env.REPO_TOKEN && github.event.inputs.Deletefile == 'true' || github.event.inputs.Establish == 'true' || github.event.inputs.Synchro == 'true'
       run: |
         cd ${GITHUB_WORKSPACE}/repogx
         git add .
