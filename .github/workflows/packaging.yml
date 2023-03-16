@@ -14,7 +14,7 @@ on:
         type: choice
         options:
           - 'Lede'
-          - 'Immortalwrt'
+          - 'Lienol'
           - 'Official'
           - 'Xwrt'
           - 'Lienol'
@@ -54,15 +54,15 @@ on:
     branches:
       - main
     paths:
-      - 'build/Immortalwrt/relevance/Immortalwrtstart'
+      - 'build/Lienol/relevance/Lienolstart'
 
 env:
   GITHUB_LINK: https://github.com/${{github.repository}}
   GIT_REPOSITORY: ${{github.repository}}
   REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
   TZ: Asia/Shanghai
-  FOLDER_NAME: Immortalwrt
-  SOURCE: Immortalwrt
+  FOLDER_NAME: Lienol
+  SOURCE: Lienol
 
 jobs:
   build:
