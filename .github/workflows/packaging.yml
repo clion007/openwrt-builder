@@ -14,7 +14,7 @@ on:
         type: choice
         options:
           - 'Lede'
-          - 'Lienol'
+          - 'Immortalwrt'
           - 'Official'
           - 'Xwrt'
           - 'Lienol'
