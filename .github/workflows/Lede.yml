@@ -24,6 +24,7 @@ on:
         type: choice
         options:
           - 'master'
+          - 'gl-ax1800'
       CONFIG_FILE:
         description: '请选择配置文件'
         required: true
