@@ -17,7 +17,7 @@ on:
           - 'Immortalwrt'
           - 'Official'
           - 'Xwrt'
-          - 'Lienol'
+          - 'Lede'
       amlogic_model:
         description: '输入机型,比如：s905d 或 s905d_s905x2'
         required: true
@@ -54,15 +54,15 @@ on:
     branches:
       - main
     paths:
-      - 'build/Lienol/relevance/Lienolstart'
+      - 'build/Lede/relevance/Ledestart'
 
 env:
   GITHUB_LINK: https://github.com/${{github.repository}}
   GIT_REPOSITORY: ${{github.repository}}
   REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
   TZ: Asia/Shanghai
-  FOLDER_NAME: Lienol
-  SOURCE: Lienol
+  FOLDER_NAME: Lede
+  SOURCE: Lede
 
 jobs:
   build:
