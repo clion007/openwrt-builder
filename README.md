@@ -43,6 +43,8 @@
  [`coolsnowwolf`](https://github.com/coolsnowwolf/lede/tree/master)
  [`Lienol`](https://github.com/Lienol/openwrt/tree/21.02)
  [`immortalwrt`](https://github.com/immortalwrt/immortalwrt)
+ [`openwrt`](https://github.com/openwrt/openwrt)
+ [`x-wrt`](https://github.com/x-wrt/x-wrt)
  [`P3TERX`](https://github.com/P3TERX/Actions-OpenWrt)
  [`Hyy2001X`](https://github.com/Hyy2001X/AutoBuild-Actions)
  [`dhxh`](https://github.com/dhxh/Openwrt-Build)
