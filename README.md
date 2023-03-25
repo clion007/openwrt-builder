@@ -1,7 +1,7 @@
 
-[`github编译教程`](https://github.com/danshui-git/shuoming#readme)
+[github编译教程](https://github.com/danshui-git/shuoming#readme)
 
-[`晶晨固件打包教程`](https://github.com/danshui-git/shuoming/blob/master/Amlogic.md)
+[`晶晨固件打包设置教程`](https://github.com/danshui-git/shuoming/blob/master/Amlogic.md)
 
 [`本地Ubuntu一键编译`](https://github.com/281677160/bendi)
 
