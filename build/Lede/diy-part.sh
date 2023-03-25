@@ -10,7 +10,7 @@ export Netmask_netm="255.255.255.0"         # IPv4 子网掩码（默认：255.2
 export Op_name="OpenWrt-123"                # 修改主机名称为OpenWrt-123(填0为不作修改)
 
 # 内核和系统分区大小
-export Kernel_partition_size="30"           # 内核分区大小,一般默认30 (填写您想要的数值,数值以MB计算，填0为不作修改),如果你不懂就填0
+export Kernel_partition_size="60"           # 内核分区大小,一般默认30 (填写您想要的数值,数值以MB计算，填0为不作修改),如果你不懂就填0
 export Root_partition_size="250"            # 系统分区大小,每个机型默认值不一样 (填写您想要的数值,数值以MB计算，填0为不作修改),如果你不懂就填0
 
 # 默认主题设置
