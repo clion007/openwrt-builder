@@ -35,6 +35,10 @@ on:
         required: false
         default: 'true'
         type: boolean
+      kernel_repo:
+        description: "内核仓库地址"
+        required: false
+        default: 'https://github.com/ophub/kernel/tree/main/pub'
       UPLOAD_FIRMWARE:
         description: '上传固件到 Github Artifacts'
         required: false
