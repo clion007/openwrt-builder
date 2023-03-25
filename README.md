@@ -8,7 +8,7 @@
 [本地一键提取.config然后在云编译脚本使用](https://github.com/281677160/bendi)
 
 <details>
-<summary>🆙点击查看更新说明</summary>
+<summary>🆙更新说明</summary>
 <br>
 
 2022年10月22号，修复定时触发启动编译失败问题，修复提示nodejs.12需要升级成nodejs.16的问题
