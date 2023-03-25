@@ -33,7 +33,7 @@ on:
       kernel_repo:
         description: "内核仓库地址"
         required: false
-        default: 'https://github.com/ophub/kernel/tree/main/pub'
+        default: 'https://github.com/ophub/kernel/tree/kernel_stable/pub'
       auto_kernel:
         description: '是否自动检测最新内核'
         required: false
