@@ -30,15 +30,15 @@ on:
         description: '设置rootfs大小(单位：MiB),比如：960'
         required: true
         default: '1024'
+      kernel_repo:
+        description: "内核仓库地址"
+        required: false
+        default: 'https://github.com/ophub/kernel/tree/main/pub'
       auto_kernel:
         description: '是否自动检测最新内核'
         required: false
         default: 'true'
         type: boolean
-      kernel_repo:
-        description: "内核仓库地址"
-        required: false
-        default: 'https://github.com/ophub/kernel/tree/main/pub'
       UPLOAD_FIRMWARE:
         description: '上传固件到 Github Artifacts'
         required: false
