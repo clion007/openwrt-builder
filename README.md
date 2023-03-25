@@ -4,7 +4,6 @@
 <br>
 <br />
 <br>
-
 [github编译教程](https://github.com/danshui-git/shuoming#readme)
 
 [晶晨固件打包设置教程](https://github.com/danshui-git/shuoming/blob/master/Amlogic.md)
@@ -22,6 +21,8 @@
 
 <details>
 <summary>🆙更新说明</summary>
+<br>
+<br />
 <br>
 
 2022年10月22号，修复定时触发启动编译失败问题，修复提示nodejs.12需要升级成nodejs.16的问题
