@@ -5,7 +5,7 @@
 <br />
 <br>
 
-[github编译教程](https://github.com/danshui-git/shuoming#readme)
+[github actions编译教程](https://github.com/danshui-git/shuoming#readme)
 
 [晶晨固件打包设置教程](https://github.com/danshui-git/shuoming/blob/master/Amlogic.md)
 
