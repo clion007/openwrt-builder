@@ -1,4 +1,8 @@
 
+<details>
+<summary>🆘点击查看编译教程</summary>
+<br>
+
 [github编译教程](https://github.com/danshui-git/shuoming#readme)
 
 [晶晨固件打包设置教程](https://github.com/danshui-git/shuoming/blob/master/Amlogic.md)
@@ -6,6 +10,10 @@
 [本地Ubuntu一键编译](https://github.com/281677160/bendi)
 
 [本地一键提取.config然后在云编译脚本使用](https://github.com/281677160/bendi)
+
+<br />
+</details>
+
 
 <details>
 <summary>🆙更新说明</summary>
