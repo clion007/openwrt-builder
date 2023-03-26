@@ -1,4 +1,6 @@
 
+- 《[Telegram聊天吹水群](https://t.me/heiheiheio)》
+
 <details>
 <summary>🆘编译教程</summary>
 <br>
@@ -14,6 +16,8 @@
 [本地一键提取.config然后在云编译脚本使用](https://github.com/281677160/bendi)
 
 [在线更新固件插件说明](https://github.com/danshui-git/shuoming/blob/master/%E5%AE%9A%E6%97%B6%E6%9B%B4%E6%96%B0%E6%8F%92%E4%BB%B6.md)
+
+《[Telegram中文设置方法](https://github.com/danshui-git/shuoming/blob/master/tele.md)》
 
 <br />
 </details>
