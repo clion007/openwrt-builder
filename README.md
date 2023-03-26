@@ -9,7 +9,7 @@
 <br />
 <br>
 
-[github actions编译教程](https://github.com/danshui-git/shuoming#readme)
+[github actions编译教程](https://github.com/danshui-git/shuoming#%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B)
 
 [晶晨固件打包设置教程](https://github.com/danshui-git/shuoming/blob/master/Amlogic.md)
 
