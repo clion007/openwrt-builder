@@ -9,15 +9,15 @@
 <br />
 <br>
 
-[github actions编译教程](https://github.com/danshui-git/shuoming#%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B)
+《[github actions编译教程](https://github.com/danshui-git/shuoming#%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B)》
 
-[晶晨固件打包设置教程](https://github.com/danshui-git/shuoming/blob/master/Amlogic.md)
+《[晶晨固件打包设置教程](https://github.com/danshui-git/shuoming/blob/master/Amlogic.md)》
 
-[本地Ubuntu一键编译](https://github.com/281677160/bendi)
+《[本地Ubuntu一键编译](https://github.com/281677160/bendi)》
 
-[本地一键提取.config然后在云编译脚本使用](https://github.com/281677160/bendi)
+《[本地一键提取.config然后在云编译脚本使用](https://github.com/281677160/bendi)》
 
-[在线更新固件插件说明](https://github.com/danshui-git/shuoming/blob/master/%E5%AE%9A%E6%97%B6%E6%9B%B4%E6%96%B0%E6%8F%92%E4%BB%B6.md)
+《[在线更新固件插件说明](https://github.com/danshui-git/shuoming/blob/master/%E5%AE%9A%E6%97%B6%E6%9B%B4%E6%96%B0%E6%8F%92%E4%BB%B6.md)》
 
 《[Telegram中文设置方法](https://github.com/danshui-git/shuoming/blob/master/tele.md)》
 
