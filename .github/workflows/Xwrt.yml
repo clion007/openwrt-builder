@@ -188,8 +188,8 @@ jobs:
       if: env.REPO_TOKEN
       run: |
         cd openwrt
-        source $BUILD_PATH/$DIY_PART_SH
-        source build/${{ env.FOLDER_NAME }}/common.sh && Diy_Publicarea
+        source ${BUILD_PATH}/common.sh && Diy_zdypartsh
+        source ${BUILD_PATH}/common.sh && Diy_Publicarea
         
     - name: 加载源、补丁和files文件夹
       if: env.REPO_TOKEN
