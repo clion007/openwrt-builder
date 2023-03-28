@@ -39,6 +39,12 @@
  2、晶晨系列固件不限制一个源码，理论上可以编译出rootfs.tar.gz包的，应该都可以打包使用，比较常用的有（天灵的openwrt-21.02分支、大雕的master分支、官方的master分支），固件编译跟打包分2次进行，这样免除了打包空间不足，或者编译+打包时间不足的问题，已经编译出了的rootfs.tar.gz可以使用手动启动打包程序，进行多次打包操作
  
  3、luci-theme-argon主题对官方的兼容不太好，有可能使用不了，编译的时候如果有用这个主题，最好把luci-theme-bootstrap主题一起编译，luci-theme-argon主题不能用的时候可以使用SSH工具连接固件后台，然后进入【"/etc/config/luci"】手动切换主题，把【option mediaurlbase '/luci-static/argon'】改成【option mediaurlbase '/luci-static/bootstrap'】保存就好了
+ 
+ 4、luci-app-oscam插件，云编译，编译不成功，云编译的时候切莫选择此插件，本地编译倒是可以编译成功。
+ 
+ 5、luci-app-gost插件有段时间也编译不成功，我找了个比较老的版本，也修改了一下，可以编译成功了，没测试过能不能用，有用这个插件的希望可以反馈一下
+ 
+ 6、大雕源码，有些机型编译增加mac80211启动的时候会编译错误的，可以尝试打开【export Replace_mac80211="1"】，默认0是不使用，改成1的试试，还是编译错误的话，我也无解了，我也是在他源码仓库的issues里面看到有人用官方的编译成功的，我也测试过，是可以编译成功，但是功能还能不能用就不了解了
 
 <br />
 </details>
