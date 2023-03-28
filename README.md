@@ -47,6 +47,8 @@
  6、luci-app-gost插件有段时间也编译不成功，我找了个比较老的版本，也修改了一下，可以编译成功了，没测试过能不能用，有用这个插件的希望可以反馈一下
  
  7、大雕源码，有些机型编译增加mac80211驱动的时候会编译错误的，可以尝试打开【export Replace_mac80211="1"】，默认0是不使用，改成1的试试，还是编译错误的话，我也无解了，我也是在他源码仓库的issues里面看到有人用官方的mac80211替换可以编译成功的，我也测试过，是可以编译成功，但是功能还能不能用就不了解了
+ 
+ 8、官方源码的【master】、【openwrt-21.02】、【openwrt-22.03】分支都增加了luci-app-passwall、luci-app-ssr-plus和luci-app-OpenClash插件，【openwrt-19.07】分支增加luci-app-passwall、luci-app-ssr-plus缺依赖，没搞懂缺啥，有懂增加的说说怎么操作
 
 <br />
 </details>
