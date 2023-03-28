@@ -37,6 +37,8 @@
 1、增加了编译源码的选择，同作者源码的源码分支之间可以自由切换编译
 
  2、晶晨系列固件不限制一个源码，理论上可以编译出rootfs.tar.gz包的，应该都可以打包使用，比较常用的有（天灵的openwrt-21.02分支、大雕的master分支、官方的master分支），固件编译跟打包分2次进行，这样免除了打包空间不足，或者编译+打包时间不足的问题，已经编译出了的rootfs.tar.gz可以使用手动启动打包程序，进行多次打包操作
+ 
+ 3、luci-theme-argon主题对官方的兼容不太好，有可能使用不了，编译的时候如果有用这个主题，最好把luci-theme-bootstrap主题一起编译，luci-theme-argon主题不能用的时候可以使用SSH工具连接固件后台，然后进入【"/etc/config/luci"】手动切换主题，把【option mediaurlbase '/luci-static/argon'】改成【option mediaurlbase '/luci-static/bootstrap'】保存就好了
 
 <br />
 </details>
