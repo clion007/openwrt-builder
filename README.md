@@ -5,8 +5,7 @@
 
 <details>
 <summary>🆘编译教程</summary>
-<br>
-<br />
+
 <br>
 
 《[github actions编译教程](https://github.com/danshui-git/shuoming#%E7%BC%96%E8%AF%91%E6%95%99%E7%A8%8B)》
@@ -28,8 +27,7 @@
 
 <details>
 <summary>🆙更新说明</summary>
-<br>
-<br />
+
 <br>
 
 2022年x月x号，
