@@ -26,16 +26,10 @@ on:
           - 'master'
           - '21.10'
           - '22.03'
-          - 'fix-arm-trusted-firmware-mediatek'
-          - 'fix-kdump'
           - 'pr-fix-nand_do_platform_check'
           - 'master-mt7981'
-          - 'pr-dnsmasq'
-          - 'pr-fix-nand_do_platform_check'
-          - 'pr-ipq40xx-rt-ac42u'
           - 'pr-rm-ax6000'
           - 'pr-wolfssl'
-          - 'switch_ports_status'
       CONFIG_FILE:
         description: '请选择配置文件'
         required: true
