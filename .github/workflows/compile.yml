@@ -5,12 +5,11 @@
 
 name: 编译主程序
 on:
-  workflow_dispatch:
   push:
     branches:
       - main
     paths:
-      - 'build/Lede/relevance/start'
+      - 'bconfig'
 
 env:
   GITHUB_LINK: https://github.com/${{github.repository}}
@@ -44,7 +43,7 @@ jobs:
     - name: 读取脚本设置
       run: |
         cd ${GITHUB_WORKSPACE}
-        git clone https://github.com/281677160/common-main build/common
+        git clone https://github.com/281677160/common build/common
         mv -f build/common/*.sh build/${{matrix.target}}/
         sudo chmod -R +x build
         if [[ -n "${{ github.event.workflow }}" ]]; then
@@ -61,8 +60,8 @@ jobs:
         if [[ -n "${{ github.event.workflow }}" ]]; then
           export CPU_SELECTIOY="$(source "${GITHUB_WORKSPACE}/build/${FOLDER_NAME}/settings.ini" && echo "${CPU_SELECTION}")"
         else
-          export CPU_PASSWORD="1680250553"
-          export CPU_OPTIMIZATION="8370"
+          export CPU_PASSWORD="1680284610"
+          export CPU_OPTIMIZATION="E5"
         fi
         source build/${FOLDER_NAME}/common.sh && CPU_Priority
         

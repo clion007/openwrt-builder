@@ -31,7 +31,7 @@ export Enable_IPV4_function="0"             # 编译IPV4固件(1为启用命令,
 
 # OpenClash
 export OpenClash_branch="master"            # OpenClash代码选择分支（master 或 dev）(填0为不需要此插件)
-export OpenClash_Core="2"                   # 增加OpenClash时,把核心下载好,(填1为下载{dev}单核,填2为下载{dev/meta/premium}三核,填0为不需要核心)
+export OpenClash_Core="1"                   # 增加OpenClash时,把核心下载好,(填1为下载{dev}单核,填2为下载{dev/meta/premium}三核,填0为不需要核心)
 
 # 个性签名,默认增加年月日[$(TZ=UTC-8 date "+%Y.%m.%d")]
 export Customized_Information="$(TZ=UTC-8 date "+%Y.%m.%d")"  # 个性签名,你想写啥就写啥，(填0为不作修改)
@@ -52,7 +52,7 @@ export Disable_53_redirection="0"            # 删除DNS强制重定向53端口�
 export Cancel_running="0"                    # 取消路由器每天跑分任务(个别源码本身不带此功能)(1为启用命令,填0为不作修改)
 
 # 大雕源码替换mac80211源码
-export Replace_mac80211="1"                  # 大雕源码编译mac80211会错误,尝试替换官方的mac80211试试(1为启用命令,填0为不作修改)
+export Replace_mac80211="0"                  # 大雕源码编译mac80211会错误,尝试替换官方的mac80211试试(1为启用命令,填0为不作修改)
 
 
 # 晶晨CPU系列打包固件设置(不懂请看说明)
