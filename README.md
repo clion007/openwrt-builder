@@ -1,6 +1,4 @@
 
-[[Telegram聊天吹水群](https://t.me/heiheiheio)]
-
 
 1、2023年4月1号，把autobuild仓库合拼到build-actions，请别拉取我这个（autobuild）仓库了，这个是我个人使用的
 
