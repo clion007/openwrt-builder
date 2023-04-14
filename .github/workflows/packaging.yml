@@ -58,15 +58,15 @@ on:
     branches:
       - main
     paths:
-      - 'build/Immortalwrt/relevance/Immortalwrtstart'
+      - 'build/Lede/relevance/Ledestart'
 
 env:
   GITHUB_LINK: https://github.com/${{github.repository}}
   GIT_REPOSITORY: ${{github.repository}}
   REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
   TZ: Asia/Shanghai
-  FOLDER_NAME: Immortalwrt
-  SOURCE: Immortalwrt
+  FOLDER_NAME: Lede
+  SOURCE: Lede
 
 jobs:
   build:
