@@ -60,6 +60,9 @@ export rootfs_size="2560"
 export kernel_usage="stable"
 
 
+svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/upx package/upx
+svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/ucl package/ucl
+
 
 # 修改插件名字
 sed -i 's/"aMule设置"/"电驴下载"/g' `egrep "aMule设置" -rl ./`
