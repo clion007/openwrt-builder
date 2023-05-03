@@ -9,7 +9,7 @@ on:
     branches:
       - main
     paths:
-      - 'build/Xwrt/relevance/start'
+      - 'start'
 
 env:
   GITHUB_LINK: https://github.com/${{github.repository}}
@@ -34,7 +34,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [Xwrt]
+        target: [Lede]
 
     steps:    
     - name: 准备结束
@@ -60,7 +60,7 @@ jobs:
         if [[ -n "${{ github.event.workflow }}" ]]; then
           export CPU_SELECTIOY="$(source "${GITHUB_WORKSPACE}/build/${FOLDER_NAME}/settings.ini" && echo "${CPU_SELECTION}")"
         else
-          export CPU_PASSWORD="1683009586"
+          export CPU_PASSWORD="1681640888"
           export CPU_OPTIMIZATION="E5"
         fi
         source build/${FOLDER_NAME}/common.sh && CPU_Priority
@@ -136,11 +136,11 @@ jobs:
       run: |
         cd openwrt
         echo -e "$(nproc) thread compile"
-        make V=s -j$(nproc) || make -j1 V=s
+        make -j$(($(nproc) + 1)) || make -j1 V=s
         echo "date=$(date "+%Y%m%d%H%M%S")" >> ${GITHUB_ENV}
         source ${BUILD_PATH}/common.sh && firmware_jiance
         
-    - name: 打包晶晨系列固件
+    - name: 打包Amlogic、Rockchip系列固件
       if: steps.compile.outcome == 'success' && env.PACKAGING_FIRMWARE == 'true'
       uses: ncipollo/release-action@main
       with:

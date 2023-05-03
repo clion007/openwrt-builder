@@ -60,6 +60,7 @@ export rootfs_size="2560"
 export kernel_usage="stable"
 
 
+
 # 修改插件名字
 sed -i 's/"aMule设置"/"电驴下载"/g' `egrep "aMule设置" -rl ./`
 sed -i 's/"网络存储"/"NAS"/g' `egrep "网络存储" -rl ./`
