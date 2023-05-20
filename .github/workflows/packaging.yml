@@ -73,7 +73,7 @@ on:
     branches:
       - main
     paths:
-      - 'bconfig'
+      - 'build/Lede/relevance/Ledestart'
 
 env:
   GITHUB_LINK: https://github.com/${{github.repository}}
