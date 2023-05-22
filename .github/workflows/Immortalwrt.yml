@@ -26,6 +26,7 @@ on:
           - 'openwrt-21.02'
           - 'openwrt-18.06-k5.4'
           - 'openwrt-18.06'
+          - 'openwrt-23.05'
           - 'master'
       CONFIG_FILE:
         description: '请选择配置文件'
