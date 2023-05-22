@@ -24,6 +24,7 @@ on:
         type: choice
         options:
           - 'openwrt-22.03'
+          - 'openwrt-23.05'
           - 'openwrt-21.02'
           - 'openwrt-19.07'
           - 'master'
