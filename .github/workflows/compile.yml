@@ -47,7 +47,7 @@ jobs:
         mv -f build/common/upgrade.sh build/${{ env.FOLDER_NAME }}/upgrade.sh
         mv -f build/common/xiugai.sh build/${{ env.FOLDER_NAME }}/common.sh
         chmod -R +x *
-        ${GITHUB_WORKSPACE}/build/${FOLDER_NAME}/relevance/settings.ini
+        source ${GITHUB_WORKSPACE}/build/${FOLDER_NAME}/relevance/settings.ini
         source build/${{ env.FOLDER_NAME }}/common.sh && Diy_variable
 
     - name: CPU检测
