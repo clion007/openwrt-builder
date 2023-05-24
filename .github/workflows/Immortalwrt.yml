@@ -151,7 +151,7 @@ jobs:
         export INPUTS_UPDATE_FIRMWARE_ONLINE="${{ github.event.inputs.UPDATE_FIRMWARE_ONLINE }}"
         export INPUTS_PACKAGING_FIRMWARE="${{ github.event.inputs.PACKAGING_FIRMWARE }}"
         export INPUTS_COLLECTED_PACKAGES="${{ github.event.inputs.COLLECTED_PACKAGES }}"
-        source build/${{ env.FOLDER_NAME }}/common.sh && settings_variable
+        source build/${{ env.FOLDER_NAME }}/common.sh && Diy_variable
                 
         
     - name: 部署编译环境
