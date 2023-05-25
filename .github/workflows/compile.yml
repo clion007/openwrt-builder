@@ -52,7 +52,7 @@ jobs:
         else
           source ${GITHUB_WORKSPACE}/build/${FOLDER_NAME}/relevance/settings.ini
         fi
-        source build/${{ env.FOLDER_NAME }}/common.sh && Diy_variable
+        source ${GITHUB_WORKSPACE}/build/${{ env.FOLDER_NAME }}/common.sh && Diy_variable
 
     - name: CPU检测
       run: |
