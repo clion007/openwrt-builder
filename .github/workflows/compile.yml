@@ -52,7 +52,7 @@ jobs:
         else
           source ${GITHUB_WORKSPACE}/build/${FOLDER_NAME}/relevance/settings.ini
         fi
-        source ${GITHUB_WORKSPACE}/build/${{ env.FOLDER_NAME }}/common.sh && Diy_variable
+        source ${GITHUB_WORKSPACE}/build/${{ env.FOLDER_NAME }}/common.sh && Diy_menu1
 
     - name: CPU检测
       run: |
@@ -91,18 +91,17 @@ jobs:
     - name: 加载diy-part.sh文件
       run: |
         cd openwrt
-        source ${BUILD_PATH}/common.sh && Diy_zdypartsh
-        source ${BUILD_PATH}/common.sh && Diy_Publicarea
+        source ${BUILD_PATH}/common.sh && Diy_menu4
         
     - name: 加载源、补丁和files文件夹
       run: |
         cd openwrt
-        source ${BUILD_PATH}/common.sh && Diy_menu4
+        source ${BUILD_PATH}/common.sh && Diy_menu5
 
     - name: 生成"${{matrix.target}}"配置文件
       run: |
         cd openwrt
-        source ${BUILD_PATH}/common.sh && Diy_menu5
+        source ${BUILD_PATH}/common.sh && Diy_menu6
         
     - name: 编译信息
       continue-on-error: true
