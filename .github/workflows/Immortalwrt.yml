@@ -39,13 +39,13 @@ on:
       CPU_SELECTION:
         description: 'CPU优选,增加编译速度'
         required: true
-        default: '弃用E5系列'
+        default: '默认'
         type: choice
         options:
-          - '弃用E5系列'
-          - '选择8370C'
-          - '选择8272CL'
-          - '选择8171M'
+          - '默认'
+          - '8370C'
+          - '8272CL'
+          - '8171M'
       INFORMATION_NOTICE:
         description: 'Telegram或pushplus信息通知'
         required: true
