@@ -137,7 +137,7 @@ jobs:
         git clone https://github.com/281677160/common build/common
         mv -f build/common/upgrade.sh build/${{ env.FOLDER_NAME }}/upgrade.sh
         mv -f build/common/xiugai.sh build/${{ env.FOLDER_NAME }}/common.sh
-        chmod -R +x *
+        chmod -R +x build
         source ${GITHUB_WORKSPACE}/build/${{ env.FOLDER_NAME }}/settings.ini
         export INPUTS_REPO_BRANCH="${{ github.event.inputs.REPO_BRANCH }}"
         export INPUTS_CONFIG_FILE="${{ github.event.inputs.CONFIG_FILE }}"
@@ -170,7 +170,7 @@ jobs:
       run: |
         git clone -b "${REPO_BRANCH}" --single-branch "${REPO_URL}" openwrt
         ln -sf /${{ env.DIY_WORK }}/openwrt ${GITHUB_WORKSPACE}/openwrt
-        for X in $(ls -1 ${GITHUB_WORKSPACE} |grep -v "openwrt"); do mv -f "${GITHUB_WORKSPACE}/${X}" "${HOME_PATH}"; done
+        for X in $(ls -1 ${GITHUB_WORKSPACE} |grep -v 'openwrt'); do cp -Rf ${GITHUB_WORKSPACE}/${X} ${HOME_PATH}; done
     
     - name: 公 告
       if: env.REPO_TOKEN
