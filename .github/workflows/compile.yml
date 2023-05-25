@@ -47,7 +47,11 @@ jobs:
         mv -f build/common/upgrade.sh build/${{ env.FOLDER_NAME }}/upgrade.sh
         mv -f build/common/xiugai.sh build/${{ env.FOLDER_NAME }}/common.sh
         chmod -R +x *
-        source ${GITHUB_WORKSPACE}/build/${FOLDER_NAME}/relevance/settings.ini
+        if [[ -n "${{ github.event.workflow }}" ]] || [[ -n "${{ github.event.schedule }}" ]]; then
+          source ${GITHUB_WORKSPACE}/build/${FOLDER_NAME}/settings.ini
+        else
+          source ${GITHUB_WORKSPACE}/build/${FOLDER_NAME}/relevance/settings.ini
+        fi
         source build/${{ env.FOLDER_NAME }}/common.sh && Diy_variable
 
     - name: CPU检测
