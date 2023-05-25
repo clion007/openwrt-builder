@@ -199,7 +199,7 @@ jobs:
         source ${BUILD_PATH}/common.sh && Diy_menu4
     
     - name: SSH远程连接（制作.config配置文件）
-      if: github.event.inputs.SSH_ACTION == 'true'
+      if: env.SSH_ACTION == 'true'
       uses: danshui-git/debugger-action@main
 
     - name: 生成"${{ matrix.target }}"配置文件
