@@ -175,8 +175,7 @@ jobs:
       if: env.REPO_TOKEN
       run: |
         cd ${GITHUB_WORKSPACE}
-        cp -Rf `find ./ -maxdepth 1 -type d ! -path './openwrt' ! -path './'` openwrt
-        source ${BUILD_PATH}/common.sh && Diy_checkout
+        source build/${{ env.FOLDER_NAME }}/common.sh && Diy_checkout
  
     - name: 增加插件源
       if: env.REPO_TOKEN
