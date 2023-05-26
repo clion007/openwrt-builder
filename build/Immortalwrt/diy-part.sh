@@ -43,7 +43,7 @@ export Replace_Kernel="0"                    # 更换内核版本,在对应源�
 # 设置免密码登录(个别源码本身就没密码的)
 export Password_free_login="1"               # 设置首次登录后台密码为空（进入openwrt后自行修改密码）(1为启用命令,填0为不作修改)
 
-# 增加AdGuardHome插件时把核心一起下载好
+# 增加AdGuardHome插件和AdGuardHome核心
 export AdGuardHome_Core="1"                  # 开启此选项的话,会自动编译AdGuardHome和AdGuardHome核心,需要注意的是一个核心20多MB的,小闪存机子搞不来(1为启用命令,填0为不需要核心)
 
 # 其他
