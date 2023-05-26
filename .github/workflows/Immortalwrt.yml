@@ -134,6 +134,8 @@ jobs:
     - name: 读取脚本设置
       run: |
         cd ${GITHUB_WORKSPACE}
+        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --global user.name "github-actions[bot]"
         bash <(curl -fsSL https://raw.githubusercontent.com/281677160/common/main/custom/jiance.sh)
         git clone https://github.com/281677160/common build/common
         mv -f build/common/*.sh build/${{ env.FOLDER_NAME }}/
