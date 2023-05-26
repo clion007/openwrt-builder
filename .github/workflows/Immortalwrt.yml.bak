@@ -13,20 +13,20 @@
 #
 #
 
-name: Official-官方
+name: Immortalwrt-天灵
 on:
   workflow_dispatch:
     inputs:
       REPO_BRANCH:
-        description: '（官方源码）请选择源码分支'
+        description: '（天灵源码）请选择源码分支'
         required: true
-        default: 'openwrt-22.03'
+        default: 'openwrt-21.02'
         type: choice
         options:
           - 'openwrt-23.05'
-          - 'openwrt-22.03'
           - 'openwrt-21.02'
-          - 'openwrt-19.07'
+          - 'openwrt-18.06'
+          - 'openwrt-18.06-k5.4'
           - 'master'
       CONFIG_FILE:
         description: '请选择配置文件'
@@ -34,10 +34,8 @@ on:
         default: 'x86_64'
         type: choice
         options:
-          - '1907-phicomm-k3'
-          - 'aarch64'
-          - 'phicomm_k3'
           - 'x86_64'
+          - 'aarch64'
       CPU_SELECTION:
         description: 'CPU优选,增加编译速度'
         required: true
@@ -116,9 +114,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [Official]
+        target: [Immortalwrt]
         
-        # 请勿对 target: [Official] 做任何修改
+        # 请勿对 target: [Immortalwrt] 做任何修改
         
     steps:
     - name: 密匙检测（密匙为空则退出）
@@ -136,6 +134,9 @@ jobs:
     - name: 读取脚本设置
       run: |
         cd ${GITHUB_WORKSPACE}
+        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --global user.name "github-actions[bot]"
+        bash <(curl -fsSL https://raw.githubusercontent.com/281677160/common/main/custom/jiance.sh)
         git clone https://github.com/281677160/common build/common
         mv -f build/common/*.sh build/${{ env.FOLDER_NAME }}/
         chmod -R +x build
