@@ -13,7 +13,7 @@
 #
 #
 
-name: Lede-x86
+name: Lede-x861
 on:
   workflow_dispatch:
     inputs:
