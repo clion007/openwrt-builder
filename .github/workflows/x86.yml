@@ -13,7 +13,7 @@
 #
 #
 
-name: Lede-大雕
+name: Lede-x86
 on:
   workflow_dispatch:
     inputs:
@@ -120,9 +120,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [Lede]
+        target: [x86]
         
-        # 请勿对 target: [Lede] 做任何修改
+        # 请勿对 target: [x86] 做任何修改
         
     steps:
     - name: 密匙检测（密匙为空则退出）
