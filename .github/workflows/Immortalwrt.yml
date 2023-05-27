@@ -134,8 +134,6 @@ jobs:
     - name: 读取脚本设置
       run: |
         cd ${GITHUB_WORKSPACE}
-        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-        git config --global user.name "github-actions[bot]"
         git clone https://github.com/281677160/common build/common
         mv -f build/common/upgrade.sh build/${{ env.FOLDER_NAME }}/upgrade.sh
         mv -f build/common/xiugai.sh build/${{ env.FOLDER_NAME }}/common.sh
