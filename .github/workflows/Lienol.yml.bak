@@ -13,18 +13,21 @@
 #
 #
 
-name: Lede-大雕
+name: Lienol-源码
 on:
   workflow_dispatch:
     inputs:
       REPO_BRANCH:
-        description: '（大雕源码）请选择源码分支'
+        description: '（Lienol源码）请选择源码分支'
         required: true
-        default: 'master'
+        default: '19.07'
         type: choice
         options:
+          - '22.03'
+          - '21.02'
+          - '19.07'
           - 'master'
-          - 'gl-ax1800'
+          - '19.07-test'
       CONFIG_FILE:
         description: '请选择配置文件'
         required: true
@@ -32,16 +35,7 @@ on:
         type: choice
         options:
           - 'aarch64'
-          - 'asus_rt-acrh17'
-          - 'd-team_newifi-d2'
-          - 'p2w_r619ac-128m'
-          - 'phicomm_k2p'
-          - 'x86_32'
           - 'x86_64'
-          - 'xiaomi_mi-router-4a-gigabit'
-          - 'xiaomi_redmi-router-ac2100'
-          - 'xiaomi_redmi-router-ax6s'
-          - 'xiaoyu_xy-c5'
       CPU_SELECTION:
         description: 'CPU优选,增加编译速度'
         required: true
@@ -95,7 +89,7 @@ on:
 
 # 定时触发开启开始编译(把下面两个#去掉开启,时间设置请看定时开启编译说明)
 #  schedule:
-#   - cron: 35 4 * * *
+#   - cron: 35 18 * * *
 
 env:
   GITHUB_LINK: https://github.com/${{github.repository}}
@@ -120,9 +114,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [Lede]
+        target: [Lienol]
         
-        # 请勿对 target: [Lede] 做任何修改
+        # 请勿对 target: [Lienol] 做任何修改
         
     steps:
     - name: 密匙检测（密匙为空则退出）
@@ -135,7 +129,7 @@ jobs:
         fi
     
     - name: 准备结束
-      uses: actions/checkout@v3  
+      uses: actions/checkout@v3
 
     - name: 读取脚本设置
       run: |
@@ -156,7 +150,6 @@ jobs:
         export INPUTS_CPU_SELECTION="${{ github.event.inputs.CPU_SELECTION }}"
         source build/${{ env.FOLDER_NAME }}/common.sh && settings_variable
         source build/${{ env.FOLDER_NAME }}/common.sh && Diy_menu1
-        echo "${{ github.event.schedule }}"
         
     - name: 部署编译环境
       env:
@@ -170,7 +163,7 @@ jobs:
         git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --global user.name "github-actions[bot]"
     
-    - name: 下载"${{ matrix.target }}"源码
+    - name: 下载"${{ matrix.target }}-${{ github.event.inputs.REPO_BRANCH }}"源码
       working-directory: /${{ env.DIY_WORK }}
       run: |
         git clone -b "${REPO_BRANCH}" --single-branch "${REPO_URL}" openwrt
@@ -270,4 +263,3 @@ jobs:
             curl -k --data token="${{ secrets.PUSH_PLUS_TOKEN }}" --data title="开始编译【${{matrix.target}}】" --data "content=🎉 主人💕：您的编译脚本成功触发【${{matrix.target}}】文件夹编译【${REPO_BRANCH}分支的${{env.TARGET_PROFILE}}】固件中,请耐心等待...... 😋(${{env.WAREHOUSE_MAN}}仓库的#${{env.RUN_NUMBER}}号)！($(date +%Y年%m月%d号%H时%M分))💐" "http://www.pushplus.plus/send"
           fi
         fi
-
