@@ -141,8 +141,7 @@ jobs:
       run: |
         cd ${GITHUB_WORKSPACE}
         git clone https://github.com/281677160/common build/common
-        mv -f build/common/upgrade.sh build/${{ env.FOLDER_NAME }}/upgrade.sh
-        mv -f build/common/xiugai.sh build/${{ env.FOLDER_NAME }}/common.sh
+        mv -f build/common/*.sh build/${{ env.FOLDER_NAME }}/
         chmod -R +x build
         export SOURCE_CODE="$(source "build/${{ matrix.target }}/settings.ini" && echo ${SOURCE_CODE})"
         export INPUTS_INFORMATION_NOTICE="${{ github.event.inputs.INFORMATION_NOTICE }}"

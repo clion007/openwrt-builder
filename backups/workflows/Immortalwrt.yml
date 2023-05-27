@@ -89,7 +89,7 @@ on:
 
 # 定时触发开启开始编译(把下面两个#去掉开启,时间设置请看定时开启编译说明)
 #  schedule:
-#   - cron: 10 16 * * *
+#   - cron: 35 18 * * *
 
 env:
   GITHUB_LINK: https://github.com/${{github.repository}}
@@ -134,9 +134,10 @@ jobs:
     - name: 读取脚本设置
       run: |
         cd ${GITHUB_WORKSPACE}
-        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-        git config --global user.name "github-actions[bot]"
-        bash <(curl -fsSL https://raw.githubusercontent.com/281677160/common/main/custom/jiance.sh)
+        git clone https://github.com/281677160/common build/common
+        mv -f build/common/upgrade.sh build/${{ env.FOLDER_NAME }}/upgrade.sh
+        mv -f build/common/xiugai.sh build/${{ env.FOLDER_NAME }}/common.sh
+        chmod -R +x build
         export SOURCE_CODE="$(source "build/${{ matrix.target }}/settings.ini" && echo ${SOURCE_CODE})"
         export INPUTS_INFORMATION_NOTICE="${{ github.event.inputs.INFORMATION_NOTICE }}"
         export INPUTS_REPO_BRANCH="${{ github.event.inputs.REPO_BRANCH }}"
