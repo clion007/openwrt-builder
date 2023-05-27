@@ -9,7 +9,7 @@ on:
     branches:
       - main
     paths:
-      - 'start'
+      - 'build/Immortalwrt/relevance/start'
 
 env:
   GITHUB_LINK: https://github.com/${{github.repository}}
@@ -34,7 +34,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [Lede]
+        target: [Immortalwrt]
 
     steps:    
     - name: 准备结束
@@ -44,25 +44,20 @@ jobs:
       run: |
         cd ${GITHUB_WORKSPACE}
         git clone https://github.com/281677160/common build/common
-        mv -f build/common/*.sh build/${{matrix.target}}/
-        sudo chmod -R +x build
-        if [[ -n "${{ github.event.workflow }}" ]]; then
-          export Manually_Run="1"
-          source build/${{matrix.target}}/common.sh && Diy_menu1
+        mv -f build/common/upgrade.sh build/${{ env.FOLDER_NAME }}/upgrade.sh
+        mv -f build/common/xiugai.sh build/${{ env.FOLDER_NAME }}/common.sh
+        chmod -R +x build
+        if [[ -n "${{ github.event.workflow }}" ]] || [[ -n "${{ github.event.schedule }}" ]]; then
+          source ${GITHUB_WORKSPACE}/build/${FOLDER_NAME}/settings.ini
         else
-          source build/${{matrix.target}}/common.sh && Diy_menu1
+          source ${GITHUB_WORKSPACE}/build/${FOLDER_NAME}/relevance/settings.ini
         fi
+        source ${GITHUB_WORKSPACE}/build/${{ env.FOLDER_NAME }}/common.sh && Diy_menu1
 
     - name: CPU检测
       run: |
         git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --global user.name "github-actions[bot]"
-        if [[ -n "${{ github.event.workflow }}" ]]; then
-          export CPU_SELECTIOY="$(source "${GITHUB_WORKSPACE}/build/${FOLDER_NAME}/settings.ini" && echo "${CPU_SELECTION}")"
-        else
-          export CPU_PASSWORD="1681640888"
-          export CPU_OPTIMIZATION="E5"
-        fi
         source build/${FOLDER_NAME}/common.sh && CPU_Priority
         
     - name: 部署编译环境
@@ -79,12 +74,11 @@ jobs:
       run: |
         git clone -b "${REPO_BRANCH}" --single-branch "${REPO_URL}" openwrt
         ln -sf /${{ env.DIY_WORK }}/openwrt ${GITHUB_WORKSPACE}/openwrt
-        source ${GITHUB_WORKSPACE}/build/${{matrix.target}}/common.sh && Diy_checkout
+        cp -Rf ${GITHUB_WORKSPACE}/build ${GITHUB_WORKSPACE}/openwrt/build
+        chmod -R +x ${GITHUB_WORKSPACE}/openwrt/build
     
     - name: 公 告
       run: |
-        cd ${GITHUB_WORKSPACE}
-        cp -Rf `find ./ -maxdepth 1 -type d ! -path './openwrt' ! -path './'` openwrt
         cd openwrt
         source ${BUILD_PATH}/common.sh && Diy_menu2
  
@@ -96,18 +90,17 @@ jobs:
     - name: 加载diy-part.sh文件
       run: |
         cd openwrt
-        source ${BUILD_PATH}/common.sh && Diy_zdypartsh
-        source ${BUILD_PATH}/common.sh && Diy_Publicarea
+        source ${BUILD_PATH}/common.sh && Diy_menu4
         
     - name: 加载源、补丁和files文件夹
       run: |
         cd openwrt
-        source ${BUILD_PATH}/common.sh && Diy_menu4
+        source ${BUILD_PATH}/common.sh && Diy_menu5
 
     - name: 生成"${{matrix.target}}"配置文件
       run: |
         cd openwrt
-        source ${BUILD_PATH}/common.sh && Diy_menu5
+        source ${BUILD_PATH}/common.sh && Diy_menu6
         
     - name: 编译信息
       continue-on-error: true
