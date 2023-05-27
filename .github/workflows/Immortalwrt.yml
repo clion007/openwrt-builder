@@ -18,7 +18,7 @@ on:
   workflow_dispatch:
     inputs:
       REPO_BRANCH:
-        description: '（天灵源码）请选择源码分支'
+        description: '天灵源码-请选择分支'
         required: true
         default: 'openwrt-21.02'
         type: choice
@@ -29,7 +29,7 @@ on:
           - 'openwrt-18.06-k5.4'
           - 'master'
       CONFIG_FILE:
-        description: '请选择配置文件'
+        description: '请选择[seed文件夹内]的配置文件'
         required: true
         default: 'x86_64'
         type: choice
@@ -39,13 +39,13 @@ on:
       CPU_SELECTION:
         description: 'CPU优选,增加编译速度'
         required: true
-        default: '弃用E5系列'
+        default: '默认'
         type: choice
         options:
-          - '弃用E5系列'
-          - '选择8370C'
-          - '选择8272CL'
-          - '选择8171M'
+          - '默认'
+          - '8370C'
+          - '8272CL'
+          - '8171M'
       INFORMATION_NOTICE:
         description: 'Telegram或pushplus信息通知'
         required: true
@@ -88,8 +88,8 @@ on:
 
 
 # 定时触发开启开始编译(把下面两个#去掉开启,时间设置请看定时开启编译说明)
-#  schedule:
-#   - cron: 35 18 * * *
+  schedule:
+   - cron: 22 18 * * *
 
 env:
   GITHUB_LINK: https://github.com/${{github.repository}}
@@ -134,22 +134,26 @@ jobs:
     - name: 读取脚本设置
       run: |
         cd ${GITHUB_WORKSPACE}
+        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --global user.name "github-actions[bot]"
         git clone https://github.com/281677160/common build/common
-        mv -f build/common/*.sh build/${{ env.FOLDER_NAME }}/
+        mv -f build/common/upgrade.sh build/${{ env.FOLDER_NAME }}/upgrade.sh
+        mv -f build/common/xiugai.sh build/${{ env.FOLDER_NAME }}/common.sh
         chmod -R +x build
-        export SOURCE_CODE="$(source "build/${{ matrix.target }}/settings.ini" && echo ${SOURCE_CODE})"
-        export INPUTS_INFORMATION_NOTICE="${{ github.event.inputs.INFORMATION_NOTICE }}"
+        source ${GITHUB_WORKSPACE}/build/${{ env.FOLDER_NAME }}/settings.ini
         export INPUTS_REPO_BRANCH="${{ github.event.inputs.REPO_BRANCH }}"
         export INPUTS_CONFIG_FILE="${{ github.event.inputs.CONFIG_FILE }}"
+        export INPUTS_CPU_SELECTION="${{ github.event.inputs.CPU_SELECTION }}"
+        export INPUTS_INFORMATION_NOTICE="${{ github.event.inputs.INFORMATION_NOTICE }}"
+        export INPUTS_SSH_ACTION="${{ github.event.inputs.SSH_ACTION }}"
         export INPUTS_UPLOAD_FIRMWARE="${{ github.event.inputs.UPLOAD_FIRMWARE }}"
         export INPUTS_UPLOAD_RELEASE="${{ github.event.inputs.UPLOAD_RELEASE }}"
         export INPUTS_CACHEWRTBUILD_SWITCH="${{ github.event.inputs.CACHEWRTBUILD_SWITCH }}"
         export INPUTS_UPDATE_FIRMWARE_ONLINE="${{ github.event.inputs.UPDATE_FIRMWARE_ONLINE }}"
         export INPUTS_PACKAGING_FIRMWARE="${{ github.event.inputs.PACKAGING_FIRMWARE }}"
         export INPUTS_COLLECTED_PACKAGES="${{ github.event.inputs.COLLECTED_PACKAGES }}"
-        export INPUTS_CPU_SELECTION="${{ github.event.inputs.CPU_SELECTION }}"
-        source build/${{ env.FOLDER_NAME }}/common.sh && settings_variable
         source build/${{ env.FOLDER_NAME }}/common.sh && Diy_menu1
+                
         
     - name: 部署编译环境
       env:
@@ -160,25 +164,23 @@ jobs:
         sudo timedatectl set-timezone "$TZ"
         sudo mkdir -p /${{ env.DIY_WORK }}
         sudo chown $USER:$GROUPS /${{ env.DIY_WORK }}
-        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-        git config --global user.name "github-actions[bot]"
     
     - name: 下载"${{ matrix.target }}-${{ github.event.inputs.REPO_BRANCH }}"源码
       working-directory: /${{ env.DIY_WORK }}
       run: |
         git clone -b "${REPO_BRANCH}" --single-branch "${REPO_URL}" openwrt
         ln -sf /${{ env.DIY_WORK }}/openwrt ${GITHUB_WORKSPACE}/openwrt
-        source ${GITHUB_WORKSPACE}/build/${{ env.FOLDER_NAME }}/common.sh && Diy_checkout
+        cp -Rf ${GITHUB_WORKSPACE}/build ${GITHUB_WORKSPACE}/openwrt/build
+        chmod -R +x ${GITHUB_WORKSPACE}/openwrt/build
     
     - name: 公 告
       if: env.REPO_TOKEN
       run: |
         cd ${GITHUB_WORKSPACE}
-        cp -Rf `find ./ -maxdepth 1 -type d ! -path './openwrt' ! -path './'` openwrt
         cd openwrt
-        source build/${{ env.FOLDER_NAME }}/common.sh && Diy_menu2
+        source ${BUILD_PATH}/common.sh && Diy_menu2
  
-    - name: 增加插件源
+    - name: 加载feeds和增加插件源
       if: env.REPO_TOKEN
       run: |
         cd openwrt
@@ -188,17 +190,16 @@ jobs:
       if: env.REPO_TOKEN
       run: |
         cd openwrt
-        source ${BUILD_PATH}/common.sh && Diy_zdypartsh
-        source ${BUILD_PATH}/common.sh && Diy_Publicarea
+        source ${BUILD_PATH}/common.sh && Diy_menu4
         
-    - name: 加载源、补丁和files文件夹
+    - name: 安装feeds
       if: env.REPO_TOKEN
       run: |
         cd openwrt
-        source ${BUILD_PATH}/common.sh && Diy_menu4
+        source ${BUILD_PATH}/common.sh && Diy_menu5
     
     - name: SSH远程连接（制作.config配置文件）
-      if: github.event.inputs.SSH_ACTION == 'true'
+      if: env.SSH_ACTION == 'true'
       uses: danshui-git/debugger-action@main
 
     - name: 生成"${{ matrix.target }}"配置文件
@@ -206,7 +207,7 @@ jobs:
       id: compile
       run: |
         cd openwrt
-        source ${BUILD_PATH}/common.sh && Diy_menu5
+        source ${BUILD_PATH}/common.sh && Diy_menu6
         
     - name: 上传.config配置文件在 github actions
       if: steps.compile.outcome == 'success'
