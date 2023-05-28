@@ -73,7 +73,7 @@ on:
       UPLOAD_WETRANSFER:
         description: '上传固件到到 WeTransfer'
         required: false
-        default: 'true'
+        default: 'false'
         type: boolean
       CACHEWRTBUILD_SWITCH:
         description: '缓存加速编译'
@@ -81,7 +81,7 @@ on:
         default: 'true'
         type: boolean
       UPDATE_FIRMWARE_ONLINE:
-        description: '增加在线更新固件功能/打包Amlogic_Rockchip系列固件'
+        description: '增加在线更新固件功能 / 打包Amlogic_Rockchip系列固件'
         required: false
         default: 'true'
         type: boolean
