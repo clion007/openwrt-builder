@@ -56,7 +56,7 @@ on:
           - 'Telegram'
           - 'pushplus'
       SSH_ACTION:
-        description: 'SSH远程连接（make menuconfig）'
+        description: 'SSH远程配置固件'
         required: false
         default: 'false'
         type: boolean
@@ -164,7 +164,8 @@ jobs:
       run: |
         git clone -b "${REPO_BRANCH}" --single-branch "${REPO_URL}" openwrt
         ln -sf /${{ env.DIY_WORK }}/openwrt ${GITHUB_WORKSPACE}/openwrt
-        cp -Rf `find ${GITHUB_WORKSPACE}/ -maxdepth 1 -type d ! -path '${GITHUB_WORKSPACE}/openwrt' ! -path '${GITHUB_WORKSPACE}/'` openwrt
+        cp -Rf ${GITHUB_WORKSPACE}/build ${GITHUB_WORKSPACE}/openwrt/build
+        chmod -R +x ${GITHUB_WORKSPACE}/openwrt/build
     
     - name: 公 告
       if: env.REPO_TOKEN
