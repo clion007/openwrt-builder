@@ -6,7 +6,7 @@
 # REPO_TOKEN密匙制作教程：https://git.io/jm.md
 #
 
-name: 在[build]文件夹里面创建文件夹
+name: 创建
 on:
   workflow_dispatch:
     inputs:
@@ -61,7 +61,7 @@ jobs:
         echo "inputs_establish_name=${{ inputs.establish_name }}" >> ${GITHUB_ENV}
         
     - name: 创建文件夹
-      if: env.REPO_TOKEN  && github.event.inputs.Establish == 'true'
+      if: env.REPO_TOKEN
       run: |
         cd $GITHUB_WORKSPACE
         git clone -b main https://github.com/281677160/build-actions shangyou
