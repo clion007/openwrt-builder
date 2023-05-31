@@ -6,30 +6,10 @@
 # REPO_TOKEN密匙制作教程：https://git.io/jm.md
 #
 
-name: 同步,创建,删除
+name: 在[build]文件夹里面创建文件夹
 on:
   workflow_dispatch:
     inputs:
-      Synchro:
-        description: '===同步上游仓库==='
-        required: true
-        default: 'true'
-        type: boolean
-      fork:
-        description: '请选择同步选项'
-        required: true
-        default: '单文件同步,带备份'
-        type: choice
-        options:
-          - '单文件同步,带备份'
-          - '单文件同步,不要备份'
-          - '不同步上游仓库,单纯删除仓库的.bak备份文件'
-          - '拉取整个上游仓库覆盖您现在的仓库(无备份)'
-      Establish:
-        description: '===在build文件夹创建机型文件夹==='
-        required: false
-        default: 'false'
-        type: boolean
       establish_sample:
         description: '请选择创建文件夹的源码'
         required: false
@@ -43,16 +23,7 @@ on:
           - 'Xwrt'
       establish_name:
         description: '输入您需要创建的文件夹名称'
-        required: false
-        default: ''
-      Deletefile:
-        description: '===删除build里面的文件夹==='
-        required: false
-        default: 'false'
-        type: boolean
-      Deletefile_name:
-        description: '请输入要删除的文件夹名称,一次删除多个请用英文逗号分开'
-        required: false
+        required: true
         default: ''
 env:
   REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
@@ -62,7 +33,7 @@ env:
 
 jobs:
   build:
-    name: 启动"同步,创建,删除"程序
+    name: 在[build]文件夹里面创建文件夹
     runs-on: ubuntu-22.04
     if: ${{ github.event.repository.owner.id }} == ${{ github.event.sender.id }}
     
@@ -86,81 +57,33 @@ jobs:
         sudo timedatectl set-timezone "$TZ"
         git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --global user.name "github-actions[bot]"
-        wget -q https://raw.githubusercontent.com/281677160/common/main/bendi/tongbu.sh -O ${GITHUB_WORKSPACE}/tongbu.sh
-        if [[ $? -ne 0 ]]; then
-          curl -fsSL https://raw.githubusercontent.com/281677160/common/main/bendi/tongbu.sh -o ${GITHUB_WORKSPACE}/tongbu.sh
-        fi
-        if [[ `grep -c "shangyou" "${GITHUB_WORKSPACE}/tongbu.sh"` -eq '0' ]]; then
-          echo "应用文件下载失败"
+        echo "inputs_establish_sample=${{ inputs.establish_sample }}" >> ${GITHUB_ENV}
+        echo "inputs_establish_name=${{ inputs.establish_name }}" >> ${GITHUB_ENV}
+        
+    - name: 创建文件夹
+      if: env.REPO_TOKEN  && github.event.inputs.Establish == 'true'
+      run: |
+        cd $GITHUB_WORKSPACE
+        git clone -b main https://github.com/281677160/build-actions shangyou
+        git clone -b main https://github.com/${{github.repository}} repogx
+        if [[ -d "repogx/build/${{ inputs.establish_name }}" ]]; then
+          echo "${{ inputs.establish_name }}已存在，无法继续创建"
           exit 1
         else
-          sudo chmod +x ${GITHUB_WORKSPACE}/tongbu.sh
+          cp -Rf shangyou/build/devices repogx/build/${{ inputs.establish_name }}
+          cp -Rf .github/workflows/build-openwrt.yml repogx/.github/workflows/${{ inputs.establish_name }}.yml
+          export X="repogx/.github/workflows/${{ inputs.establish_name }}.yml"
+          export FOLDER_NE1="target: \\[.*\\]"
+          export FOLDER_NE2="target: \\[${{ inputs.establish_name }}\\]"
+          sed -i "s?${FOLDER_NE1}?${FOLDER_NE2}?g" "${X}"
+          export yml_name1="$(grep 'name:' "${X}" |sed 's/^[ ]*//g' |grep -v '^#\|^-' |awk 'NR==1')"
+          export yml_name2="name: ${{ inputs.establish_name }}"
+          sed -i "s?${yml_name1}?${yml_name2}?g" "${X}"
+          echo "${{ inputs.establish_name }}文件夹创建完成"
         fi
-        
-        if [[ "${{ inputs.Synchro }}" == "true" ]]; then
-          if [[ "${{ inputs.fork }}" == '不同步上游仓库,单纯删除仓库的.bak备份文件' ]]; then
-            echo "again-fork=1" >> ${GITHUB_ENV}
-          elif [[ "${{ inputs.fork }}" == '单文件同步,带备份' ]]; then
-            echo "again-fork=2" >> ${GITHUB_ENV}
-          elif [[ "${{ inputs.fork }}" == '单文件同步,不要备份' ]]; then
-            echo "again-fork=3" >> ${GITHUB_ENV}
-          elif [[ "${{ inputs.fork }}" == '拉取整个上游仓库覆盖您现在的仓库(无备份)' ]]; then
-            echo "again-fork=4" >> ${GITHUB_ENV}
-          fi
-        fi
-        
-        if [[ "${{ inputs.Establish }}" == "true" ]]; then
-          if [[ -n "${{ inputs.establish_sample }}" ]] && [[ -n "${{ inputs.establish_name }}" ]]; then
-            echo "inputs_establish_sample=${{ inputs.establish_sample }}" >> ${GITHUB_ENV}
-            echo "inputs_establish_name=${{ inputs.establish_name }}" >> ${GITHUB_ENV}
-          else
-            echo "您勾选了在build文件夹创建机型文件夹，缺少您需要创建的文件夹名称"
-            exit 1
-          fi
-        fi
-        
-        if [[ "${{ inputs.Deletefile }}" == "true" ]]; then
-          if [[ -n "${{ inputs.Deletefile_name }}" ]]; then
-            echo "inputs_Deletefile_name=${{ inputs.Deletefile_name }}" >> ${GITHUB_ENV}
-          else
-            echo "您勾选了删除build里面的文件夹，但缺少删除文件的名称"
-            exit 1
-          fi
-        fi
-        
-    - name: 同步更新上游仓库
-      if: env.REPO_TOKEN  && github.event.inputs.Synchro == 'true'
-      run: |
-        cd ${GITHUB_WORKSPACE}
-        if [[ "${{ env.again-fork }}" == "1" ]]; then
-          echo "不同步,单纯消灭仓库的.bak备份文件"
-          source ${GITHUB_WORKSPACE}/tongbu.sh && menu1
-        elif [[ "${{ env.again-fork }}" == "2" ]]; then
-          echo "单文件同步,带备份"
-          source ${GITHUB_WORKSPACE}/tongbu.sh && menu2
-        elif [[ "${{ env.again-fork }}" == "3" ]]; then
-          echo "单文件同步,不要备份"
-          source ${GITHUB_WORKSPACE}/tongbu.sh && menu3
-        elif [[ "${{ env.again-fork }}" == "4" ]]; then
-          echo "拉取整个上游仓库覆盖您现在的仓库"
-          source ${GITHUB_WORKSPACE}/tongbu.sh && menu4
-        else
-          echo "未知错误,关闭同步更新上游仓库"
-          exit 1
-        fi
-        
-    - name: 建立机型文件夹
-      if: env.REPO_TOKEN && github.event.inputs.Establish == 'true'
-      run: |
-        source ${GITHUB_WORKSPACE}/tongbu.sh && github_establish
-        
-    - name: 删除不需要的机型文件夹
-      if: env.REPO_TOKEN && github.event.inputs.Deletefile == 'true'
-      run: |
-        source ${GITHUB_WORKSPACE}/tongbu.sh && github_deletefile
         
     - name: 执行程序
-      if: env.REPO_TOKEN && github.event.inputs.Deletefile == 'true' || github.event.inputs.Establish == 'true' || github.event.inputs.Synchro == 'true'
+      if: env.REPO_TOKEN
       run: |
         cd ${GITHUB_WORKSPACE}/repogx
         git add .
