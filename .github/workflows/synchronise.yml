@@ -69,7 +69,7 @@ jobs:
           exit 1
         else
           cp -Rf shangyou/build/${{ inputs.establish_sample }} repogx/build/${{ inputs.establish_name }}
-          cp -Rf .github/workflows/build-openwrt.yml repogx/.github/workflows/${{ inputs.establish_name }}.yml
+          cp -Rf .github/workflows/${{ inputs.establish_sample }}.yml repogx/.github/workflows/${{ inputs.establish_name }}.yml
           export X="repogx/.github/workflows/${{ inputs.establish_name }}.yml"
           export FOLDER_NE1="target: \\[.*\\]"
           export FOLDER_NE2="target: \\[${{ inputs.establish_name }}\\]"
