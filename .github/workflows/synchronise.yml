@@ -57,8 +57,6 @@ jobs:
         sudo timedatectl set-timezone "$TZ"
         git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --global user.name "github-actions[bot]"
-        echo "inputs_establish_sample=${{ inputs.establish_sample }}" >> ${GITHUB_ENV}
-        echo "inputs_establish_name=${{ inputs.establish_name }}" >> ${GITHUB_ENV}
         
     - name: 创建文件夹
       if: env.REPO_TOKEN
@@ -70,7 +68,7 @@ jobs:
           echo "${{ inputs.establish_name }}已存在，无法继续创建"
           exit 1
         else
-          cp -Rf shangyou/build/devices repogx/build/${{ inputs.establish_name }}
+          cp -Rf shangyou/build/${{ inputs.establish_sample }} repogx/build/${{ inputs.establish_name }}
           cp -Rf .github/workflows/build-openwrt.yml repogx/.github/workflows/${{ inputs.establish_name }}.yml
           export X="repogx/.github/workflows/${{ inputs.establish_name }}.yml"
           export FOLDER_NE1="target: \\[.*\\]"
@@ -79,13 +77,13 @@ jobs:
           export yml_name1="$(grep 'name:' "${X}" |sed 's/^[ ]*//g' |grep -v '^#\|^-' |awk 'NR==1')"
           export yml_name2="name: ${{ inputs.establish_name }}"
           sed -i "s?${yml_name1}?${yml_name2}?g" "${X}"
-          echo "${{ inputs.establish_name }}文件夹创建完成"
         fi
-        
-    - name: 执行程序
-      if: env.REPO_TOKEN
-      run: |
         cd ${GITHUB_WORKSPACE}/repogx
         git add .
         git commit -m "Update $(date +%Y-%m%d-%H%M%S)"
         git push --quiet "https://${{ secrets.REPO_TOKEN }}@github.com/${{github.repository}}" HEAD:main
+        if [[ $? -ne 0 ]]; then
+          echo "${{ inputs.establish_name }}文件夹创建失败"
+        else
+          echo "${{ inputs.establish_name }}文件夹创建完成"
+        fi
