@@ -53,8 +53,6 @@ jobs:
 
     - name: CPU检测
       run: |
-        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-        git config --global user.name "github-actions[bot]"
         source build/${FOLDER_NAME}/common.sh && CPU_Priority
         
     - name: 部署编译环境
