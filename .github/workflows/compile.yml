@@ -40,7 +40,7 @@ jobs:
     - name: 准备结束
       uses: actions/checkout@v3
 
-    - name: 读取脚本设置
+    - name: 检测文件和对比上游版本
       run: |
         cd ${GITHUB_WORKSPACE}
         bash <(curl -fsSL https://raw.githubusercontent.com/281677160/common/main/custom/first.sh)
