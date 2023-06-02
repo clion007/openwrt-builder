@@ -73,7 +73,7 @@ on:
         default: 'false'
         type: boolean
       UPLOAD_WETRANSFER:
-        description: '上传固件到到 WeTransfer'
+        description: '上传固件到 WeTransfer'
         required: false
         default: 'false'
         type: boolean
