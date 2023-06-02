@@ -30,6 +30,9 @@ export Create_Ipv6_Lan="0"                  # 爱快+OP双系统时,爱快接管
 export Enable_IPV6_function="0"             # 编译IPV6固件(1为启用命令,填0为不作修改)(如果跟Create_Ipv6_Lan一起启用命令的话,Create_Ipv6_Lan命令会自动关闭)
 export Enable_IPV4_function="0"             # 编译IPV4固件(1为启用命令,填0为不作修改)(如果跟Enable_IPV6_function一起启用命令的话,此命令会自动关闭)
 
+# 替换passwall的luci
+export PassWall_luci_branch="0"             # passwall的luci分别有luci分支的和luci-smartdns-new-version分支的(填0为使用luci分支,填1为使用luci-smartdns-new-version分支)
+
 # OpenClash
 export OpenClash_branch="master"            # OpenClash代码选择分支（master 或 dev）(填0为不需要此插件)
 export OpenClash_Core="1"                   # 增加OpenClash时,把核心下载好,(填1为下载{dev}单核,填2为下载{dev/meta/premium}三核,填0为不需要核心)
