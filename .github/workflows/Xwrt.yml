@@ -3,10 +3,6 @@
 #
 # 因为SSH连接配置固件直接编译，会给github停止编译的,所以要另外触发启动编译程序
 #
-# 新注册的帐号，SSH连接服务器的时间最好不要太长，10分钟左右就退出，没设置完就再来一次或者多次应该比较好
-#
-# 运行此程序不是直接编译，是修改配置文件和触发编译，正确运行完毕后，在Actions刷新网页看看你的编译程序运行了没有
-#
 # 一般情况下都能触发启动编译的，除非没设置好密匙，或者密匙过期了，或者密匙错误之类的
 #
 # REPO_TOKEN密匙制作教程：https://git.io/jm.md
@@ -133,7 +129,7 @@ jobs:
     - name: 准备结束
       uses: actions/checkout@v3
 
-    - name: 读取设置和对比上游版本
+    - name: 检测文件和对比上游版本
       run: |
         cd ${GITHUB_WORKSPACE}
         bash <(curl -fsSL https://raw.githubusercontent.com/281677160/common/main/custom/first.sh)
