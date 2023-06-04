@@ -5,12 +5,11 @@
 
 name: 编译主程序
 on:
-  workflow_dispatch:
   push:
     branches:
       - main
     paths:
-      - 'build/Immortalwrt/relevance/start'
+      - 'start'
 
 env:
   GITHUB_LINK: https://github.com/${{github.repository}}
