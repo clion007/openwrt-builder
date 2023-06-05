@@ -170,8 +170,8 @@ jobs:
       if: steps.compile.outcome == 'success' && env.UPDATE_FIRMWARE_ONLINE == 'true' && env.REPO_TOKEN
       uses: ncipollo/release-action@main
       with:
-        name: AutoUpdate
-        tag: ${{ env.TARGET_BOARD }}
+        name: AutoUpdate-${{ env.TARGET_BOARD }}
+        tag: Update-${{ env.TARGET_BOARD }}
         token: ${{ secrets.REPO_TOKEN }}
         allowUpdates: true
         body: ${{ env.Tongzhi_Date }}
@@ -192,7 +192,7 @@ jobs:
       uses: ncipollo/release-action@main
       with:
         name: AutoUpdate-${{ env.TARGET_BOARD }}
-        tag: ${{ env.TARGET_BOARD }}
+        tag: Update-${{ env.TARGET_BOARD }}
         token: ${{ secrets.REPO_TOKEN }}
         artifacts: "Github_Api/*"
         allowUpdates: true
