@@ -144,7 +144,7 @@ jobs:
         export INPUTS_COMPILATION_INFORMATION="${{ github.event.inputs.COMPILATION_INFORMATION }}"
         export INPUTS_PACKAGING_FIRMWARE="${{ github.event.inputs.PACKAGING_FIRMWARE }}"
         source build/${{ env.FOLDER_NAME }}/common.sh && Diy_menu1
-        echo "KEEP_RELEASES=AutoUpdate/targz" >> ${GITHUB_ENV}
+        echo "KEEP_RELEASES=Update/targ" >> ${GITHUB_ENV}
 
     - name: 部署编译环境
       env:
