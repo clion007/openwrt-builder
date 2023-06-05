@@ -145,7 +145,6 @@ jobs:
         export INPUTS_PACKAGING_FIRMWARE="${{ github.event.inputs.PACKAGING_FIRMWARE }}"
         source build/${{ env.FOLDER_NAME }}/common.sh && Diy_menu1
         echo "KEEP_RELEASES=AutoUpdate/targz" >> ${GITHUB_ENV}
-        AutoUpdate-x86
 
     - name: 部署编译环境
       env:
