@@ -144,6 +144,8 @@ jobs:
         export INPUTS_COMPILATION_INFORMATION="${{ github.event.inputs.COMPILATION_INFORMATION }}"
         export INPUTS_PACKAGING_FIRMWARE="${{ github.event.inputs.PACKAGING_FIRMWARE }}"
         source build/${{ env.FOLDER_NAME }}/common.sh && Diy_menu1
+        echo "KEEP_RELEASES=AutoUpdate/targz" >> ${GITHUB_ENV}
+        AutoUpdate-x86
 
     - name: 部署编译环境
       env:
@@ -228,7 +230,7 @@ jobs:
       uses: ophub/delete-releases-workflows@main
       with:
         delete_releases: true
-        releases_keep_keyword: targz/${{ env.TARGET_BOARD }}
+        releases_keep_keyword: ${{ env.KEEP_RELEASES }}
         releases_keep_latest: ${{ env.KEEP_LATEST }}
         delete_tags: true
         delete_workflows: false
