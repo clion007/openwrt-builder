@@ -52,7 +52,7 @@ jobs:
         fi
         source ${GITHUB_WORKSPACE}/build/${{ env.FOLDER_NAME }}/common.sh && Diy_menu1
         
-    - name: CPU检测
+    - name: 删除因转换CPU而产生的错误工作流程
       run: |
         source build/${FOLDER_NAME}/common.sh && CPU_Pri
 
