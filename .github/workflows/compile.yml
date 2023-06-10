@@ -54,7 +54,7 @@ jobs:
         
     - name: 删除因转换CPU而产生的错误工作流程
       run: |
-        source build/${FOLDER_NAME}/common.sh && CPU_Pri
+        source build/${FOLDER_NAME}/common.sh && Diy_delruns
 
     - name: CPU检测
       run: |
