@@ -144,7 +144,6 @@ jobs:
         export INPUTS_COMPILATION_INFORMATION="${{ github.event.inputs.COMPILATION_INFORMATION }}"
         export INPUTS_PACKAGING_FIRMWARE="${{ github.event.inputs.PACKAGING_FIRMWARE }}"
         source build/${{ env.FOLDER_NAME }}/common.sh && Diy_menu1
-        echo "KEEP_RELEASES=Update/targ" >> ${GITHUB_ENV}
 
     - name: 部署编译环境
       env:
@@ -200,10 +199,6 @@ jobs:
         cd openwrt
         source ${BUILD_PATH}/common.sh && Diy_menu6
         
-    - name: SSH远程连接（make menuconfig）
-      if: env.SSH_ACTION == 'true'
-      uses: danshui-git/debugger-action@main
-        
     - name: 上传"${{ matrix.target }}"配置文件在 Github Artifacts
       if: steps.compile.outcome == 'success'
       uses: actions/upload-artifact@main
@@ -217,18 +212,27 @@ jobs:
       run: |
         cd openwrt
         source ${BUILD_PATH}/common.sh && Diy_xinxi
-        
-    - name: Delete releases and workflows runs
-      uses: 281677160/delete-releases-workflows@main
+    
+    - name: 清理Actions空间
+      continue-on-error: true
+      if: env.REPO_TOKEN
+      uses: small-5/delete-workflow-runs@main
+      with:
+        token: ${{ secrets.REPO_TOKEN }}
+        repository: ${{ github.repository }}
+        retain_min: ${{ env.RETAIN_MINUTE }}
+    
+    - name: 清理releases
+      continue-on-error: true
+      if: env.REPO_TOKEN
+      uses: ophub/delete-releases-workflows@main
       with:
         delete_releases: true
-        delete_tags: true
-        releases_keep_latest: 2
         releases_keep_keyword: targz/Update
-        delete_workflows: true
-        workflows_keep_day: 10
-        workflows_keep_keyword: 281
-        out_log: true
+        releases_keep_latest: ${{ env.KEEP_LATEST }}
+        delete_tags: true
+        delete_workflows: false
+        workflows_keep_day: 90
         gh_token: ${{ secrets.REPO_TOKEN }}
         
     - name: 触发启动"${{ matrix.target }}"开始编译
