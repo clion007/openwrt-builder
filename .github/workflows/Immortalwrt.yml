@@ -217,18 +217,18 @@ jobs:
       run: |
         cd openwrt
         source ${BUILD_PATH}/common.sh && Diy_xinxi
-    
-    - name: 清理releases
-      continue-on-error: true
-      if: env.REPO_TOKEN
+        
+    - name: Delete releases and workflows runs
       uses: ophub/delete-releases-workflows@main
       with:
         delete_releases: true
-        releases_keep_keyword: ${{ env.KEEP_RELEASES }}
-        releases_keep_latest: ${{ env.KEEP_LATEST }}
         delete_tags: true
+        releases_keep_latest: 2
+        releases_keep_keyword: targz/Update
         delete_workflows: true
         workflows_keep_day: 1
+        workflows_keep_keyword: ${{ env.workflows_keep_keyword }}
+        out_log: true
         gh_token: ${{ secrets.REPO_TOKEN }}
         
     - name: 触发启动"${{ matrix.target }}"开始编译
