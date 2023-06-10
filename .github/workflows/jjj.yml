@@ -28,4 +28,4 @@ jobs:
       with:
         token: ${{ secrets.REPO_TOKEN }}
         repository: ${{ github.repository }}
-        retain_min: 30
+        retain_min: 300
