@@ -52,8 +52,15 @@ jobs:
         source ${GITHUB_WORKSPACE}/build/${{ env.FOLDER_NAME }}/common.sh && Diy_menu1
 
     - name: CPU检测
+      continue-on-error: true
+      id: cpu
       run: |
         source build/${FOLDER_NAME}/common.sh && CPU_Priority
+        
+    - name: CPU检测
+      run: |
+        echo ${{steps.cpu.outcome}}
+        source build/${FOLDER_NAME}/common.sh && CPU_Pri
         
     - name: 部署编译环境
       env:
