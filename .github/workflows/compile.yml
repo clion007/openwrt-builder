@@ -54,11 +54,9 @@ jobs:
         
     - name: CPU检测
       run: |
-        echo ${{steps.cpu.outcome}}
         source build/${FOLDER_NAME}/common.sh && CPU_Pri
 
     - name: CPU检测
-      id: cpu
       run: |
         source build/${FOLDER_NAME}/common.sh && CPU_Priority
         
