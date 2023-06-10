@@ -219,14 +219,14 @@ jobs:
         source ${BUILD_PATH}/common.sh && Diy_xinxi
         
     - name: Delete releases and workflows runs
-      uses: ophub/delete-releases-workflows@main
+      uses: 281677160/delete-releases-workflows@main
       with:
         delete_releases: true
         delete_tags: true
         releases_keep_latest: 2
         releases_keep_keyword: targz/Update
         delete_workflows: true
-        workflows_keep_day: 1
+        workflows_keep_day: 8
         workflows_keep_keyword: ${{ env.workflows_keep_keyword }}
         out_log: true
         gh_token: ${{ secrets.REPO_TOKEN }}
