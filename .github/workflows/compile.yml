@@ -4,7 +4,9 @@
 
 
 name: 编译主程序
+name: Lede-大雕
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
