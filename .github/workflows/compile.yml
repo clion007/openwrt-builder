@@ -5,12 +5,11 @@
 
 name: 编译主程序
 on:
-  workflow_dispatch:
   push:
     branches:
       - main
     paths:
-      - 'build/Immortalwrt/relevance/start'
+      - 'bconfig'
 
 env:
   GITHUB_LINK: https://github.com/${{github.repository}}
@@ -35,7 +34,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [Immortalwrt]
+        target: [Lede]
 
     steps:    
     - name: 准备结束
