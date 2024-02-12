@@ -109,6 +109,7 @@ CONFIG_PACKAGE_resolveip=y
 CONFIG_PACKAGE_ruby=y
 CONFIG_PACKAGE_ruby-bigdecimal=y
 CONFIG_PACKAGE_ruby-date=y
+CONFIG_PACKAGE_ruby-dbm=y
 CONFIG_PACKAGE_ruby-digest=y
 CONFIG_PACKAGE_ruby-enc=y
 CONFIG_PACKAGE_ruby-forwardable=y
