@@ -227,7 +227,6 @@ CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_Tuic_Client=y
 CONFIG_PACKAGE_luci-app-store=y
 CONFIG_PACKAGE_luci-app-unblockneteasemusic=y
 CONFIG_PACKAGE_luci-app-vlmcsd=y
-# CONFIG_PACKAGE_luci-app-webd_INCLUDE_WEBD_BINARY is not set
 CONFIG_PACKAGE_luci-app-wolplus=y
 CONFIG_PACKAGE_luci-app-zerotier=y
 CONFIG_PACKAGE_luci-compat=y
