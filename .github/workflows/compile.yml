@@ -73,6 +73,7 @@ jobs:
         dotnet: true
         haskell: true
         large-packages: true
+        docker-images: true
         swap-storage: true
         
     - name: 部署编译环境
