@@ -5,7 +5,6 @@
 
 name: 编译主程序
 on:
-  workflow_dispatch:
   push:
     branches:
       - main
@@ -37,25 +36,7 @@ jobs:
       matrix:
         target: [Lede]
 
-    steps:
-    - name: Freeing up disk space
-      uses: easimon/maximize-build-space@master
-      with: 
-        root-reserve-mb: 2048
-        swap-size-mb: 1
-        remove-dotnet: 'true'
-        remove-android: 'true'
-        remove-haskell: 'true'
-        remove-codeql: 'true'
-        remove-docker-images: 'true'
-
-    - name: Free up disk space complete
-      run: |
-        echo "Free up disk space complete"
-        echo "=============================================================================="
-        df -hT
-        echo "=============================================================================="
-        
+    steps:    
     - name: 准备结束
       uses: actions/checkout@v4
 
@@ -79,6 +60,20 @@ jobs:
       run: |
         cd ${GITHUB_WORKSPACE}
         source build/${FOLDER_NAME}/common.sh && CPU_Priority
+
+    - name: 释放Ubuntu磁盘空间
+      uses: jlumbroso/free-disk-space@main
+      with:
+        # this might remove tools that are actually needed,
+        # if set to "true" but frees about 6 GB
+        tool-cache: true
+        # all of these default to true, but feel free to set to
+        # "false" if necessary for your workflow
+        android: true
+        dotnet: true
+        haskell: true
+        large-packages: true
+        swap-storage: true
         
     - name: 部署编译环境
       env:
