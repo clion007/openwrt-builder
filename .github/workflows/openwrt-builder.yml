@@ -127,10 +127,10 @@ jobs:
         echo "status=success" >> $GITHUB_OUTPUT
 
     - name: Upload firmware to release
-      uses: softprops/action-gh-release@master
+      uses: softprops/action-gh-release@v2
       if: steps.tag.outputs.status == 'success' && !cancelled()
       env:
-        ACTIONS_TRIGGER_PAT : ${{ secrets.ACTIONS_TRIGGER_PAT  }}
+        GITHUB_TOKEN: ${{ secrets.ACTIONS_TRIGGER_PAT  }}
       with:
         tag_name: ${{ steps.tag.outputs.release_tag }}
         body_path: release.txt
@@ -151,4 +151,4 @@ jobs:
         keep_latest: 3
         delete_tags: true
       env:
-        ACTIONS_TRIGGER_PAT : ${{ secrets.ACTIONS_TRIGGER_PAT  }}
+        GITHUB_TOKEN: ${{ secrets.ACTIONS_TRIGGER_PAT  }}
