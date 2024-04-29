@@ -1,6 +1,6 @@
 **English** | [中文](https://p3terx.com/archives/build-openwrt-with-github-actions.html)
 
-# Actions-OpenWrt
+# OpenWrt-Builder
 
 [![LICENSE](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square&label=LICENSE)](https://github.com/clion007/openwrt-builder/blob/master/LICENSE)
 ![GitHub Stars](https://img.shields.io/github/stars/clion007/openwrt-builder.svg?style=flat-square&label=Stars&logo=github)
