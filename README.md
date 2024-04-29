@@ -36,7 +36,7 @@ A template for building OpenWrt with GitHub Actions
 
 ## License
 
-[MIT](https://github.com/clion007/openwrt-builder/blob/main/LICENSE) © **Clion Nieh** Email:76857061@qq.com
+[MIT](https://github.com/clion007/openwrt-builder/blob/main/LICENSE) © **Clion Nieh** 76857061@qq.com
 
 ## Thanks
 
