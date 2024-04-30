@@ -14,5 +14,3 @@
 echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.default
 echo 'src-git lienolpackages https://github.com/Lienol/openwrt-packages.git;23.05' >>feeds.conf.default
 echo 'src-git lienolluci https://github.com/Lienol/openwrt-luci.git;23.05' >>feeds.conf.default
-echo 'src-git lienol https://github.com/Lienol/openwrt-package.git;main' >>feeds.conf.default
-echo 'src-git other https://github.com/Lienol/openwrt-package.git;other' >>feeds.conf.default
