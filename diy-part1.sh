@@ -12,4 +12,4 @@
 
 # Add a feed source
 #echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.default
-echo 'src/gz openwrt_kiddin9 https://dl.openwrt.ai/latest/packages/x86_64/kiddin9' >>feeds.conf.default
+echo 'src-git kiddin9 https://github.com/kiddin9/openwrt-packages' >>feeds.conf.default
