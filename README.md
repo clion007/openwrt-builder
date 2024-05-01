@@ -11,7 +11,7 @@ A template for building OpenWrt with GitHub Actions
 ## Usage
 
 - Click the [Use this template](https://github.com/clion007/openwrt-builder/generate) button to create a new repository.
-- Generate `.config` files using [Lean OpenWrt][https://github.com/openwrt/openwrt](https://github.com/coolsnowwolf/lede) source code. ( You can change it through environment variables in the workflow file. )
+- Generate `.config` files using [Lean OpenWrt](https://github.com/coolsnowwolf/lede) source code. ( You can change it through environment variables in the workflow file. )
 - Push `.config` file to the GitHub repository.
 - Select `Build OpenWrt` on the Actions page.
 - Click the `Run workflow` button.
