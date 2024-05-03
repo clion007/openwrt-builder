@@ -73,7 +73,7 @@ jobs:
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P2_SH
 
-    - name: Start SSH via tmate
+    - name: SSH connection to Actions @ Ctrl+C to enter, Ctrl+D to exit
       if: (github.event.inputs.ssh == 'true' && github.event.inputs.ssh  != 'false') || contains(github.event.action, 'ssh')
       uses: P3TERX/ssh2actions@main    
       
