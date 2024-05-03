@@ -74,6 +74,7 @@ jobs:
         $GITHUB_WORKSPACE/$DIY_P2_SH
 
     - name: Start SSH via tmate
+      if: (github.event.inputs.ssh == 'true' && github.event.inputs.ssh  != 'false') || contains(github.event.action, 'ssh')
       uses: P3TERX/ssh2actions@main    
       
     - name: Delete Workflow Runs
