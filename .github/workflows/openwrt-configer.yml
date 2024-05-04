@@ -74,7 +74,7 @@ jobs:
         $GITHUB_WORKSPACE/$DIY_P2_SH
 
     - name: SSH connection to Actions @ Ctrl+C to enter, Ctrl+D to exit
-      uses: P3TERX/ssh2actions@main
+      uses: clion007/ssh2actions@main
       with:
           mode: ngrok
       env:
