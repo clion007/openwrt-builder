@@ -79,7 +79,7 @@ jobs:
           mode: ngrok
       env:
           NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }}
-          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+      #    SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
       
     - name: Delete Workflow Runs
       uses: Mattraks/delete-workflow-runs@main
