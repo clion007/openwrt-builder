@@ -7,12 +7,6 @@ name: OpenWrt Configer
 
 on:
   workflow_dispatch:
-    inputs:
-      ENABLE_SSH:
-        description: '开启SSH连接'
-        required: true
-        default: true
-        type: boolean
 
 env:
   REPO_URL: https://github.com/coolsnowwolf/lede
@@ -74,7 +68,6 @@ jobs:
         $GITHUB_WORKSPACE/$DIY_P2_SH
 
     - name: SSH connection to Actions @ Ctrl+C to enter, Ctrl+D to exit
-      if: (github.event.inputs.ssh == 'true' && github.event.inputs.ssh  != 'false') || contains(github.event.action, 'ssh')
       uses: P3TERX/ssh2actions@main    
       
     - name: Delete Workflow Runs
