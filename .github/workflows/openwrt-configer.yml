@@ -7,6 +7,12 @@ name: OpenWrt Configer
 
 on:
   workflow_dispatch:
+    inputs:
+      ENABLE_SSH:
+        description: '开启SSH连接'
+        required: true
+        default: true
+        type: boolean
 
 env:
   REPO_URL: https://github.com/coolsnowwolf/lede
