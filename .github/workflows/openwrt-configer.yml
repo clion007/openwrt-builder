@@ -81,7 +81,7 @@ jobs:
         NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }}
         SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
 
-    - name: Make defconfig custom configuration
+    - name: Make custom configuration
       run: |
         cd openwrt
         make defconfig
