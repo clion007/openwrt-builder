@@ -17,12 +17,5 @@ jobs:
     - name: Checkout
       uses: actions/checkout@main
 
-    - name: SSH connection to Actions @ Ctrl+C to enter, Ctrl+D to exit
-      uses: shaowenchen/debugger-action@v2
-      timeout-minutes: 300
-      continue-on-error: true
-      with:
-        ngrok_token: ${{ secrets.NGROK_TOKEN }}
-
     - name: Save Config File
       run: echo "test config file" > ./config/test.config
