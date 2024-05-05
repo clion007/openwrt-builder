@@ -7,6 +7,7 @@
 # This is free software, licensed under the MIT License.
 # See /LICENSE for more information.
 #
+# Enable helloworld feed source
 grep -i "helloworld" feeds.conf.default >/dev/null
 if [ $? -eq 0 ]; then
   # Uncomment a feed source
