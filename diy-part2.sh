@@ -12,14 +12,14 @@ sed -i 's/192.168.1.1/192.168.101.1/g' package/base-files/files/bin/config_gener
 
 # Modify default theme
 sed -i 's/luci-theme-bootstrap/luci-theme-argon/g' feeds/luci/collections/luci/Makefile
-if [ -d openwrt/package/lean ]; then 
-  cd openwrt/package/lean
+if [ -d package/lean ]; then 
+  cd package/lean
   rm -rf luci-theme-argon
   rm -rf luci-app-argon-config
   git clone -b 18.06 https://github.com/jerrykuku/luci-theme-argon.git luci-theme-argon
   git clone -b 18.06 https://github.com/jerrykuku/luci-app-argon-config.git luci-app-argon-config
 else
-  cd openwrt/package
+  cd package
   git clone https://github.com/jerrykuku/luci-theme-argon.git
   git clone https://github.com/jerrykuku/luci-app-argon-config.git
 fi
