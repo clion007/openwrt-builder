@@ -18,7 +18,7 @@ env:
   REPO_URL: https://github.com/coolsnowwolf/lede
   REPO_BRANCH: master
   FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: .config
+  CONFIG_FILE: config/X86_64.config
   DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
   TZ: Asia/Shanghai
@@ -76,10 +76,20 @@ jobs:
     - name: SSH connection to Actions @ Ctrl+C to enter, Ctrl+D to exit
       uses: clion007/ssh2actions@main
       with:
-          mode: ngrok
+        mode: ngrok
       env:
-          NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }}
-          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+        NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }}
+        SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+
+    - name: Git auto update config
+      uses: stefanzweifel/git-auto-commit-action@v5.0.0
+      id: configupdate
+      with:
+        commit_message: auto update config
+        branch: main
+        commit_author: Clion <clion007@126.com>
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
     - name: Delete Workflow Runs
       uses: Mattraks/delete-workflow-runs@main
