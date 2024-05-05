@@ -23,6 +23,7 @@ jobs:
           mode: ngrok
       env:
           NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }}
+          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
 
     - name: Save Config File
       run: echo "test config file" > ./config/test.config
