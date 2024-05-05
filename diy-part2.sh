@@ -18,10 +18,12 @@ if [ -d package/lean ]; then
   rm -rf luci-app-argon-config
   git clone -b 18.06 https://github.com/jerrykuku/luci-theme-argon.git luci-theme-argon
   git clone -b 18.06 https://github.com/jerrykuku/luci-app-argon-config.git luci-app-argon-config
+  cd ../..
 else
   cd package
   git clone https://github.com/jerrykuku/luci-theme-argon.git
   git clone https://github.com/jerrykuku/luci-app-argon-config.git
+  cd ..
 fi
 
 # Modify hostname and timezone
