@@ -19,5 +19,5 @@ jobs:
 
     - name: Save Config File
       run: |
-        mkdir ./config
+        touch ./config/test.config
         echo "test config file" > ./config/test.config
