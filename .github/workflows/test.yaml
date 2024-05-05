@@ -16,8 +16,9 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@main
-
-    - name: Save Config File
-      run: |
-        mkdir $GITHUB_REPOSITORY/config
-        echo "test config file" > $GITHUB_REPOSITORY/config/test.config
+    - uses: shaowenchen/debugger-action@v2
+      name: debugger
+      timeout-minutes: 300
+      continue-on-error: true
+      with:
+        ngrok_token: ${{ secrets.NGROK_TOKEN }}
