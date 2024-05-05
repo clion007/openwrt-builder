@@ -81,6 +81,13 @@ jobs:
         NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }}
         SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
 
+    - name: Make defconfig custom configuration
+      run: |
+        cd openwrt
+        make defconfig
+        cd ..
+        cp -f openwrt/.config $CONFIG_FILE
+
     - name: Git auto update config
       uses: stefanzweifel/git-auto-commit-action@v5.0.0
       id: configupdate
@@ -89,7 +96,7 @@ jobs:
         branch: main
         commit_author: Clion <clion007@126.com>
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ github.token }}
       
     - name: Delete Workflow Runs
       uses: Mattraks/delete-workflow-runs@main
