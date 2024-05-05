@@ -10,7 +10,7 @@ on:
     inputs:
       ENABLE_SSH:
         description: '开启SSH连接'
-        required: true
+        required: false
         default: true
         type: boolean
 
