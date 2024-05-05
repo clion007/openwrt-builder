@@ -18,4 +18,6 @@ jobs:
       uses: actions/checkout@main
 
     - name: Save Config File
-      run: echo "test config file" > ./config/test.config
+      run: |
+        mkdir ./config
+        echo "test config file" > ./config/test.config
