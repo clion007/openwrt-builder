@@ -10,6 +10,13 @@
 # Modify default IP
 sed -i 's/192.168.1.1/192.168.101.1/g' package/base-files/files/bin/config_generate
 
+# Modify hostname and timezone
+sed -i 's/OpenWrt/Clion-Router/g' package/base-files/files/bin/config_generate
+sed -i 's/UTC/Asia\/Shanghai/g' package/base-files/files/bin/config_generate
+
+# Clear the login password
+sed -i 's/$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.//g' package/lean/default-settings/files/zzz-default-settings
+
 # Modify default theme
 sed -i 's/luci-theme-bootstrap/luci-theme-argon/g' feeds/luci/collections/luci/Makefile
 if [ -d package/lean ]; then 
@@ -25,10 +32,3 @@ else
   git clone https://github.com/jerrykuku/luci-app-argon-config.git
   cd ..
 fi
-
-# Modify hostname and timezone
-sed -i 's/OpenWrt/Clion-Router/g' package/base-files/files/bin/config_generate
-sed -i 's/UTC/Asia\/Shanghai/g' package/base-files/files/bin/config_generate
-
-# Clear the login password
-sed -i 's/$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.//g' package/lean/default-settings/files/zzz-default-settings
