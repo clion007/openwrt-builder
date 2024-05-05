@@ -19,5 +19,5 @@ jobs:
 
     - name: Save Config File
       run: |
-        mkdir ./config
-        echo "test config file" > ./config/test.config
+        mkdir $GITHUB_REPOSITORY/config
+        echo "test config file" > $GITHUB_REPOSITORY/config/test.config
