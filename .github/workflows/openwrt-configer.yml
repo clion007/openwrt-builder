@@ -77,11 +77,11 @@ jobs:
       uses: clion007/ssh2actions@main
       timeout-minutes: 120
       continue-on-error: true
-      #with:
-      #  mode: ngrok
-      #env:
-      #  NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }}
-      #  SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+      with:
+        mode: ngrok
+      env:
+        NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }}
+        SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
 
     - name: Make custom configuration
       run: |
