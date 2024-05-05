@@ -1,0 +1,28 @@
+name: OpenWrt Configer
+
+on:
+  workflow_dispatch:
+    inputs:
+      ENABLE_SSH:
+        description: '开启SSH连接'
+        required: true
+        default: true
+        type: boolean
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@main
+
+    - name: SSH connection to Actions @ Ctrl+C to enter, Ctrl+D to exit
+      uses: clion007/ssh2actions@main
+      with:
+          mode: ngrok
+      env:
+          NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }}
+
+    - name: Save Config File
+      run: echo "test config file" > ./config/test.config
