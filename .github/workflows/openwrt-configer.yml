@@ -75,11 +75,11 @@ jobs:
 
     - name: SSH connection to Actions @ Ctrl+C to enter, Ctrl+D to exit
       uses: clion007/ssh2actions@main
-      with:
-        mode: ngrok
-      env:
-        NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }}
-        SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+      #with:
+      #  mode: ngrok
+      #env:
+      #  NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }}
+      #  SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
 
     - name: Make custom configuration
       run: |
