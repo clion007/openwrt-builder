@@ -75,6 +75,8 @@ jobs:
 
     - name: SSH connection to Actions @ Ctrl+C to enter, Ctrl+D to exit
       uses: clion007/ssh2actions@main
+      timeout-minutes: 120
+      continue-on-error: true
       #with:
       #  mode: ngrok
       #env:
