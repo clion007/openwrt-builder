@@ -1,4 +1,4 @@
-name: OpenWrt Configer
+name: Configer Test
 
 on:
   workflow_dispatch:
