@@ -85,8 +85,9 @@ jobs:
       run: |
         cd openwrt
         make defconfig
+        ./scripts/diffconfig.sh > diff.config
         cd ..
-        cp -f openwrt/.config $CONFIG_FILE
+        cp -f openwrt/diff.config $CONFIG_FILE
 
     - name: Git auto update config
       uses: stefanzweifel/git-auto-commit-action@v5.0.0
