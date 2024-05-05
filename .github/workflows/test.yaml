@@ -16,8 +16,9 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@main
-    - uses: shaowenchen/debugger-action@v2
-      name: debugger
+      
+    - name: debugger
+      uses: shaowenchen/debugger-action@v2      
       timeout-minutes: 300
       continue-on-error: true
       with:
