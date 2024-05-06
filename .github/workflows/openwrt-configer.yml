@@ -80,12 +80,12 @@ jobs:
         $GITHUB_WORKSPACE/$DIY_P2_SH
 
     - name: SSH connection to Actions
-      # uses: luchihoratiu/debug-via-ssh@main
-      # with:
-      #   NGROK_AUTH_TOKEN: ${{ secrets.NGROK_TOKEN }}
-      #   SSH_PASS: ${{ secrets.SSH_PASSWORD }}
+      uses: luchihoratiu/debug-via-ssh@main
+      with:
+        NGROK_AUTH_TOKEN: ${{ secrets.NGROK_TOKEN }}
+        SSH_PASS: ${{ secrets.SSH_PASSWORD }}
       # uses: lhotari/action-upterm@v1
-      uses: P3TERX/ssh2actions@main
+      # uses: P3TERX/ssh2actions@main
       timeout-minutes: 300
       continue-on-error: true
 
