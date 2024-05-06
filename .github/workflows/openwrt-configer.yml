@@ -79,7 +79,7 @@ jobs:
       #   NGROK_AUTH_TOKEN: ${{ secrets.NGROK_TOKEN }}
       #   SSH_PASS: ${{ secrets.SSH_PASSWORD }}
       uses: lhotari/action-upterm@v1
-      timeout-minutes: 360
+      timeout-minutes: 300
       continue-on-error: true
 
     - name: Make custom configuration
