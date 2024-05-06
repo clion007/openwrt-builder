@@ -33,7 +33,9 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@main
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ github.head_ref }}
 
     - name: Initialization environment
       env:
