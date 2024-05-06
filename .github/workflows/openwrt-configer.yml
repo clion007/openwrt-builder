@@ -78,7 +78,8 @@ jobs:
       # with:
       #   NGROK_AUTH_TOKEN: ${{ secrets.NGROK_TOKEN }}
       #   SSH_PASS: ${{ secrets.SSH_PASSWORD }}
-      uses: lhotari/action-upterm@v1
+      # uses: lhotari/action-upterm@v1
+      uses: P3TERX/ssh2actions@main
       timeout-minutes: 300
       continue-on-error: true
 
