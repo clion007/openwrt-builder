@@ -1,0 +1,33 @@
+name: Action Test
+
+on:
+  workflow_dispatch:
+    inputs:
+      ENABLE_SSH:
+        description: '开启SSH连接'
+        required: false
+        default: true
+        type: boolean
+
+
+jobs:
+    test:
+        runs-on: ubuntu-latest
+
+        steps:
+        - name: SSH connection to Actions
+          uses: luchihoratiu/debug-via-ssh@main
+          with:
+            NGROK_AUTH_TOKEN: ${{ secrets.NGROK_TOKEN }}
+            SSH_PASS: ${{ secrets.SSH_PASSWORD }}
+          timeout-minutes: 300
+          continue-on-error: true
+      
+        - name: Delete Workflow Runs
+          uses: Mattraks/delete-workflow-runs@main
+          continue-on-error: true
+          with:
+            token: ${{ secrets.ACTIONS_TRIGGER_PAT }}
+            repository: ${{ github.repository }}
+            retain_days: 0
+            keep_minimum_runs: 0
