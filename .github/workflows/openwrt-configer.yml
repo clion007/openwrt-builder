@@ -90,14 +90,13 @@ jobs:
         cp -f openwrt/diff.config $CONFIG_FILE
 
     - name: Git auto update config
-      uses: stefanzweifel/git-auto-commit-action@v5.0.0
-      id: configupdate
+      uses: stefanzweifel/git-auto-commit-action@v5
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
       with:
         commit_message: auto update config
         branch: main
         commit_author: Clion <clion007@126.com>
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
       
     - name: Delete Workflow Runs
       uses: Mattraks/delete-workflow-runs@main
