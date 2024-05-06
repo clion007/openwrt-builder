@@ -91,12 +91,12 @@ jobs:
 
     - name: Git auto update config
       uses: stefanzweifel/git-auto-commit-action@v5
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
       with:
         commit_message: auto update config
         branch: main
         commit_author: Clion <clion007@126.com>
+      env:
+        GITHUB_TOKEN: ${{ secrets.ACTIONS_TRIGGER_PAT }}
       
     - name: Delete Workflow Runs
       uses: Mattraks/delete-workflow-runs@main
