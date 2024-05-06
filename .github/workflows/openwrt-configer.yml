@@ -101,6 +101,7 @@ jobs:
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
         commit_author: Clion <clion007@126.com>
+        file_pattern: config/*.config
       
     - name: Delete Workflow Runs
       uses: Mattraks/delete-workflow-runs@main
