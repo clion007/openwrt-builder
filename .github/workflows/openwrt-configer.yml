@@ -100,7 +100,6 @@ jobs:
     - name: Git auto update config
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
-        branch: main
         commit_author: Clion <clion007@126.com>
       
     - name: Delete Workflow Runs
