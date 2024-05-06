@@ -14,7 +14,7 @@ A template for building OpenWrt with GitHub Actions
 - Generate `config/*.config` files using [Lean OpenWrt](https://github.com/coolsnowwolf/lede) source code.
   ( You can change it through environment variables in the workflow file. )
 - Push `config/*.config` file to the GitHub repository.
-- Generate and Push config file can manually run openwrt-configer.yml workflow, link action vm via ssh to set your config, and auto commite to github.
+- Generate and Push config file can manually run openwrt-configer.yml workflow in Actions page, you can link action vm via ssh with a terminal to set your config as you need, and it will auto commite to github.
 - Select `Build OpenWrt` on the Actions page.
 - Click the `Run workflow` button.
 - When the build is complete, click the `Releases` button in the midle right side of the Code page to download the firmware you need.
