@@ -27,6 +27,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
+      contents: write
+
     steps:
     - name: Checkout
       uses: actions/checkout@main
@@ -96,8 +100,6 @@ jobs:
       with:
         branch: main
         commit_author: Clion <clion007@126.com>
-      env:
-        GITHUB_TOKEN: ${{ secrets.ACTIONS_TRIGGER_PAT }}
       
     - name: Delete Workflow Runs
       uses: Mattraks/delete-workflow-runs@main
