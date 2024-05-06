@@ -11,11 +11,9 @@
 # Enable helloworld feed source
 grep -i "helloworld" feeds.conf.default >/dev/null
 if [ $? -eq 0 ]; then
-  # Uncomment a feed source
-　sed -i 's/^#\(.*helloworld\)/\1/' feeds.conf.default
+  sed -i 's/^#\(.*helloworld\)/\1/' feeds.conf.default
 else
-  # Add helloworld feed source
-　echo 'src-git helloworld https://github.com/fw876/helloworld' >> feeds.conf.default
+  echo 'src-git helloworld https://github.com/fw876/helloworld' >> feeds.conf.default
 fi
 
 # Add other feed sources
