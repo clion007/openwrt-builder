@@ -73,15 +73,13 @@ jobs:
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P2_SH
 
-    - name: SSH connection to Actions @ Ctrl+C to enter, Ctrl+D to exit
-      uses: clion007/ssh2actions@main
+    - name: SSH connection to Actions
+      uses: luchihoratiu/debug-via-ssh@main
       timeout-minutes: 120
       continue-on-error: true
       with:
-        mode: ngrok
-      env:
-        NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }}
-        SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+        NGROK_AUTH_TOKEN: ${{ secrets.NGROK_TOKEN }}
+        SSH_PASS: ${{ secrets.SSH_PASSWORD }}
 
     - name: Make custom configuration
       run: |
