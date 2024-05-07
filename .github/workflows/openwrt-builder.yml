@@ -99,7 +99,7 @@ jobs:
       if: (!cancelled())
       run: df -hT
 
-    - name: Upload bin directory
+    - name: Upload bin directory to artifact
       uses: actions/upload-artifact@main
       if: steps.compile.outputs.status == 'success' && env.UPLOAD_BIN_DIR == 'true'
       with:
