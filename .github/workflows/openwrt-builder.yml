@@ -28,6 +28,7 @@ jobs:
 
     permissions:
       actions: write
+      contents: write
 
     steps:
     - name: Checkout
