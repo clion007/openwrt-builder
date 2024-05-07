@@ -6,28 +6,15 @@ on:
 
 env:
   REPO_URL: https://github.com/coolsnowwolf/lede
-  REPO_BRANCH: master
+  REPO_BRANCH: openwrt-23.05
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@main
-
-    - name: Initialization environment
-      run: |
-        sudo mkdir -p /workdir
-        sudo chown $USER:$GROUPS /workdir
-
-    - name: Clone source code
-      working-directory: /workdir
-      run: |
-        git clone -b $REPO_BRANCH --single-branch $REPO_URL openwrt
-        ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
     - name: Get version of openwrt
       run: |
-        cd openwrt/package/lean/default-settings/files
-        echo $(cat zzz-default-settings | grep 'REVISION=' | sed "s/'/ /g" | awk '{print $3}')
+        version=$(echo $REPO_BRANCH | sed "s/openwrt-//g")
+        echo $version

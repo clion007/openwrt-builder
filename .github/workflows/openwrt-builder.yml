@@ -54,8 +54,13 @@ jobs:
         df -hT $PWD
         git clone -b $REPO_BRANCH --single-branch $REPO_URL openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
-        cd openwrt/package/lean/default-settings/files
-        echo "VERSION=_$(cat zzz-default-settings | grep 'REVISION=' | sed "s/'/ /g" | awk '{print $3}')" >> $GITHUB_ENV
+        if [ -d openwrt/package/lean ]; then
+          cd openwrt/package/lean/default-settings/files
+          version=$(cat zzz-default-settings | grep 'REVISION=' | sed "s/'/ /g" | awk '{print $3}')
+        else 
+          version=$(echo $REPO_BRANCH | sed "s/openwrt-//g")
+        fi
+        echo "VERSION=_$version" >> $GITHUB_ENV
 
     - name: Load custom feeds
       run: |
