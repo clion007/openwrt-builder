@@ -136,7 +136,7 @@ jobs:
       run: |
         echo "release_tag=OpenWrt${{ env.VERSION }}${{ env.DEVICE_NAME }}_$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_OUTPUT
         touch release.txt
-        if [ -z ${{ steps.gofile.outputs.url }} && ${UPLOAD_GOFILE} == 'true' ]; then
+        if [ -n ${{ steps.gofile.outputs.url }} && ${UPLOAD_GOFILE} == 'true' ]; then
           echo "🔗 [GoFile](${{ steps.gofile.outputs.url }})" >> release.txt
         fi
         echo "status=success" >> $GITHUB_OUTPUT
