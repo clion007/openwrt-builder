@@ -134,7 +134,7 @@ jobs:
       id: tag
       if: steps.organize.outputs.status == 'success' && env.UPLOAD_RELEASE == 'true' && !cancelled()
       run: |
-        echo "release_tag=OpenWrt_${{ env.VERSION }}${{ env.DEVICE_NAME }}_$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_OUTPUT
+        echo "release_tag=OpenWrt${{ env.VERSION }}${{ env.DEVICE_NAME }}_$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_OUTPUT
         touch release.txt
         if [ ${{ steps.gofile.outputs.url }} && ${UPLOAD_GOFILE} == 'true' ]; then
           echo "🔗 [GoFile](${{ steps.gofile.outputs.url }})" >> release.txt
