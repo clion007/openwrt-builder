@@ -30,4 +30,4 @@ jobs:
     - name: Get version of openwrt
       run: |
         cd openwrt/package/lean/default-settings/files
-        echo $(cat zzz-default-settings | grep 'REVISION=' | sed "s/'/ /g" | awk '{print $2}')
+        echo $(cat zzz-default-settings | grep 'REVISION=' | sed "s/'/ /g" | awk '{print $3}')
