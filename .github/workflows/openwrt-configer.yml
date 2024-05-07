@@ -79,11 +79,10 @@ jobs:
         make defconfig
 
     - name: SSH connection to Actions
-      # uses: luchihoratiu/debug-via-ssh@main
-      # with:
-      #   NGROK_AUTH_TOKEN: ${{ secrets.NGROK_TOKEN }}
-      #   SSH_PASS: ${{ secrets.SSH_PASSWORD }}
-      uses: valeriangalliat/action-sshd-cloudflared@v2
+      uses: luchihoratiu/debug-via-ssh@main
+      with:
+        NGROK_AUTH_TOKEN: ${{ secrets.NGROK_TOKEN }}
+        SSH_PASS: ${{ secrets.SSH_PASSWORD }}
       timeout-minutes: 360
       continue-on-error: true
 
