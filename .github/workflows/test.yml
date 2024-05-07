@@ -16,6 +16,11 @@ jobs:
     - name: Checkout
       uses: actions/checkout@main
 
+    - name: Initialization environment
+      run: |
+        sudo mkdir -p /workdir
+        sudo chown $USER:$GROUPS /workdir
+
     - name: Clone source code
       working-directory: /workdir
       run: |
