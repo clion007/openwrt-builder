@@ -6,7 +6,7 @@
 ![GitHub Stars](https://img.shields.io/github/stars/clion007/openwrt-builder.svg?style=flat-square&label=Stars&logo=github)
 ![GitHub Forks](https://img.shields.io/github/forks/clion007/openwrt-builder.svg?style=flat-square&label=Forks&logo=github)
 
-A template for auto building OpenWrt with GitHub Actions
+A template for auto building OpenWrt with GitHub Actions, with ngrok tunnel for customrize your config via ssh link to github actions.
 
 ## Usage
 
