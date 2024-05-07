@@ -54,6 +54,8 @@ jobs:
         df -hT $PWD
         git clone -b $REPO_BRANCH --single-branch $REPO_URL openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
+        cd openwrt/package/lean/default-settings/files
+        echo "VERSION=_$(cat zzz-default-settings | grep 'REVISION=' | sed "s/'/ /g" | awk '{print $3}')" >> $GITHUB_ENV
 
     - name: Load custom feeds
       run: |
@@ -104,7 +106,7 @@ jobs:
       uses: actions/upload-artifact@main
       if: steps.compile.outputs.status == 'success' && env.UPLOAD_BIN_DIR == 'true' && !cancelled()
       with:
-        name: OpenWrt_bin${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
+        name: OpenWrt_bin${{ env.VERSIONE }}${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
         path: openwrt/bin
 
     - name: Organize files
@@ -120,14 +122,14 @@ jobs:
       uses: actions/upload-artifact@v4
       if: steps.organize.outputs.status == 'success' && env.UPLOAD_TO_ARTIFACT == 'true' && !cancelled()
       with:
-        name: OpenWrt_firmware${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
+        name: OpenWrt_firmware${{ env.VERSIONE }}${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
         path: ${{ env.FIRMWARE }}/*.img*
 
     - name: Generate release tag
       id: tag
       if: steps.organize.outputs.status == 'success' && env.UPLOAD_RELEASE == 'true' && !cancelled()
       run: |
-        echo "release_tag=OpenWrt_${{env.REPO_BRANCH}}${{ env.DEVICE_NAME }}_$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_OUTPUT
+        echo "release_tag=OpenWrt_${{ env.VERSIONE }}${{ env.DEVICE_NAME }}_$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_OUTPUT
         touch release.txt
         if [ ${{ steps.gofile.outputs.url }} && ${UPLOAD_GOFILE} == 'true' ]; then
           echo "🔗 [GoFile](${{ steps.gofile.outputs.url }})" >> release.txt
