@@ -1,0 +1,26 @@
+name: Test
+
+on:
+  repository_dispatch:
+  workflow_dispatch:
+
+env:
+  REPO_URL: https://github.com/coolsnowwolf/lede
+  REPO_BRANCH: master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@main
+
+    - name: Clone source code
+      working-directory: /workdir
+      run: |
+        git clone -b $REPO_BRANCH --single-branch $REPO_URL openwrt
+        ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
+
+    - name: Get latest version of jellyfin
+      run: echo "$(cat /etc/openwrt_release | grep 'REVISION' | sed 's/\'/ /g' | awk '{print $1}')"
