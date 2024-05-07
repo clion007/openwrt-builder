@@ -80,11 +80,11 @@ jobs:
 
     - name: SSH connection to Actions
       uses: luchihoratiu/debug-via-ssh@main
-      timeout-minutes: 300
-      continue-on-error: true
       with:
         NGROK_AUTH_TOKEN: ${{ secrets.NGROK_TOKEN }}
         SSH_PASS: ${{ secrets.SSH_PASSWORD }}
+      timeout-minutes: 360
+      continue-on-error: true
 
     - name: Make custom configuration
       run: |
