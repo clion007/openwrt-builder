@@ -24,7 +24,7 @@ env:
   TZ: Asia/Shanghai
 
 jobs:
-  build:
+  config:
     runs-on: ubuntu-latest
 
     permissions:
