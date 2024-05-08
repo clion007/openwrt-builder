@@ -8,30 +8,29 @@
 #
 
 # Modify default IP
-sed -i 's/192.168.1.1/192.168.10.1/g' package/base-files/files/bin/config_generate
+sed -i 's/192.168.1.1/192.168.10.1/g' ./package/base-files/files/bin/config_generate
 
 # Modify hostname and timezone
-sed -i 's/OpenWrt/Clion-Router/g' package/base-files/files/bin/config_generate
-sed -i 's/UTC/Asia\/Shanghai/g' package/base-files/files/bin/config_generate
+sed -i 's/OpenWrt/Clion-Router/g' ./package/base-files/files/bin/config_generate
+sed -i 's/UTC/Asia\/Shanghai/g' ./package/base-files/files/bin/config_generate
 
 # Clear the login password
-sed -i 's/$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.//g' package/lean/default-settings/files/zzz-default-settings
+sed -i 's/$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.//g' ./package/lean/default-settings/files/zzz-default-settings
 
 # Modify default theme
-sed -i 's/luci-theme-bootstrap/luci-theme-argon/g' feeds/luci/collections/luci/Makefile
+sed -i 's/luci-theme-bootstrap/luci-theme-argon/g' ./feeds/luci/collections/luci/Makefile
 if [ -d package/lean ]; then 
-  cd package/lean
-  rm -rf luci-theme-argon
-  rm -rf luci-app-argon-config
-  git clone -b 18.06 https://github.com/jerrykuku/luci-theme-argon.git luci-theme-argon
-  git clone -b 18.06 https://github.com/jerrykuku/luci-app-argon-config.git luci-app-argon-config
-  cd ../..
+  rm -rf ./feeds/luci/themes/luci-theme-argon
+  git clone -b 18.06 https://github.com/jerrykuku/luci-theme-argon.git ./feeds/luci/themes/luci-theme-argon
+  rm -rf ./package/lean/luci-app-argon-config
+  git clone -b 18.06 https://github.com/jerrykuku/luci-app-argon-config.git ./package/lean/luci-app-argon-config
 else
-  cd package
-  git clone https://github.com/jerrykuku/luci-theme-argon.git
-  git clone https://github.com/jerrykuku/luci-app-argon-config.git
-  cd ..
+  git clone https://github.com/jerrykuku/luci-theme-argon.git ./feeds/luci/themes/luci-theme-argon
+  git clone https://github.com/jerrykuku/luci-app-argon-config.git ./feeds/luci/themes/luci-theme-argon-config
 fi
+bgdir=./feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/backgroun
+rm -rf $bgdir/*
+cp -r $GITHUB_WORKSPACE/source/img/* $bgdir/
 
 # Add passwall packages
 git clone -b main https://github.com/xiaorouji/openwrt-passwall.git package/passwall
