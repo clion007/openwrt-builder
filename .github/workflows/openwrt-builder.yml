@@ -142,7 +142,6 @@ jobs:
       if: steps.tag.outputs.status == 'success' && !cancelled()
       with:
         tag_name: ${{ steps.tag.outputs.release_tag }}
-        body_path: release.txt
         files: ${{ env.FIRMWARE }}/*.img*
         
     - name: Delete workflow runs
