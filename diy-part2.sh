@@ -19,12 +19,15 @@ sed -i 's/$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.//g' ./package/lean/default-settings
 
 # Modify default theme
 sed -i 's/luci-theme-bootstrap/luci-theme-argon/g' ./feeds/luci/collections/luci/Makefile
-argondir=./feeds/luci/themes/luci-theme-argon
-if [ -d $argondir ]; then 
+if [ -d ./package/lean ]; then 
   rm -rf ./feeds/luci/themes/luci-theme-argon
+  rm -rf ./feeds/luci/applications/luci-app-argon-config
+  git clone -b 18.06 https://github.com/jerrykuku/luci-theme-argon.git ./feeds/luci/themes/luci-theme-argon
+  git clone -b 18.06 https://github.com/jerrykuku/luci-app-argon-config.git ./feeds/luci/applications/luci-app-argon-config
+else
+  git clone -b master https://github.com/jerrykuku/luci-theme-argon.git ./feeds/luci/themes/luci-theme-argon
+  git clone -b master https://github.com/jerrykuku/luci-app-argon-config.git ./feeds/luci/applications/luci-app-argon-config
 fi
-git clone https://github.com/jerrykuku/luci-theme-argon.git ./feeds/luci/themes/luci-theme-argon
-git clone https://github.com/jerrykuku/luci-app-argon-config.git ./feeds/luci/themes/luci-theme-argon-config
 bgdir=./feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/backgroun
 rm -rf $bgdir/*
 cp -r $GITHUB_WORKSPACE/source/img/* $bgdir/
