@@ -8,14 +8,6 @@
 # See /LICENSE for more information.
 #
 
-# Enable helloworld feed source
-grep -i "helloworld" feeds.conf.default >/dev/null
-if [ $? -eq 0 ]; then
-  sed -i 's/^#\(.*helloworld\)/\1/' feeds.conf.default
-else
-  echo 'src-git helloworld https://github.com/fw876/helloworld' >> feeds.conf.default
-fi
-
 # Add other feed sources
 echo "src-git passwall_packages https://github.com/xiaorouji/openwrt-passwall-packages.git;main" >> "feeds.conf.default"
 echo "src-git passwall https://github.com/xiaorouji/openwrt-passwall.git;main" >> "feeds.conf.default"
