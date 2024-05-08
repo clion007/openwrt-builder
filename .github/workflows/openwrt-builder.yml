@@ -25,6 +25,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    name: Build-OpenWrt-X86_64
 
     permissions:
       actions: write
@@ -135,6 +136,23 @@ jobs:
       if: steps.organize.outputs.status == 'success' && env.UPLOAD_RELEASE == 'true' && !cancelled()
       run: |
         echo "release_tag=OpenWrt${{ env.VERSION }}${{ env.DEVICE_NAME }}_$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_OUTPUT
+        touch release.txt
+
+        echo "## :mega:Update content" >> release.txt
+        echo "![](https://img.shields.io/github/downloads/$GITHUB_REPOSITORY/$release_tag/total?style=flat-square)" >> release.txt
+        
+        echo "### Firmware Information" >> release.txt
+        echo "**:loudspeaker:Cancel the ext4 format and only keep the squashfs format.**" >> release.txt
+        echo "**:computer:Including traditional IMG format firmware and UEFI boot firmware.**" >> release.txt
+
+        echo "### Openwrt Information" >> release.txt
+        echo "**:minidisc: OpenWrt Version: ${{ env.VERSION }}**" >> release.txt
+        PKG_VERSION=$(grep -oP 'PKG_VERSION:=\K[^ ]+' "$GITHUB_WORKSPACE/openwrt/package/lean/default-settings/Makefile")
+        PKG_RELEASE=$(grep -oP 'PKG_RELEASE:=\K[^ ]+' "$GITHUB_WORKSPACE/openwrt/package/lean/default-settings/Makefile")
+        echo "**:gear: Default-Setting Version: $PKG_VERSION.$PKG_RELEASE**" >> release.txt
+        kernel_X86=$(grep -oP 'KERNEL_PATCHVER:=\K[^ ]+' $GITHUB_WORKSPACE/openwrt/target/linux/x86/Makefile)
+        echo "**:gear: Kernel Version: $(sed -n '2p' $GITHUB_WORKSPACE/openwrt/include/kernel-${kernel_X86} | awk -F '-' '{print $2}' | awk -F ' =' '{print $1}')" >> release.txt
+
         echo "status=success" >> $GITHUB_OUTPUT
 
     - name: Upload firmware to release
@@ -142,6 +160,7 @@ jobs:
       if: steps.tag.outputs.status == 'success' && !cancelled()
       with:
         tag_name: ${{ steps.tag.outputs.release_tag }}
+        body_path: release.txt
         files: ${{ env.FIRMWARE }}/*.img*
         
     - name: Delete workflow runs
