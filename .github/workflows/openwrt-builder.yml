@@ -135,7 +135,8 @@ jobs:
       id: tag
       if: steps.organize.outputs.status == 'success' && env.UPLOAD_RELEASE == 'true' && !cancelled()
       run: |
-        echo "release_tag=OpenWrt${{ env.VERSION }}${{ env.DEVICE_NAME }}_$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_OUTPUT
+        release_tag=OpenWrt${{ env.VERSION }}${{ env.DEVICE_NAME }}_$(date +"%Y.%m.%d-%H%M")
+        echo "release_tag=$release_tag" >> $GITHUB_OUTPUT
         touch release.txt
 
         echo "## :mega: Update Content" >> release.txt
