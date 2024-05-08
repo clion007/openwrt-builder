@@ -138,7 +138,7 @@ jobs:
         echo "release_tag=OpenWrt${{ env.VERSION }}${{ env.DEVICE_NAME }}_$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_OUTPUT
         touch release.txt
 
-        echo "## :mega: Update content" >> release.txt
+        echo "## :mega: Update Content" >> release.txt
         echo "![](https://img.shields.io/github/downloads/$GITHUB_REPOSITORY/$release_tag/total?style=flat-square)" >> release.txt
         
         echo "### Firmware Information" >> release.txt
