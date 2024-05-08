@@ -32,3 +32,10 @@ else
   git clone https://github.com/jerrykuku/luci-app-argon-config.git
   cd ..
 fi
+
+# Add passwall packages
+git clone -b main https://github.com/xiaorouji/openwrt-passwall.git package/passwall
+git clone -b main https://github.com/xiaorouji/openwrt-passwall-packages.git package/passwall
+
+# Add istore packages
+git clone -b main https://github.com/linkease/istore.git package/istore
