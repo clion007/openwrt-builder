@@ -34,7 +34,7 @@ cp -r $GITHUB_WORKSPACE/source/img/* $bgdir
 
 # Add passwall application
 git clone -b main https://github.com/xiaorouji/openwrt-passwall.git ./feeds/luci/applications/passwall
-cp -r ./feeds/luci/applications/passwall/* ./feeds/luci/applications
+cp -r ./feeds/luci/applications/passwall/ ./feeds/luci/applications
 rm -rf ./feeds/luci/applications/passwall
 git clone -b main https://github.com/xiaorouji/openwrt-passwall-packages.git ./feeds/packages/passwall
 
