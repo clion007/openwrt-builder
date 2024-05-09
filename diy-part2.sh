@@ -35,8 +35,9 @@ fi
 cp -r $GITHUB_WORKSPACE/source/img/* $bgdir/
 
 # Add passwall application
-git clone -b main https://github.com/xiaorouji/openwrt-passwall.git ./package/custom_packages
-git clone -b main https://github.com/xiaorouji/openwrt-passwall-packages.git ./package/custom_packages/passwall-packages
+cpdir=./package/custom_packages
+git clone -b main https://github.com/xiaorouji/openwrt-passwall.git $cpdir
+git clone -b main https://github.com/xiaorouji/openwrt-passwall-packages.git $cpdir/passwall-packages
 
 # Add istore application
-git clone -b main https://github.com/linkease/istore.git ./package/custom_packages/istore
+git clone -b main https://github.com/linkease/istore.git $cpdir/istore
