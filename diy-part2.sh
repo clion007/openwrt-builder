@@ -33,8 +33,8 @@ rm -rf $bgdir/*
 cp -r $GITHUB_WORKSPACE/source/img/* $bgdir/
 
 # Add passwall packages
-git clone -b main https://github.com/xiaorouji/openwrt-passwall.git package/passwall
-git clone -b main https://github.com/xiaorouji/openwrt-passwall-packages.git package/passwall
+git clone -b main https://github.com/xiaorouji/openwrt-passwall.git ./feeds/luci/applications
+git clone -b main https://github.com/xiaorouji/openwrt-passwall-packages.git ./feeds/packages
 
 # Add istore packages
-git clone -b main https://github.com/linkease/istore.git package/istore
+git clone -b main https://github.com/linkease/istore.git ./feeds/luci/applications/istore
