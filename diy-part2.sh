@@ -28,13 +28,13 @@ else
   git clone -b master https://github.com/jerrykuku/luci-theme-argon.git ./feeds/luci/themes/luci-theme-argon
   git clone -b master https://github.com/jerrykuku/luci-app-argon-config.git ./feeds/luci/applications/luci-app-argon-config
 fi
-bgdir=./feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/backgroun
+bgdir=./feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/background
 rm -rf $bgdir/*
-cp -r $GITHUB_WORKSPACE/source/img/* $bgdir/
+cp -r $GITHUB_WORKSPACE/source/img/* $bgdir
 
 # Add passwall application
 git clone -b main https://github.com/xiaorouji/openwrt-passwall.git ./feeds/luci/applications/passwall
-mv -rf ./feeds/luci/applications/passwall/* ./feeds/luci/applications
+cp -r ./feeds/luci/applications/passwall/* ./feeds/luci/applications
 rm -rf ./feeds/luci/applications/passwall
 git clone -b main https://github.com/xiaorouji/openwrt-passwall-packages.git ./feeds/packages/passwall
 
