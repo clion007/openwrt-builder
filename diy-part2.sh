@@ -31,10 +31,8 @@ fi
 cp -r $GITHUB_WORKSPACE/source/img/* ./feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/background/
 
 # Add passwall application
-git clone -b main https://github.com/xiaorouji/openwrt-passwall.git ./feeds/luci/applications/passwall
-cp -r ./feeds/luci/applications/passwall/* ./feeds/luci/applications/
-rm -rf ./feeds/luci/applications/passwall
-git clone -b main https://github.com/xiaorouji/openwrt-passwall-packages.git ./feeds/packages/passwall
+git clone -b main https://github.com/xiaorouji/openwrt-passwall.git ./package/custom_packages
+git clone -b main https://github.com/xiaorouji/openwrt-passwall-packages.git ./package/custom_packages/passwall-packages
 
 # Add istore application
-git clone -b main https://github.com/linkease/istore.git ./feeds/luci/applications/istore
+git clone -b main https://github.com/linkease/istore.git ./package/custom_packages/istore
