@@ -28,8 +28,11 @@ else
   git clone -b master https://github.com/jerrykuku/luci-theme-argon.git ./feeds/luci/themes/luci-theme-argon
   git clone -b master https://github.com/jerrykuku/luci-app-argon-config.git ./feeds/luci/applications/luci-app-argon-config
 fi
-mkdir ./feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/background
-cp -r $GITHUB_WORKSPACE/source/img/* ./feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/background/
+bgdir=./feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/background
+if [ ! -d $bgdir ]; then
+  mkdir $bgdir
+fi
+cp -r $GITHUB_WORKSPACE/source/img/* $bgdir/
 
 # Add passwall application
 git clone -b main https://github.com/xiaorouji/openwrt-passwall.git ./package/custom_packages
