@@ -32,9 +32,9 @@ bgdir=./feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/backgroun
 rm -rf $bgdir/*
 cp -r $GITHUB_WORKSPACE/source/img/* $bgdir/
 
-# Add passwall packages
+# Add passwall application
 git clone -b main -s https://github.com/xiaorouji/openwrt-passwall.git ./feeds/luci/applications
 git clone -b main -s https://github.com/xiaorouji/openwrt-passwall-packages.git ./feeds/packages
 
-# Add istore packages
+# Add istore application
 git clone -b main https://github.com/linkease/istore.git ./feeds/luci/applications/istore
