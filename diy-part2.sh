@@ -24,11 +24,12 @@ if [ -d ./package/lean ]; then
   rm -rf ./feeds/luci/applications/luci-app-argon-config
   git clone -b 18.06 https://github.com/jerrykuku/luci-theme-argon.git ./feeds/luci/themes/luci-theme-argon
   git clone -b 18.06 https://github.com/jerrykuku/luci-app-argon-config.git ./feeds/luci/applications/luci-app-argon-config
+  bgdir=./feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/background
 else
-  git clone -b master https://github.com/jerrykuku/luci-theme-argon.git ./feeds/luci/themes/luci-theme-argon
-  git clone -b master https://github.com/jerrykuku/luci-app-argon-config.git ./feeds/luci/applications/luci-app-argon-config
+  git clone -b master https://github.com/jerrykuku/luci-theme-argon.git ./package/luci/themes/luci-theme-argon
+  git clone -b master https://github.com/jerrykuku/luci-app-argon-config.git ./package/luci/applications/luci-app-argon-config
+  bgdir=./package/luci/themes/luci-theme-argon/htdocs/luci-static/argon/background
 fi
-bgdir=./feeds/luci/themes/luci-theme-argon/htdocs/luci-static/argon/background
 if [ ! -d $bgdir ]; then
   mkdir $bgdir
 fi
