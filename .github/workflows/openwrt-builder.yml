@@ -129,7 +129,7 @@ jobs:
       if: steps.organize.outputs.status == 'success' && env.UPLOAD_TO_ARTIFACT == 'true' && !cancelled()
       with:
         name: OpenWrt_firmware${{ env.VERSION }}${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
-        path: ${{ env.FIRMWARE }}/*combined*
+        path: ${{ env.FIRMWARE }}/*combined*.img*
 
     - name: Generate release tag
       id: tag
@@ -162,7 +162,7 @@ jobs:
       with:
         tag_name: ${{ steps.tag.outputs.release_tag }}
         body_path: release.txt
-        files: ${{ env.FIRMWARE }}/*combined*
+        files: ${{ env.FIRMWARE }}/*combined*.img*
         
     - name: Delete workflow runs
       uses: Mattraks/delete-workflow-runs@v2
