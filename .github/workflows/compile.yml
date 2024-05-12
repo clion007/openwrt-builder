@@ -18,7 +18,7 @@ env:
   GIT_REPOSITORY: ${{github.repository}}
   RUN_NUMBER: ${{github.run_number}}
   RUN_WORKFLOW: ${{github.workflow}}
-  REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
+  REPO_TOKEN: ${{ github.token }}
   PUSH_PLUS_TOKEN: ${{ secrets.PUSH_PLUS_TOKEN }}
   TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
   TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
@@ -29,6 +29,10 @@ jobs:
     name: 编译 "${{matrix.target}}"
     runs-on: ubuntu-22.04
     if: ${{ github.event.repository.owner.id }} == ${{ github.event.sender.id }}
+
+    permissions:
+      actions: write
+      contents: write
     
     env:
       FOLDER_NAME: ${{ matrix.target }}
@@ -154,7 +158,7 @@ jobs:
       with:
         name: rootfs.tar.gz
         tag: targz
-        token: ${{ secrets.REPO_TOKEN }}
+        token: $REPO_TOKEN
         allowUpdates: true
         replacesArtifacts: true
         artifacts: openwrt/targz/*rootfs.tar.gz
@@ -180,7 +184,7 @@ jobs:
       with:
         name: ${{ env.SOURCE }}-${{ env.PROMPT_TING }}
         tag: a${{ env.date }}
-        token: ${{ secrets.REPO_TOKEN }}
+        token: $REPO_TOKEN
         allowUpdates: true
         body: ${{ env.Tongzhi_Date }}
         artifacts: "${{ env.FIRMWARE_PATH }}/*"
@@ -192,7 +196,7 @@ jobs:
       with:
         name: AutoUpdate
         tag: ${{ env.Update_tag }}
-        token: ${{ secrets.REPO_TOKEN }}
+        token: $REPO_TOKEN
         allowUpdates: true
         body: ${{ env.Tongzhi_Date }}
         artifacts: "${{ env.BIN_PATH }}/*"
@@ -202,7 +206,7 @@ jobs:
       run: |
         mkdir -p Github_Api
         cd Github_Api
-        curl -H "Authorization: Bearer ${{ secrets.REPO_TOKEN }}" https://api.github.com/repos/${{ github.repository }}/releases/tags/${{ env.Update_tag }} -o zzz_api
+        curl -H "Authorization: Bearer $REPO_TOKEN" https://api.github.com/repos/${{ github.repository }}/releases/tags/${{ env.Update_tag }} -o zzz_api
         if [[ $? -ne 0 ]]; then
           curl -H "Authorization: Bearer ${REPO_TOKEN}" https://api.github.com/repos/${GIT_REPOSITORY}/releases/tags/${Update_tag} > zzz_api
         fi
@@ -213,7 +217,7 @@ jobs:
       with:
         name: AutoUpdate-${{ env.TARGET_BOARD }}
         tag: ${{ env.Update_tag }}
-        token: ${{ secrets.REPO_TOKEN }}
+        token: $REPO_TOKEN
         artifacts: "Github_Api/*"
         allowUpdates: true
         body: ${{ env.Tongzhi_Date }}

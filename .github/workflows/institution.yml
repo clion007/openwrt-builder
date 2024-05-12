@@ -26,7 +26,7 @@ on:
         required: true
         default: ''
 env:
-  REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
+  REPO_TOKEN: ${{ github.token }}
   GIT_REPOSITORY: ${{github.repository}}
   TONGBU_CANGKU: 1
   TZ: Asia/Shanghai
@@ -36,11 +36,15 @@ jobs:
     name: 在[build]文件夹里面创建文件夹
     runs-on: ubuntu-22.04
     if: ${{ github.event.repository.owner.id }} == ${{ github.event.sender.id }}
+
+    permissions:
+      actions: write
+      contents: write
     
     steps:
     - name: 密匙检测（密匙为空则退出）
       run: |
-        if [[ -z "${{ secrets.REPO_TOKEN }}" ]]; then
+        if [[ -z "$REPO_TOKEN" ]]; then
           echo "您没有设置仓库密匙，请按教程设置好密匙再来"
           echo "REPO_TOKEN密匙制作教程：https://git.io/jm.md"
           exit 1
@@ -86,7 +90,7 @@ jobs:
         cd ${GITHUB_WORKSPACE}/repogx
         git add .
         git commit -m "Update $(date +%Y-%m%d-%H%M%S)"
-        git push --quiet "https://${{ secrets.REPO_TOKEN }}@github.com/${{github.repository}}" HEAD:main
+        git push --quiet "https://$REPO_TOKEN@github.com/${{github.repository}}" HEAD:main
         if [[ $? -ne 0 ]]; then
           echo "${{ inputs.establish_name }}文件夹创建失败"
         else
