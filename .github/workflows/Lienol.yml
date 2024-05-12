@@ -54,32 +54,32 @@ on:
       SSH_ACTION:
         description: 'SSH远程配置固件'
         required: false
-        default: 'false'
+        default: false
         type: boolean
       UPLOAD_FIRMWARE:
         description: '上传固件到 Github Artifacts'
         required: false
-        default: 'true'
+        default: true
         type: boolean
       UPLOAD_RELEASE:
         description: '发布固件到 Github Releases'
         required: false
-        default: 'false'
+        default: false
         type: boolean
       CACHEWRTBUILD_SWITCH:
         description: '缓存加速编译'
         required: false
-        default: 'true'
+        default: true
         type: boolean
       UPDATE_FIRMWARE_ONLINE:
         description: '增加在线更新固件功能/自动打包Amlogic_Rockchip系列固件'
         required: false
-        default: 'true'
+        default: true
         type: boolean
       COMPILATION_INFORMATION:
         description: '是否显示编译信息'
         required: false
-        default: 'true'
+        default: true
         type: boolean
 
 
@@ -193,7 +193,7 @@ jobs:
         source ${BUILD_PATH}/common.sh && Diy_menu5
     
     - name: SSH远程连接（make menuconfig）
-      if: env.SSH_ACTION == 'true'
+      if: env.SSH_ACTION == true
       uses: danshui-git/debugger-action@main
 
     - name: 生成"${{ matrix.target }}"配置文件
@@ -212,7 +212,7 @@ jobs:
         
     - name: 编译信息
       continue-on-error: true
-      if: env.COMPILATION_INFORMATION == 'true'
+      if: env.COMPILATION_INFORMATION == true
       run: |
         cd openwrt
         source ${BUILD_PATH}/common.sh && Diy_xinxi
