@@ -92,7 +92,7 @@ on:
 env:
   GITHUB_LINK: https://github.com/${{github.repository}}
   GIT_ACTOR: ${{github.actor}}
-  GIT_REPOSITORY: ${{github.repository}}
+  GIT_REPOSITORY: ${{github.repositoryy}}
   RUN_NUMBER: ${{github.run_number}}
   RUN_WORKFLOW: ${{github.workflow}}
   REPO_TOKEN: ${{ github.token }}
