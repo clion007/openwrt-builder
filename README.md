@@ -152,8 +152,8 @@ CONFIG_TARGET_armsr_armv8_DEVICE_generic=y
  ### 鸣谢！
  感谢以下各位大佬（排名无分先后）<br />
  
- [`coolsnowwolf`](https://github.com/coolsnowwolf/lede/tree/master)
- [`Lienol`](https://github.com/Lienol/openwrt/tree/21.02)
+ [`coolsnowwolf`](https://github.com/coolsnowwolf/lede)
+ [`Lienol`](https://github.com/Lienol/openwrt)
  [`immortalwrt`](https://github.com/immortalwrt/immortalwrt)
  [`openwrt`](https://github.com/openwrt/openwrt)
  [`x-wrt`](https://github.com/x-wrt/x-wrt)
@@ -169,3 +169,5 @@ CONFIG_TARGET_armsr_armv8_DEVICE_generic=y
  [`actions`](https://github.com/actions/upload-artifact)
  [`svenstaro`](https://github.com/svenstaro/upload-release-action)
  [`jerrykuku`](https://github.com/jerrykuku/luci-theme-argon)
+ [`281677160`](https://github.com/281677160/autobuild)
+ [`OpenWrtLi`](https://github.com/OpenWrtLi/OpenWrtli)
