@@ -110,6 +110,10 @@ jobs:
     name: 启动"${{ matrix.target }}-${{ github.event.inputs.REPO_BRANCH }}"触发编译
     runs-on: ubuntu-22.04
     if: ${{ github.event.repository.owner.id }} == ${{ github.event.sender.id }}
+
+    permissions:
+      actions: write
+      contents: write
     
     env:
       FOLDER_NAME: ${{ matrix.target }}
