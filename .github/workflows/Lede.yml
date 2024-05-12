@@ -229,7 +229,7 @@ jobs:
       if: env.REPO_TOKEN
       uses: small-5/delete-workflow-runs@main
       with:
-        token: $REPO_TOKEN
+        token: ${{env.REPO_TOKEN }}
         repository: ${{ github.repository }}
         retain_min: ${{ env.RETAIN_MINUTE }}
     
