@@ -14,7 +14,6 @@ on:
         type: choice
         options:
           - 'Lede'
-          - 'Immortalwrt'
           - 'Lienol'
           - 'Official'
           - 'Xwrt'
@@ -64,14 +63,14 @@ on:
 
   push:
     branches:
-      - main
+      - autobuild
     paths:
       - 'bconfig'
 
 env:
   GITHUB_LINK: https://github.com/${{github.repository}}
   GIT_REPOSITORY: ${{github.repository}}
-  REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
+  REPO_TOKEN: ${{ github.token }}
   TZ: Asia/Shanghai
   FOLDER_NAME: Lede
   SOURCE: Lede
@@ -166,7 +165,7 @@ jobs:
       with:
         name: ${{ env.amlogic_model }}
         tag: ${{ env.date }}
-        token: ${{ secrets.REPO_TOKEN }}
+        token: $REPO_TOKEN
         allowUpdates: true
         artifacts: "${{ env.FIRMWARE_PATH }}/*"
         body: |
