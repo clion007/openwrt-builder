@@ -158,7 +158,6 @@ jobs:
       with:
         name: rootfs.tar.gz
         tag: targz
-        token: $REPO_TOKEN
         allowUpdates: true
         replacesArtifacts: true
         artifacts: openwrt/targz/*rootfs.tar.gz
@@ -184,7 +183,6 @@ jobs:
       with:
         name: ${{ env.SOURCE }}-${{ env.PROMPT_TING }}
         tag: a${{ env.date }}
-        token: $REPO_TOKEN
         allowUpdates: true
         body: ${{ env.Tongzhi_Date }}
         artifacts: "${{ env.FIRMWARE_PATH }}/*"
@@ -196,7 +194,6 @@ jobs:
       with:
         name: AutoUpdate
         tag: ${{ env.Update_tag }}
-        token: $REPO_TOKEN
         allowUpdates: true
         body: ${{ env.Tongzhi_Date }}
         artifacts: "${{ env.BIN_PATH }}/*"
@@ -206,7 +203,7 @@ jobs:
       run: |
         mkdir -p Github_Api
         cd Github_Api
-        curl -H "Authorization: Bearer $REPO_TOKEN" https://api.github.com/repos/${{ github.repository }}/releases/tags/${{ env.Update_tag }} -o zzz_api
+        curl -H "Authorization: Bearer ${REPO_TOKEN}" https://api.github.com/repos/${{ github.repository }}/releases/tags/${{ env.Update_tag }} -o zzz_api
         if [[ $? -ne 0 ]]; then
           curl -H "Authorization: Bearer ${REPO_TOKEN}" https://api.github.com/repos/${GIT_REPOSITORY}/releases/tags/${Update_tag} > zzz_api
         fi
@@ -217,7 +214,6 @@ jobs:
       with:
         name: AutoUpdate-${{ env.TARGET_BOARD }}
         tag: ${{ env.Update_tag }}
-        token: $REPO_TOKEN
         artifacts: "Github_Api/*"
         allowUpdates: true
         body: ${{ env.Tongzhi_Date }}
