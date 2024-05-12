@@ -124,7 +124,7 @@ jobs:
     - name: 密匙检测（密匙为空则退出）
       run: |
         cd ${GITHUB_WORKSPACE}
-        if [[ -z "${{ github.token }}" ]]; then
+        if [[ -z "$REPO_TOKEN" ]]; then
           echo "您没有设置仓库密匙，请按教程设置好密匙再来"
           echo "REPO_TOKEN密匙制作教程：https://git.io/jm.md"
           exit 1
@@ -224,7 +224,7 @@ jobs:
       if: env.REPO_TOKEN
       uses: small-5/delete-workflow-runs@main
       with:
-        token: ${{ github.token }}
+        token: $REPO_TOKEN
         repository: ${{ github.repository }}
         retain_min: ${{ env.RETAIN_MINUTE }}
     
@@ -239,7 +239,7 @@ jobs:
         delete_tags: true
         delete_workflows: false
         workflows_keep_day: 90
-        gh_token: ${{ github.token }}
+        gh_token: $REPO_TOKEN
         
     - name: 触发启动"${{ matrix.target }}"开始编译
       id: gitpush
