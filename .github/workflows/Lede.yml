@@ -9,7 +9,7 @@
 #
 #
 
-name: Lede-Lean源码
+name: Lean-源码
 
 on:
   workflow_dispatch:
