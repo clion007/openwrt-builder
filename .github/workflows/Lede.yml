@@ -97,7 +97,7 @@ on:
 env:
   GITHUB_LINK: https://github.com/${{github.repository}}
   GIT_ACTOR: ${{github.actor}}
-  GIT_REPOSITORY: ${{${REPO_TOKEN}${REPO_TOKEN}}}
+  GIT_REPOSITORY: ${{github.repository}}
   RUN_NUMBER: ${{github.run_number}}
   RUN_WORKFLOW: ${{github.workflow}}
   REPO_TOKEN: ${{ secrets.ACTIONS_TRIGGER_PAT }}
