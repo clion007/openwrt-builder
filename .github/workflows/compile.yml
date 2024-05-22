@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - autobuild
+      - auto
     paths:
       - 'build/Official/relevance/start'
 

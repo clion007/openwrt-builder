@@ -63,7 +63,7 @@ on:
 
   push:
     branches:
-      - autobuild
+      - auto
     paths:
       - 'bconfig'
 
