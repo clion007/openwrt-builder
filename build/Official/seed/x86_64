@@ -6,7 +6,6 @@ CONFIG_GRUB_TITLE="OpenWrt BY Clion"
 CONFIG_KERNEL_BUILD_USER="Clion Nieh"
 # CONFIG_KERNEL_DEBUG_FS is not set
 # CONFIG_KERNEL_DEBUG_INFO is not set
-# CONFIG_TARGET_ROOTFS_EXT4FS is not set
 CONFIG_LUCI_LANG_zh_Hans=y
 CONFIG_PACKAGE_6in4=y
 CONFIG_PACKAGE_6rd=y
@@ -27,10 +26,13 @@ CONFIG_PACKAGE_coreutils-base64=y
 CONFIG_PACKAGE_coreutils-nohup=y
 CONFIG_PACKAGE_coreutils-stat=y
 CONFIG_PACKAGE_coreutils-stty=y
+CONFIG_PACKAGE_ddns-scripts=y
+CONFIG_PACKAGE_ddns-scripts-services=y
 CONFIG_PACKAGE_default-settings=y
 CONFIG_PACKAGE_dns2socks=y
 CONFIG_PACKAGE_dns2tcp=y
 # CONFIG_PACKAGE_dnsmasq_full_tftp is not set
+CONFIG_PACKAGE_etherwake=y
 CONFIG_PACKAGE_fuse-utils=y
 CONFIG_PACKAGE_fuse3-utils=y
 CONFIG_PACKAGE_haproxy=y
@@ -108,8 +110,13 @@ CONFIG_PACKAGE_libxtables=y
 CONFIG_PACKAGE_libzstd=y
 CONFIG_PACKAGE_lsblk=y
 CONFIG_PACKAGE_luci-app-argon-config=y
+CONFIG_PACKAGE_luci-app-arpbind=y
+CONFIG_PACKAGE_luci-app-chinadns-ng=y
+CONFIG_PACKAGE_luci-app-control-timewol=y
+CONFIG_PACKAGE_luci-app-ddns=y
 CONFIG_PACKAGE_luci-app-diskman=y
 CONFIG_PACKAGE_luci-app-fileassistant=y
+CONFIG_PACKAGE_luci-app-filetransfer=y
 CONFIG_PACKAGE_luci-app-nlbwmon=y
 CONFIG_PACKAGE_luci-app-passwall=y
 CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Haproxy=y
@@ -118,10 +125,12 @@ CONFIG_PACKAGE_luci-app-passwall_INCLUDE_V2ray_Geodata=y
 CONFIG_PACKAGE_luci-app-passwall_INCLUDE_V2ray_Plugin=y
 CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Xray=y
 CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Xray_Plugin=y
-CONFIG_PACKAGE_luci-app-passwall_Nftables_Transparent_Proxy=y
 CONFIG_PACKAGE_luci-app-ramfree=y
 CONFIG_PACKAGE_luci-app-rclone=y
+# CONFIG_PACKAGE_luci-app-rclone_INCLUDE_fuse-utils is not set
 # CONFIG_PACKAGE_luci-app-rclone_INCLUDE_rclone-ng is not set
+# CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_ChinaDNS_NG is not set
+# CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_MosDNS is not set
 # CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_ShadowsocksR_Libev_Client is not set
 # CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_ShadowsocksR_Libev_Server is not set
 # CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_Shadowsocks_Simple_Obfs is not set
@@ -130,8 +139,13 @@ CONFIG_PACKAGE_luci-app-unblockmusic=y
 CONFIG_PACKAGE_luci-app-wrtbwmon=y
 CONFIG_PACKAGE_luci-compat=y
 CONFIG_PACKAGE_luci-i18n-argon-config-zh-cn=y
+CONFIG_PACKAGE_luci-i18n-arpbind-zh-cn=y
 CONFIG_PACKAGE_luci-i18n-autoupdate-zh-cn=y
 CONFIG_PACKAGE_luci-i18n-base-zh-cn=y
+CONFIG_PACKAGE_luci-i18n-chinadns-ng-zh-cn=y
+CONFIG_PACKAGE_luci-i18n-control-timewol-zh-cn=y
+CONFIG_PACKAGE_luci-i18n-ddns-zh-cn=y
+CONFIG_PACKAGE_luci-i18n-filetransfer-zh-cn=y
 CONFIG_PACKAGE_luci-i18n-firewall-zh-cn=y
 CONFIG_PACKAGE_luci-i18n-nlbwmon-zh-cn=y
 CONFIG_PACKAGE_luci-i18n-opkg-zh-cn=y
@@ -175,7 +189,9 @@ CONFIG_PACKAGE_xray-plugin=y
 CONFIG_PACKAGE_xz=y
 CONFIG_PACKAGE_xz-utils=y
 CONFIG_PARTED_READLINE=y
-CONFIG_TARGET_ROOTFS_PARTSIZE=950
+# CONFIG_TARGET_ROOTFS_EXT4FS is not set
+CONFIG_TARGET_ROOTFS_PARTSIZE=150
+# CONFIG_TARGET_ROOTFS_TARGZ is not set
 CONFIG_ZSTD_OPTIMIZE_O3=y
 CONFIG_boost-compile-visibility-hidden=y
 CONFIG_boost-runtime-shared=y
@@ -194,6 +210,7 @@ CONFIG_boost-variant-release=y
 # CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Shadowsocks_Libev_Server is not set
 # CONFIG_PACKAGE_luci-app-passwall_INCLUDE_Simple_Obfs is not set
 # CONFIG_PACKAGE_luci-app-passwall_INCLUDE_SingBox is not set
+# CONFIG_PACKAGE_luci-app-passwall_Nftables_Transparent_Proxy is not set
 # CONFIG_PACKAGE_shadowsocks-libev-ss-local is not set
 # CONFIG_PACKAGE_shadowsocks-libev-ss-redir is not set
 # CONFIG_PACKAGE_shadowsocks-libev-ss-server is not set
