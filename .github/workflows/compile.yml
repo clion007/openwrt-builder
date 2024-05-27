@@ -10,7 +10,7 @@ on:
     branches:
       - auto
     paths:
-      - 'build/Lienol/relevance/start'
+      - 'build/Lede/relevance/start'
 
 env:
   GITHUB_LINK: https://github.com/${{github.repository}}
@@ -39,7 +39,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [Lienol]
+        target: [Lede]
 
     steps:    
     - name: 准备结束
