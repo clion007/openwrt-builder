@@ -12,6 +12,7 @@
 name: Lean-源码
 
 on:
+  repository_dispatch:
   workflow_dispatch:
     inputs:
       REPO_BRANCH:
