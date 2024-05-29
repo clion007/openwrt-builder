@@ -1,12 +1,7 @@
 #
-# 请大家记住拉取的是我的 281677160/build-actions 仓库，拉取的是其他仓库有问题，别问我，我也不清楚什么问题
-#
 # 因为SSH连接配置固件直接编译，会给github停止编译的,所以要另外触发启动编译程序
-#
 # 一般情况下都能触发启动编译的，除非没设置好密匙，或者密匙过期了，或者密匙错误之类的
-#
 # REPO_TOKEN密匙制作教程：https://git.io/jm.md
-#
 #
 
 name: Lean-源码
@@ -80,7 +75,7 @@ on:
         default: true
         type: boolean
       UPDATE_FIRMWARE_ONLINE:
-        description: '增加在线更新固件功能/自动打包Amlogic_Rockchip系列固件'
+        description: '增加在线更新固件功能'
         required: false
         default: true
         type: boolean
