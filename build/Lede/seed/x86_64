@@ -185,15 +185,10 @@ CONFIG_PACKAGE_luci-i18n-wrtbwmon-zh-cn=y
 # CONFIG_PACKAGE_luci-lib-fs is not set
 CONFIG_PACKAGE_luci-lib-taskd=y
 CONFIG_PACKAGE_luci-lib-xterm=y
-CONFIG_PACKAGE_luci-proto-ipv6=y
 CONFIG_PACKAGE_luci-proto-wireguard=y
 CONFIG_PACKAGE_mdns-utils=y
 CONFIG_PACKAGE_mdnsd=y
 # CONFIG_PACKAGE_mosdns is not set
-CONFIG_PACKAGE_odhcp6c=y
-CONFIG_PACKAGE_odhcp6c_ext_cer_id=0
-CONFIG_PACKAGE_odhcpd-ipv6only=y
-CONFIG_PACKAGE_odhcpd_ipv6only_ext_cer_id=0
 CONFIG_PACKAGE_openssh-sftp-server=y
 CONFIG_PACKAGE_parted=y
 # CONFIG_PACKAGE_pdnsd-alt is not set
