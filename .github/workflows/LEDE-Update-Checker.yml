@@ -46,7 +46,7 @@ jobs:
       if: steps.cacheHash.outputs.cache-hit != 'true'
       uses: peter-evans/repository-dispatch@v3
       with:
-        event-type: OpenWrt Firemware Update
+        event-type: OpenWrt From Lean Firemware Update
         
     - name: Delete workflow runs
       uses: Mattraks/delete-workflow-runs@v2
