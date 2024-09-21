@@ -170,4 +170,3 @@ CONFIG_TARGET_armsr_armv8_DEVICE_generic=y
  [`svenstaro`](https://github.com/svenstaro/upload-release-action)
  [`jerrykuku`](https://github.com/jerrykuku/luci-theme-argon)
  [`281677160`](https://github.com/281677160/autobuild)
- [`OpenWrtLi`](https://github.com/OpenWrtLi/OpenWrtli)
