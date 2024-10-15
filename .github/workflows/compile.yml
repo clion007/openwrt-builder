@@ -9,7 +9,7 @@ on:
     branches:
       - auto
     paths:
-      - 'build/Lede/relevance/start'
+      - 'build/${{ env.SOURCE_CODE }}/relevance/start'
 
 env:
   GITHUB_LINK: https://github.com/${{github.repository}}
@@ -38,7 +38,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [Lede]
+        target: 
+        - ${{ env.SOURCE_CODE }}
 
     steps:    
     - name: 准备结束
