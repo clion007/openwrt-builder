@@ -9,7 +9,7 @@ on:
     branches:
       - auto
     paths:
-      - 'build/${{ env.SOURCE }}/relevance/start'
+      - 'build/*/relevance/start'
 
 env:
   GITHUB_LINK: https://github.com/${{github.repository}}
