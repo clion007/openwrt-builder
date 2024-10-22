@@ -220,9 +220,6 @@ CONFIG_boost-static-and-shared-libs=y
 CONFIG_boost-variant-release=y
 # CONFIG_PACKAGE_kmod-inet-diag is not set
 # CONFIG_PACKAGE_kmod-netlink-diag is not set
-# CONFIG_PACKAGE_kmod-nft-core is not set
-# CONFIG_PACKAGE_kmod-nft-nat is not set
-# CONFIG_PACKAGE_kmod-nft-nat6 is not set
 # CONFIG_PACKAGE_libcares is not set
 # CONFIG_PACKAGE_libev is not set
 # CONFIG_PACKAGE_libmbedtls is not set
