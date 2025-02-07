@@ -78,6 +78,7 @@ export kernel_usage="stable"
 sed -i 's/"aMule设置"/"电驴下载"/g' `egrep "aMule设置" -rl ./`
 sed -i 's/"Turbo ACC 网络加速"/"网络加速"/g' `egrep "Turbo ACC 网络加速" -rl ./`
 sed -i 's/"实时流量监测"/"流量监测"/g' `egrep "实时流量监测" -rl ./`
+sed -i 's/"上网时间控制"/"时间控制"/g' `egrep "上网时间控制" -rl ./`
 sed -i 's/"USB 打印服务器"/"打印服务"/g' `egrep "USB 打印服务器" -rl ./`
 sed -i 's/"Web 管理"/"Web管理"/g' `egrep "Web 管理" -rl ./`
 sed -i 's/"Tcpdump 流量监控"/"数据捕获"/g' `egrep "Tcpdump 流量监控" -rl ./`
