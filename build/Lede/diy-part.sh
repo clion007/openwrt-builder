@@ -75,7 +75,6 @@ export kernel_usage="stable"
 
 
 # 修改插件名字
-sed -i 's/"aMule设置"/"电驴下载"/g' `egrep "aMule设置" -rl ./`
 sed -i 's/"Turbo ACC 网络加速"/"网络加速"/g' `egrep "Turbo ACC 网络加速" -rl ./`
 sed -i 's/"实时流量监测"/"流量监测"/g' `egrep "实时流量监测" -rl ./`
 sed -i 's/"上网时间控制"/"时间控制"/g' `egrep "上网时间控制" -rl ./`
