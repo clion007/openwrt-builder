@@ -91,7 +91,7 @@ jobs:
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
-        source ${GITHUB_WORKSPACE}/build/${{matrix.target}}/common.sh && Diy_update
+        sudo source ${GITHUB_WORKSPACE}/build/${{matrix.target}}/common.sh && Diy_update
         sudo timedatectl set-timezone "$TZ"
         sudo mkdir -p /${{ env.DIY_WORK }}
         sudo chown ${USER}:${GROUPS} /${{ env.DIY_WORK }}
