@@ -36,16 +36,6 @@ on:
           - 'xiaomi_redmi-router-ax6s'
           - 'xiaomi_redmi-router-ax6000'
           - 'xiaoyu_xy-c5'
-      CPU_SELECTION:
-        description: 'CPU优选,增加编译速度'
-        required: true
-        default: '默认'
-        type: choice
-        options:
-          - '默认'
-          - '8370C'
-          - '8272CL'
-          - '8171M'
       INFORMATION_NOTICE:
         description: 'Telegram或pushplus信息通知'
         required: true
@@ -134,25 +124,6 @@ jobs:
     
     - name: 准备结束
       uses: actions/checkout@v4
-
-    - name: 检测文件和对比上游版本
-      run: |
-        cd ${GITHUB_WORKSPACE}
-        bash <(curl -fsSL https://raw.githubusercontent.com/clion007/openwrt-common/main/custom/first.sh)
-        source ${GITHUB_WORKSPACE}/build/${{ env.FOLDER_NAME }}/settings.ini
-        export INPUTS_REPO_BRANCH="${{ github.event.inputs.REPO_BRANCH }}"
-        export INPUTS_CONFIG_FILE="${{ github.event.inputs.CONFIG_FILE }}"
-        export INPUTS_CPU_SELECTION="${{ github.event.inputs.CPU_SELECTION }}"
-        export INPUTS_INFORMATION_NOTICE="${{ github.event.inputs.INFORMATION_NOTICE }}"
-        export INPUTS_SSH_ACTION="${{ github.event.inputs.SSH_ACTION }}"
-        export INPUTS_UPLOAD_FIRMWARE="${{ github.event.inputs.UPLOAD_FIRMWARE }}"
-        export INPUTS_UPLOAD_RELEASE="${{ github.event.inputs.UPLOAD_RELEASE }}"
-        export INPUTS_CACHEWRTBUILD_SWITCH="${{ github.event.inputs.CACHEWRTBUILD_SWITCH }}"
-        export INPUTS_UPDATE_FIRMWARE_ONLINE="${{ github.event.inputs.UPDATE_FIRMWARE_ONLINE }}"
-        export INPUTS_COMPILATION_INFORMATION="${{ github.event.inputs.COMPILATION_INFORMATION }}"
-        export INPUTS_PACKAGING_FIRMWARE="${{ github.event.inputs.PACKAGING_FIRMWARE }}"
-        source build/${{ env.FOLDER_NAME }}/common.sh && Diy_menu1
-
     - name: 部署编译环境
       env:
         DEBIAN_FRONTEND: noninteractive
@@ -170,6 +141,7 @@ jobs:
         ln -sf /${{ env.DIY_WORK }}/openwrt ${GITHUB_WORKSPACE}/openwrt
         cp -Rf ${GITHUB_WORKSPACE}/build ${GITHUB_WORKSPACE}/openwrt/build
         chmod -R +x ${GITHUB_WORKSPACE}/openwrt/build
+        echo "SHANG_CHUAN=true" >> ${GITHUB_ENV}
     
     - name: 公 告
       if: env.REPO_TOKEN
