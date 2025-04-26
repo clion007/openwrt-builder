@@ -12,11 +12,7 @@ on:
       - 'build/Lede/relevance/start'
 
 env:
-  GITHUB_LINK: https://github.com/${{github.repository}}
-  GIT_ACTOR: ${{github.actor}}
   GIT_REPOSITORY: ${{github.repository}}
-  RUN_NUMBER: ${{github.run_number}}
-  RUN_WORKFLOW: ${{github.workflow}}
   REPO_TOKEN: ${{ secrets.ACTIONS_TRIGGER_PAT }}
   PUSH_PLUS_TOKEN: ${{ secrets.PUSH_PLUS_TOKEN }}
   TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
@@ -44,22 +40,24 @@ jobs:
     - name: 准备结束
       uses: actions/checkout@v4
 
-    - name: 释放硬盘空间
-      uses: coder-xiaomo/free-disk-space@main
+    - name: 释放Ubuntu磁盘空间
+      uses: endersonmenezes/free-disk-space@v2
       with:
-        tool-cache: true
-        android: true
-        dotnet: true
-        haskell: true
-        large-packages: true
-        docker-images: true
-        swap-storage: true
+        remove_android: true
+        remove_dotnet: true
+        remove_haskell: true
+        remove_tool_cache: true
+        remove_swap: true
+        remove_packages: "azure-cli google-cloud-cli microsoft-edge-stable google-chrome-stable firefox postgresql* temurin-* *llvm* mysql* dotnet-sdk-*"
+        remove_packages_one_command: true
+        remove_folders: "/usr/share/swift /usr/share/miniconda /usr/share/az* /usr/share/glade* /usr/local/lib/node_modules /usr/local/share/chromium /usr/local/share/powershell"
+        testing: false
         
     - name: 部署编译环境
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
-        source ${GITHUB_WORKSPACE}/build/${{matrix.target}}/common.sh && Diy_update
+        sudo bash -c 'bash <(curl -fsSL https://github.com/281677160/common/raw/main/custom/ubuntu.sh)'
         sudo timedatectl set-timezone "$TZ"
         sudo mkdir -p /${{ env.DIY_WORK }}
         sudo chown ${USER}:${GROUPS} /${{ env.DIY_WORK }}
@@ -69,40 +67,18 @@ jobs:
       run: |
         git clone -b "${REPO_BRANCH}" --single-branch "${REPO_URL}" openwrt
         ln -sf /${{ env.DIY_WORK }}/openwrt ${GITHUB_WORKSPACE}/openwrt
-        cp -Rf ${GITHUB_WORKSPACE}/build ${GITHUB_WORKSPACE}/openwrt/build
-        chmod -R +x ${GITHUB_WORKSPACE}/openwrt/build
     
     - name: 公 告
-      run: |
-        cd openwrt
-        source ${BUILD_PATH}/common.sh && Diy_menu2
+      continue-on-error: true
+      uses: 281677160/common@message
  
-    - name: 更新插件源
-      run: |
-        cd openwrt
-        source ${BUILD_PATH}/common.sh && Diy_menu3
- 
-    - name: 加载自定义设置
-      run: |
-        cd openwrt
-        source ${BUILD_PATH}/common.sh && Diy_menu4
-        
-    - name: 安装插件源
-      run: |
-        cd openwrt
-        source ${BUILD_PATH}/common.sh && Diy_menu5
-
-    - name: 生成"${{matrix.target}}"配置文件
-      run: |
-        cd openwrt
-        source ${BUILD_PATH}/common.sh && Diy_menu6
+    - name: 运行自定义文件和其他
+      uses: 281677160/common@need
         
     - name: 编译信息
       continue-on-error: true
       if: env.COMPILATION_INFORMATION == 'true'
-      run: |
-        cd openwrt
-        source ${BUILD_PATH}/common.sh && Diy_xinxi
+      uses: 281677160/common@message
         
     - name: 缓存加速
       if: env.CACHEWRTBUILD_SWITCH == 'true'
@@ -121,89 +97,29 @@ jobs:
     
     - name: 开始编译固件
       id: compile
+      if: steps.package.outcome == 'success'
       run: |
         cd openwrt
         echo -e "$(nproc) thread compile"
         make -j$(nproc) V=s || make -j1 V=s
         echo "date=$(date "+%Y%m%d%H%M%S")" >> ${GITHUB_ENV}
-        source ${BUILD_PATH}/common.sh && firmware_jiance
-        
-    - name: 自动打包Amlogic_Rockchip系列固件
-      if: steps.compile.outcome == 'success' && env.PACKAGING_FIRMWARE == 'true'
-      uses: ncipollo/release-action@main
-      with:
-        name: rootfs.tar.gz
-        tag: targz
-        allowUpdates: true
-        replacesArtifacts: true
-        artifacts: openwrt/targz/*rootfs.tar.gz
+        echo "Tongzhi_Date=$(date +%Y年%m月%d日)" >> ${GITHUB_ENV}
+      
+    - name: 自动打包aarch64系列固件
+      if: steps.compile.outcome == 'success' && env.ONLINE_FIRMWARE == 'true'
+      uses: 281677160/common@aarch
 
     - name: 整理固件文件夹(需配合diy-part.sh设定使用)
       continue-on-error: true
       if: steps.compile.outcome == 'success'
-      id: organizer
       run: |
         cd openwrt
-        source ${BUILD_PATH}/common.sh && Diy_firmware
-        
-    - name: 上传固件在 github Artifacts
-      if: steps.compile.outcome == 'success' && env.UPLOAD_FIRMWARE == 'true'
-      uses: actions/upload-artifact@main
-      with:
-        name: ${{ env.SOURCE }}-${{ env.LUCI_EDITION }}-${{ env.TARGET_PROFILE }}-firmware-${{ env.Firmware_Date }}
-        path: ${{ env.FIRMWARE_PATH }}
-    
-    - name: 发布固件
-      if: steps.compile.outcome == 'success' && env.UPLOAD_RELEASE == 'true' && env.ING_FIRMWAR == 'true' && env.REPO_TOKEN
-      uses: ncipollo/release-action@v1
-      with:
-        name: ${{ env.SOURCE }}-${{ env.PROMPT_TING }}
-        tag: a${{ env.date }}
-        allowUpdates: true
-        body: ${{ env.Tongzhi_Date }}
-        artifacts: "${{ env.FIRMWARE_PATH }}/*"
-        
-    - name: 发送[在线更新固件]至云端1
-      id: autoup
-      if: steps.compile.outcome == 'success' && env.UPDATE_FIRMWARE_ONLINE == 'true' && env.REPO_TOKEN
-      uses: ncipollo/release-action@v1
-      with:
-        name: AutoUpdate
-        tag: ${{ env.Update_tag }}
-        allowUpdates: true
-        body: ${{ env.Tongzhi_Date }}
-        artifacts: "${{ env.BIN_PATH }}/*"
-        
-    - name: 发送[在线更新固件]至云端2
-      if: steps.autoup.outcome == 'success' && env.UPDATE_FIRMWARE_ONLINE == 'true' && env.REPO_TOKEN
-      run: |
-        mkdir -p Github_Api
-        cd Github_Api
-        curl -H "Authorization: Bearer ${REPO_TOKEN}" https://api.github.com/repos/${{ github.repository }}/releases/tags/${{ env.Update_tag }} -o zzz_api
-        if [[ $? -ne 0 ]]; then
-          curl -H "Authorization: Bearer ${REPO_TOKEN}" https://api.github.com/repos/${GIT_REPOSITORY}/releases/tags/${Update_tag} > zzz_api
-        fi
-        
-    - name: 发送[在线更新固件]至云端3
-      if: steps.autoup.outcome == 'success' && env.UPDATE_FIRMWARE_ONLINE == 'true' && env.REPO_TOKEN
-      uses: ncipollo/release-action@v1
-      with:
-        name: AutoUpdate-${{ env.TARGET_BOARD }}
-        tag: ${{ env.Update_tag }}
-        artifacts: "Github_Api/*"
-        allowUpdates: true
-        body: ${{ env.Tongzhi_Date }}
+        source $COMMON_SH && Diy_firmware
 
-    - name: Telegram或pushplus信息通知
-      if: env.PUSH_PLUS_TOKEN && env.INFORMATION_NOTICE == 'PUSH' || env.TELEGRAM_BOT_TOKEN && env.INFORMATION_NOTICE == 'TG'
-      run: |
-        if [[ "${{ env.INFORMATION_NOTICE }}" == "TG" ]]; then
-          if [[ "${{steps.compile.outcome}}" == 'success' ]]; then
-            curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=我亲爱的✨主人✨：您使用【${{matrix.target}}】文件夹编译【${REPO_BRANCH}分支的${{env.TARGET_PROFILE}}】固件顺利编译完成了✌️💯💐(${{env.WAREHOUSE_MAN}}仓库的#${{env.RUN_NUMBER}}号)！($(date +%Y年%m月%d号%H时%M分))" "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage"
-          fi
-        fi
-        if [[ "${{ env.INFORMATION_NOTICE }}" == "PUSH" ]]; then
-          if [[ "${{steps.compile.outcome}}" == 'success' ]]; then
-            curl -k --data token="${{ secrets.PUSH_PLUS_TOKEN }}" --data title="[${{ env.SOURCE }}-${{ env.TARGET_PROFILE }}]编译成功" --data "content=我亲爱的✨主人✨：您使用【${{matrix.target}}】文件夹编译【${REPO_BRANCH}分支的${{env.TARGET_PROFILE}}】固件顺利编译完成了✌️💯💐(${{env.WAREHOUSE_MAN}}仓库的#${{env.RUN_NUMBER}}号)！($(date +%Y年%m月%d号%H时%M分))" "http://www.pushplus.plus/send"
-          fi
-        fi
+    - name: 发送[在线更新固件]至云端
+      if: steps.compile.outcome == 'success' && env.UPDATE_FIRMWARE_ONLINE == 'true'
+      uses: 281677160/common@cloud
+        
+    - name: 上传,发布,信息通知
+      if: steps.compile.outcome == 'success'
+      uses: 281677160/common@uploads
