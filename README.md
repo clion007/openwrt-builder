@@ -20,10 +20,57 @@
 
 ---
 
-<details>
-<summary>🆙更新说明（2024年1月14号）</summary>
+<details><summary>🆙更新说明（2025年4月24号）</summary>
 
 <br>
+
+  2025年4月24号
+
+ 1、修复了23.05以下不能编译的NaiveProxy问题
+
+
+ ---
+  2025年4月23号
+
+ 1、把脚本重新整理了一遍，23.05或者以下的版本编译passwall和ssr-plus都强制使用shadowsocks-libev编译了，使用Shadowsocks_Rust因为passwall更新太快，源码跟不上会导致编译失败，23.05以下版本强制去掉NaiveProxy
+ 
+ 2、diy-part.sh文件内容有小修改，别直接复制
+ 
+ 3、不想用这个仓库编译的话，可以使用 https://github.com/281677160/actions-openwrt 此仓库，原汁原味，啥都没修改过的
+
+
+ ---
+  2025年3月30号
+
+ 1、去除选择服务器CPU编译的操作，测试了一下，现在可以看到的CPU基本都全是AMD的一个型号了，如果使用了选择服务器CPU编译的话，会一直循环寻找CPU当中，不会进行编译了
+
+
+ ---
+
+  2025年3月26号
+
+ 1、将《[padavanonly](https://github.com/padavanonly/immortalwrt-mt798x-24.10)》和《[hanwckf](https://github.com/hanwckf/immortalwrt-mt798x)》的仓库整合成Mt798x的了
+ 
+ 2、选择hanwckf-21.02分支编译是[hanwckf](https://github.com/hanwckf/immortalwrt-mt798x)作者仓库的openwrt-21.02分支，选择其他分支编译的是[padavanonly](https://github.com/padavanonly/immortalwrt-mt798x-24.10)作者的仓库，均为mtk闭源网卡驱动
+ 
+ 3、openwrt-23.05和hanwckf-21.02的【mt7981和mt7986】可以编译机型文件均拉取于[padavanonly](https://github.com/padavanonly/immortalwrt-mt798x-24.10)作者仓库的2410分支，也就是说【mt7981和mt7986】类的机型都同时同步与[padavanonly](https://github.com/padavanonly/immortalwrt-mt798x-24.10)作者的2410分支.
+
+ ---
+  2025年3月25号
+
+ 1、修复个别源码开启 export Enable_IPV6_function="1" 选项编译错误，个别源码编译选择ipv6会缺依赖造成编译错误
+ 
+ 2、修复个别源码开启 export Enable_IPV4_function="1"  选项编译错误，个别源码是不能完整清除IPV6来编译的，会造成编译错误
+ 
+ 3、修复低版本源码编译出现 WARNING: Makefile 'package/feeds/danshui/v2raya/Makefile' has a dependency on 'kmod-nft-tproxy', which does not exist 错误
+
+ ---
+
+  2025年3月21号
+
+ 修复脚本长期没更新导致的各种问题，增加 https://github.com/padavanonly/immortalwrt-mt798x-24.10 此仓库源码
+
+ ---
 
   2024年1月14号
 
