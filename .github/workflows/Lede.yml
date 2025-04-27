@@ -112,17 +112,12 @@ jobs:
         # 请勿对 target: [Lede] 做任何修改
         
     steps:
-    - name: 密匙检测（密匙为空则退出）
-      run: |
-        cd ${GITHUB_WORKSPACE}
-        if [[ -z "$REPO_TOKEN" ]]; then
-          echo "您没有设置仓库密匙，请按教程设置好密匙再来"
-          echo "REPO_TOKEN密匙制作教程：https://git.io/jm.md"
-          exit 1
-        fi
-    
     - name: 准备结束
       uses: actions/checkout@v4
+      
+    - name: 密匙检测（密匙为空则退出）
+      uses: 281677160/common@mishi
+
     - name: 部署编译环境
       env:
         DEBIAN_FRONTEND: noninteractive
@@ -133,10 +128,10 @@ jobs:
         sudo mkdir -p /${{ env.DIY_WORK }}
         sudo chown $USER:$GROUPS /${{ env.DIY_WORK }}
     
-    - name: 下载"${{ matrix.target }}-${{ github.event.inputs.REPO_BRANCH }}"源码
+    - name: 下载"${{ matrix.target }}-${{ inputs.REPO_BRANCH }}"源码
       working-directory: /${{ env.DIY_WORK }}
       run: |
-        git clone -b "${REPO_BRANCH}" --single-branch "${REPO_URL}" openwrt
+        git clone -q -b "${REPO_BRANCH}" --single-branch "${REPO_URL}" openwrt
         ln -sf /${{ env.DIY_WORK }}/openwrt ${GITHUB_WORKSPACE}/openwrt
         echo "SHANG_CHUAN=true" >> ${GITHUB_ENV}
     
