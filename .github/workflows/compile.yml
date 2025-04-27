@@ -52,6 +52,9 @@ jobs:
         remove_packages_one_command: true
         remove_folders: "/usr/share/swift /usr/share/miniconda /usr/share/az* /usr/share/glade* /usr/local/lib/node_modules /usr/local/share/chromium /usr/local/share/powershell"
         testing: false
+      
+    - name: 环境变量处理
+      uses: clion007/openwrt-var@main
         
     - name: 部署编译环境
       env:

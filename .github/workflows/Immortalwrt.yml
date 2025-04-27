@@ -109,7 +109,10 @@ jobs:
       uses: actions/checkout@v4
       
     - name: 密匙检测（密匙为空则退出）
-      uses: 281677160/common@mishi
+      uses: 281677160/common@yaoshi
+      
+    - name: 环境变量处理
+      uses: clion007/openwrt-var@main
 
     - name: 部署编译环境
       env:
