@@ -4,9 +4,9 @@
 
 ![OpenWrt Logo](https://openwrt.org/_media/logo.png)
 
-[![GitHub Stars](https://img.shields.io/github/stars/clion007/openwrt-builder.svg?style=flat-square&label=Stars&logo=github)](https://github.com/clion007/openwrt-builder/stargazers)
-[![GitHub Forks](https://img.shields.io/github/forks/clion007/openwrt-builder.svg?style=flat-square&label=Forks&logo=github)](https://github.com/clion007/openwrt-builder/fork)
-[![GitHub Contributors](https://img.shields.io/github/contributors/clion007/openwrt-builder.svg?style=flat-square&label=Contributors&logo=github)](https://github.com/clion007/openwrt-builder/graphs/contributors)
+[![GitHub Stars](https://img.shields.io/github/stars/clion007/openwrt-builder.svg?style=flat-square&label=Stars&logo=github&cache_seconds=3600)](https://github.com/clion007/openwrt-builder/stargazers)
+[![GitHub Forks](https://img.shields.io/github/forks/clion007/openwrt-builder.svg?style=flat-square&label=Forks&logo=github&cache_seconds=3600)](https://github.com/clion007/openwrt-builder/fork)
+[![GitHub Contributors](https://img.shields.io/github/contributors/clion007/openwrt-builder.svg?style=flat-square&label=Contributors&logo=github&cache_seconds=3600)](https://github.com/clion007/openwrt-builder/graphs/contributors)
 
 </div>
 
