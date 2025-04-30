@@ -205,7 +205,7 @@ CONFIG_PACKAGE_script-utils=y
 # CONFIG_PACKAGE_shadowsocksr-libev-ssr-local is not set
 # CONFIG_PACKAGE_shadowsocksr-libev-ssr-redir is not set
 # CONFIG_PACKAGE_shadowsocksr-libev-ssr-server is not set
-# CONFIG_PACKAGE_simple-obfs is not set
+# CONFIG_PACKAGE_simple-obfs-client is not set
 CONFIG_PACKAGE_sing-box=y
 CONFIG_PACKAGE_smartmontools=y
 CONFIG_PACKAGE_snmpd=y
@@ -252,4 +252,3 @@ CONFIG_boost-variant-release=y
 # CONFIG_PACKAGE_shadowsocks-libev-ss-server is not set
 # CONFIG_PACKAGE_shadowsocksr-libev-ssr-local is not set
 # CONFIG_PACKAGE_shadowsocksr-libev-ssr-redir is not set
-# CONFIG_PACKAGE_simple-obfs is not set
