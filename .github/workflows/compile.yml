@@ -95,7 +95,7 @@ jobs:
       id: package
       run: |
         cd openwrt
-        make defconfig
+        # make defconfig
         make download -j8
     
     - name: 开始编译固件
