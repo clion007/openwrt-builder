@@ -4,7 +4,6 @@
 
 name: 打包aarch64系列固件
 on:
-  repository_dispatch:
   workflow_dispatch:
     inputs:
       source_branch:
