@@ -38,7 +38,7 @@ jobs:
 
     steps:    
     - name: 准备结束
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
 
     - name: 释放Ubuntu磁盘空间
       uses: endersonmenezes/free-disk-space@v2

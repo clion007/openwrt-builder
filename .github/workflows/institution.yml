@@ -57,7 +57,7 @@ jobs:
         fi
         
     - name: 准备结束
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       
     - name: 部署环境
       env:
