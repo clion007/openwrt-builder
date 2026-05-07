@@ -227,7 +227,7 @@ jobs:
       uses: 281677160/common@yaoshi
 
     - name: 释放Ubuntu磁盘空间
-      uses: endersonmenezes/free-disk-space@v2
+      uses: endersonmenezes/free-disk-space@v3
       with:
         remove_android: true
         remove_dotnet: true
