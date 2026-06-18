@@ -221,7 +221,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
     - name: 准备结束
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
 
     - name: 密匙检测
       uses: 281677160/common@yaoshi
