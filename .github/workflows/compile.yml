@@ -69,7 +69,7 @@ jobs:
     - name: 下载"${{matrix.target}}"源码
       working-directory: /${{ env.DIY_WORK }}
       run: |
-        git clone -b "${REPO_BRANCH}" --single-branch "${REPO_URL}" openwrt
+        git clone -b "${REPO_BRANCH}" --single-branch --depth 1 "${REPO_URL}" openwrt
         ln -sf /${{ env.DIY_WORK }}/openwrt ${GITHUB_WORKSPACE}/openwrt
     
     - name: 公 告
