@@ -80,6 +80,12 @@ runs:
         else
           echo "INFORMATION_NOTICE=false" >> ${GITHUB_ENV}
         fi
+
+        # GitHub Actions 表达式不支持除法，这里在 bash 里把分钟换算成天数
+        RETAIN_MINUTE="${RETAIN_MINUTE:-10080}"
+        RETAIN_DAYS=$(( RETAIN_MINUTE / 1440 ))
+        [[ ${RETAIN_DAYS} -lt 1 ]] && RETAIN_DAYS=1
+        echo "RETAIN_DAYS=${RETAIN_DAYS}" >> ${GITHUB_ENV}
     - name: 获取编译框架(openwrt-common)
       uses: ./.github/actions/clone-common
 

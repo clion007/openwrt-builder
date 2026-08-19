@@ -189,8 +189,8 @@ jobs:
       with:
         token: ${{ secrets.ACTIONS_TRIGGER_PAT }}
         repository: ${{ github.repository }}
-        # RETAIN_MINUTE 是分钟数，换算成天（保留最近 N 天内的记录），keep_minimum_runs 保底保留最近几次
-        retain_days: ${{ env.RETAIN_MINUTE / 1440 }}
+        # RETAIN_DAYS 由 var action 从 RETAIN_MINUTE 换算（保留最近 N 天内的记录），keep_minimum_runs 保底保留最近几次
+        retain_days: ${{ env.RETAIN_DAYS }}
         keep_minimum_runs: 3
 
     - name: 清理releases
