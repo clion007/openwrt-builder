@@ -205,4 +205,4 @@ jobs:
         delete_tags: true
         delete_workflows: false
         workflows_keep_day: 90
-        gh_token: ${{ secrets.REPO_TOKEN }}
+        gh_token: ${{ env.REPO_TOKEN }}
