@@ -24,7 +24,7 @@ jobs:
   build:
     name: 在[build]文件夹里面创建文件夹
     runs-on: ubuntu-24.04
-    if: ${{ github.event.repository.owner.id }} == ${{ github.event.sender.id }}
+    if: ${{ github.event.repository.owner.id == github.event.sender.id }}
     
     steps:
     - name: 密匙检测（密匙为空则退出）
