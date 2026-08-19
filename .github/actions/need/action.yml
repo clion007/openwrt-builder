@@ -1,0 +1,92 @@
+name: 'My Composite Action'
+description: 'Combines multiple steps'
+runs:
+  using: "composite"
+  steps:
+    - name: 下载源码后进行源码微调和增加插件源
+      shell: bash
+      run: |
+        cd $HOME_PATH
+        bash $COMMON_SH Diy_menu
+    - name: 运行自定义文件
+      shell: bash
+      run: |
+        cd $HOME_PATH
+        bash $COMMON_SH Diy_menu2
+    - name: 自定义后检测主题是否可设置系统默认主题
+      shell: bash
+      run: |
+        cd $HOME_PATH
+        bash $COMMON_SH Diy_menu3
+    - name: SSH远程连接文字提示
+      if: env.SSH_ACTION == 'true'
+      shell: bash
+      run: |
+        cd $HOME_PATH
+        echo -e "\n\033[33m正在执行：远程make menuconfig\033[0m"
+    - name: SSH远程连接（make menuconfig）
+      if: env.SSH_ACTION == 'true'
+      uses: danshui-git/debugger-action@main
+    - name: 生成配置文件和提取机型
+      shell: bash
+      run: |
+        cd $HOME_PATH
+        bash $COMMON_SH Diy_menu4
+    - name: 清理所有缓存
+      continue-on-error: true
+      if: env.CLEAR_CACHEWRTBUILD == 'true'
+      shell: bash
+      run: |
+        echo
+        echo -e "\033[33m正在执行：清理缓存\033[0m"
+        CACHES=$(curl -s -H "Authorization: token $REPO_TOKEN" \
+           "https://api.github.com/repos/$GIT_REPOSITORY/actions/caches?per_page=100" \
+           | jq -r --arg regex ".*-cache-openwr" '.actions_caches[] | select(.key | test($regex)) | "\(.id) \(.key)"')
+        if [ -n "$CACHES" ]; then
+           echo "$CACHES" | while read -r cache_id cache_key; do
+             curl -X DELETE -s -H "Authorization: token $REPO_TOKEN" \
+                "https://api.github.com/repos/$GIT_REPOSITORY/actions/caches/$cache_id"
+             echo -e "\033[32m已清理缓存名称: $cache_key (ID: $cache_id)\033[0m"
+           done
+        else
+           echo -e "\033[36m没有缓存,无需清理\033[0m"
+        fi
+        echo
+    - name: 机型为armsr_rootfs_tar_gz的时,改变是远程更新为打包设置
+      shell: bash
+      run: |
+        cd $HOME_PATH
+        if [[ "${TARGET_BOARD}" =~ (armvirt|armsr) ]]; then
+           echo "PACKAGING_FIRMWARE=${UPDATE_FIRMWARE_ONLINE}" >> ${GITHUB_ENV}
+           echo "UPDATE_FIRMWARE_ONLINE=false" >> ${GITHUB_ENV}
+           echo "ONLINE_FIRMWARE=true" >> ${GITHUB_ENV}
+        fi
+    - name: 远程更新,如果UPDATE_FIRMWARE_ONLINE == 'true'则运行
+      if: env.UPDATE_FIRMWARE_ONLINE == 'true'
+      shell: bash
+      run: |
+        cd $HOME_PATH
+        source ${UPGRADE_SH} && Diy_Part2
+  
+    - name: 判断插件有否冲突减少编译错误
+      shell: bash
+      run: |
+        cd $HOME_PATH
+        bash $COMMON_SH Diy_menu5
+        echo "CONFIG_DATE=$(date +%Y-%m%d-%H%M)" >> ${GITHUB_ENV}
+        echo "SendMessage=true" >> ${GITHUB_ENV}
+    - name: 上传配置文件在 Github Artifacts
+      if: env.SHANG_CHUAN == 'true'
+      shell: bash
+      run: |
+        cd $HOME_PATH
+        echo -e "\n\033[33m上传.config配置文件至Github Artifacts\033[0m"
+    - name: 上传配置文件在 Github Artifacts
+      if: env.SHANG_CHUAN == 'true'
+      uses: actions/upload-artifact@main
+      with:
+        name: .config_${{ env.SOURCE }}_${{ env.LUCI_EDITION }}_${{ env.TARGET_PROFILE }}_${{ env.CONFIG_DATE }}
+        path: ${{ env.CONFIG_TXT }}
+branding:
+  icon: "terminal"
+  color: "gray-dark"

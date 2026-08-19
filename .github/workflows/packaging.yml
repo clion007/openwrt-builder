@@ -224,7 +224,7 @@ jobs:
       uses: actions/checkout@v7
 
     - name: 密匙检测
-      uses: 281677160/common@yaoshi
+      uses: ./.github/actions/yaoshi
 
     - name: 释放Ubuntu磁盘空间
       uses: endersonmenezes/free-disk-space@v3
@@ -260,7 +260,7 @@ jobs:
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
-        sudo bash -c 'bash <(curl -fsSL https://github.com/281677160/common/raw/main/custom/ubuntu.sh)'
+        sudo bash -c 'bash <(curl -fsSL https://github.com/clion007/openwrt-common/raw/main/custom/ubuntu.sh)'
         sudo timedatectl set-timezone "Asia/Shanghai"
         sudo mkdir -p /workdir
         sudo chown $USER:$GROUPS /workdir
@@ -294,8 +294,8 @@ jobs:
 
     - name: 自动打包aarch64系列固件
       id: compile
-      uses: 281677160/common@aarch
+      uses: ./.github/actions/aarch
 
     - name: 上传,发布
       if: steps.compile.outcome == 'success'
-      uses: 281677160/common@uploads
+      uses: ./.github/actions/uploads

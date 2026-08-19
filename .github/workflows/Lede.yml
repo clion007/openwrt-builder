@@ -116,7 +116,7 @@ jobs:
       uses: actions/checkout@v7
       
     - name: 密匙检测（密匙为空则退出）
-      uses: 281677160/common@yaoshi
+      uses: ./.github/actions/yaoshi
       
     - name: 环境变量处理
       uses: clion007/openwrt-var@main
@@ -140,16 +140,16 @@ jobs:
     
     - name: 公 告
       continue-on-error: true
-      uses: 281677160/common@message
+      uses: ./.github/actions/message
  
     - name: 运行其他和SSH远程(make menuconfig)
       id: info
-      uses: 281677160/common@need
+      uses: ./.github/actions/need
         
     - name: 编译信息
       continue-on-error: true
       if: env.COMPILATION_INFORMATION == 'true'
-      uses: 281677160/common@message
+      uses: ./.github/actions/message
     
     - name: 清理Actions空间
       continue-on-error: true
@@ -176,4 +176,4 @@ jobs:
         
     - name: 触发启动"${{ matrix.target }}"开始编译
       if: steps.info.outcome == 'success'
-      uses: 281677160/common@trigger
+      uses: ./.github/actions/trigger

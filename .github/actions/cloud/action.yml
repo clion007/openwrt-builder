@@ -1,0 +1,69 @@
+name: 'My Composite Action'
+description: 'Combines multiple steps to update firmware online'
+runs:
+  using: "composite"
+  steps:
+    - name: 清理旧固件
+      shell: bash
+      run: |
+        cd ${GITHUB_WORKSPACE}
+        if [[ -f "del_assets" ]]; then
+           chmod +x "del_assets"
+           source "del_assets"
+           chmod -R +x "${LINSHI_COMMON}"
+           source "${LINSHI_COMMON}/custom/assets.sh"
+        fi
+    - name: 发送[在线更新固件]至云端1
+      id: yunduan
+      if: ${{ env.UPDATE_FIRMWARE_ONLINE == 'true' }}
+      uses: ncipollo/release-action@v1
+      with:
+        name: AutoUpdate
+        tag: ${{ env.UPDATE_TAG }}
+        token: ${{ env.REPO_TOKEN }}
+        allowUpdates: true
+        body: ${{ env.TONGZHI_DATE }}
+        artifacts: "${{ env.BIN_PATH }}/*"
+    - name: 检查云端固件信息
+      if: ${{ steps.yunduan.outcome == 'success' && env.UPDATE_FIRMWARE_ONLINE == 'true' }}
+      shell: bash
+      run: |
+        cd ${GITHUB_WORKSPACE}
+        sleep 2
+        echo "YUNDUAN_API=false" >> $GITHUB_ENV
+        mkdir -p $GITHUB_WORKSPACE/API
+        cd $GITHUB_WORKSPACE/API
+        if ! curl -s -H "Authorization: Bearer ${{ env.REPO_TOKEN }}" "https://api.github.com/repos/${{ github.repository }}/releases/tags/${{ env.UPDATE_TAG }}" -o zzz_api; then
+            wget -O zzz_api https://api.github.com/repos/${{ github.repository }}/releases/tags/${{ env.UPDATE_TAG }}
+        fi
+        if grep -q "${{ env.FIRMWARE_VERSION }}" zzz_api; then
+           echo "AUTO_API=$GITHUB_WORKSPACE/API/zzz_api" >> $GITHUB_ENV
+           echo "YUNDUAN_API=true" >> $GITHUB_ENV
+        else
+           echo "获取api失败,在线更新将不能获取到最新版本信息"
+        fi
+        sleep 2
+    - name: 发送[在线更新固件]至云端2
+      if: ${{ env.YUNDUAN_API == 'true' }}
+      uses: ncipollo/release-action@v1
+      with:
+        name: AutoUpdate-${{ env.TARGET_BOARD }}
+        tag: ${{ env.UPDATE_TAG }}
+        token: ${{ env.REPO_TOKEN }}
+        artifacts: ${{ env.AUTO_API }}
+        allowUpdates: true
+        replacesArtifacts: true
+        body: ${{ env.TONGZHI_DATE }}
+    - name: 发送[在线更新固件]至云端3
+      if: ${{ steps.yunduan.outcome == 'success' && env.UPDATE_FIRMWARE_ONLINE == 'true' }}
+      shell: bash
+      run: |
+        cd ${GITHUB_WORKSPACE}
+        if [[ "${YUNDUAN_API}" == "false" ]]; then
+           echo "YUNDUAN_MESSAGE=、云端信息获取失败,在线更新将不能获取最新信息,不过固件发送云端则成功" >> $GITHUB_ENV
+        else
+           echo "YUNDUAN_MESSAGE=、发送云端固件" >> $GITHUB_ENV
+        fi
+branding:
+  icon: "terminal"
+  color: "gray-dark"

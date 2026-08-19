@@ -44,7 +44,7 @@ jobs:
         cd ${GITHUB_WORKSPACE}
         if [[ -n "${{ env.REPO_TOKEN }}" ]]; then
           curl -s -H "Authorization: Bearer ${{ env.REPO_TOKEN }}" \
-          https://api.github.com/repos/281677160/common/releases/tag/API > mishi
+          https://api.github.com/repos/${{ github.repository }}/releases/tag/API > mishi
           if [[ `grep -c "Bad credentials" mishi` -ge '1' ]]; then
             echo "您的密匙不正确或已过期，请按教程设置好密匙再来"
             echo "REPO_TOKEN密匙制作教程：https://git.io/jm.md"
@@ -73,13 +73,12 @@ jobs:
       if: env.REPO_TOKEN
       run: |
         cd $GITHUB_WORKSPACE
-        git clone -b main https://github.com/281677160/build-actions shangyou
         git clone -b main https://user:${REPO_TOKEN}@github.com/${{github.repository}} repogx
         if [[ -d "repogx/build/${{ inputs.establish_name }}" ]]; then
           echo "${{ inputs.establish_name }}已存在，无法继续创建"
           exit 1
         else
-          cp -Rf shangyou/build/${{ inputs.establish_sample }} repogx/build/${{ inputs.establish_name }}
+          cp -Rf build/${{ inputs.establish_sample }} repogx/build/${{ inputs.establish_name }}
           cp -Rf .github/workflows/${{ inputs.establish_sample }}.yml repogx/.github/workflows/${{ inputs.establish_name }}.yml
           export X="repogx/.github/workflows/${{ inputs.establish_name }}.yml"
           export FOLDER_NE1="target: \\[.*\\]"
