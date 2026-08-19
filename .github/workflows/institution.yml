@@ -63,7 +63,7 @@ jobs:
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
-        sudo -E apt-get -qq update
+        sudo -E apt-get -qq -o Acquire::Retries=3 -o Acquire::http::Timeout=30 update
         sudo -E apt-get -qq install -y git subversion git-core wget curl grep
         sudo timedatectl set-timezone "$TZ"
         git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
