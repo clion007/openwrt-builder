@@ -214,6 +214,7 @@ env:
   TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
   PACKAGING_FIRMWARE: true
   LUCI_EDITION: amlogic
+  DIY_WORK: workdir
 
 jobs:
   build:
@@ -227,17 +228,7 @@ jobs:
       uses: ./.github/actions/yaoshi
 
     - name: 释放Ubuntu磁盘空间
-      uses: endersonmenezes/free-disk-space@v3
-      with:
-        remove_android: true
-        remove_dotnet: true
-        remove_haskell: true
-        remove_tool_cache: true
-        remove_swap: true
-        remove_packages: "azure-cli google-cloud-cli microsoft-edge-stable google-chrome-stable firefox postgresql* temurin-* *llvm* mysql* dotnet-sdk-*"
-        remove_packages_one_command: true
-        remove_folders: "/usr/share/swift /usr/share/miniconda /usr/share/az* /usr/share/glade* /usr/local/lib/node_modules /usr/local/share/chromium /usr/local/share/powershell"
-        testing: false
+      uses: ./.github/actions/free-space
 
     - name: 整理变量
       run: |
@@ -256,32 +247,30 @@ jobs:
         echo "date=$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
         echo "Tongzhi_Date=$(date +%Y年%m月%d日)" >> ${GITHUB_ENV}
 
+    - name: 获取编译框架(openwrt-common)
+      uses: ./.github/actions/clone-common
+
     - name: 部署编译环境
-      timeout-minutes: 60
-      env:
-        DEBIAN_FRONTEND: noninteractive
-      run: |
-        sudo bash -c 'bash <(curl -fsSL https://github.com/clion007/openwrt-common/raw/main/custom/ubuntu.sh)'
-        sudo timedatectl set-timezone "Asia/Shanghai"
-        sudo mkdir -p /workdir
-        sudo chown $USER:$GROUPS /workdir
+      uses: ./.github/actions/env-setup
 
     - name: 拉取rootfs.tar.gz
-      working-directory: /workdir
+      working-directory: /${{ env.DIY_WORK }}
       run: |
         mkdir -p ${GITHUB_WORKSPACE}/openwrt/bin/targets
-        ln -sf /workdir/openwrt ${GITHUB_WORKSPACE}/openwrt
+        ln -sf /${{ env.DIY_WORK }}/openwrt ${GITHUB_WORKSPACE}/openwrt
         echo "HOME_PATH=${GITHUB_WORKSPACE}/openwrt" >> $GITHUB_ENV
         echo "FIRMWARE_PATH=${GITHUB_WORKSPACE}/openwrt/bin/targets" >> $GITHUB_ENV
 
     - name: 检查文件
       run: |
         cd ${HOME_PATH}
-        curl -s -H "Authorization: Bearer ${{ env.REPO_TOKEN }}" https://api.github.com/repos/${{ github.repository }}/releases/tags/targz > aarch
-        if grep -q "Not Found" aarch; then
-          echo -e "\033[31mReleases里名称为[targz]的tag存在\033[0m"
+        # --fail 让 HTTP 错误（如 404）返回非零退出码，避免误判为成功
+        if ! curl -fsS -H "Authorization: Bearer ${{ env.REPO_TOKEN }}" \
+           https://api.github.com/repos/${{ github.repository }}/releases/tags/targz -o aarch; then
+          echo -e "\033[31mReleases里名称为[targz]的tag不存在，请先编译并发布rootfs.tar.gz固件\033[0m"
           exit 1
-        elif grep -q "${{ env.SOURCE }}-armvirt-64-default-rootfs.tar.gz" aarch; then
+        fi
+        if grep -q "${{ env.SOURCE }}-armvirt-64-default-rootfs.tar.gz" aarch; then
           wget -q https://github.com/${{ github.repository }}/releases/download/targz/${{ env.SOURCE }}-armvirt-64-default-rootfs.tar.gz -O ${FIRMWARE_PATH}/openwrt-armvirt-64-default-rootfs.tar.gz
         else
           echo -e "\033[31mReleases里名称为[targz]的tag没有[${SOURCE}-armvirt-64-default-rootfs.tar.gz]存在\033[0m"

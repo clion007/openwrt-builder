@@ -1,0 +1,27 @@
+name: 'Send Build Notification'
+description: 'Send build notification to Telegram or PushPlus based on the INFORMATION_NOTICE setting'
+inputs:
+  tg_text:
+    description: 'Telegram message text'
+    required: true
+  push_title:
+    description: 'PushPlus notification title'
+    required: true
+  push_content:
+    description: 'PushPlus notification content'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Telegram或pushplus信息通知
+      shell: bash
+      run: |
+        if [[ "${{ env.INFORMATION_NOTICE }}" == "TG" ]]; then
+           curl -s -X POST -H "Content-Type: application/json" -d '{"chat_id":"${{env.TELEGRAM_CHAT_ID}}", "text":"${{ inputs.tg_text }}"}' https://api.telegram.org/bot${{env.TELEGRAM_BOT_TOKEN}}/sendMessage
+        fi
+        if [[ "${{ env.INFORMATION_NOTICE }}" == "PUSH" ]]; then
+           curl -s -X POST -H "Content-Type: application/json" -d '{"token":"${{env.PUSH_PLUS_TOKEN}}","title":"${{ inputs.push_title }}","content":"${{ inputs.push_content }}"}' https://www.pushplus.plus/send
+        fi
+branding:
+  icon: "terminal"
+  color: "gray-dark"

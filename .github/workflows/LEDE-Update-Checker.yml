@@ -26,30 +26,45 @@ jobs:
 
     - name: Get Commit Hash
       id: getHash
+      env:
+        GH_TOKEN: ${{ secrets.ACTIONS_TRIGGER_PAT }}
       run: |
-        git clone --depth 1 $REPO_URL -b $REPO_BRANCH .
-        echo "commitHash=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+        # 用 GitHub API 获取最新提交 hash，避免克隆整个源码到非空工作区导致 clone 失败
+        COMMIT="$(curl -fsSL -H "Accept: application/vnd.github+json" \
+          -H "Authorization: Bearer ${GH_TOKEN}" \
+          "https://api.github.com/repos/coolsnowwolf/lede/commits/${REPO_BRANCH}" | jq -r '.sha')"
+        if [[ -z "${COMMIT}" || "${COMMIT}" == "null" ]]; then
+          echo -e "\033[31m获取 LEDE 最新提交失败\033[0m"
+          exit 1
+        fi
+        echo "commitHash=${COMMIT}" >> "$GITHUB_OUTPUT"
 
-    - name: Compare Commit Hash
-      id: cacheHash
-      uses: actions/cache@v6
-      with:
-        path: .commitHash
-        key: commitHash_${{ steps.getHash.outputs.commitHash }}
-
-    - name: Save New Commit Hash
-      if: steps.cacheHash.outputs.cache-hit != 'true'
+    - name: Compare & Record Commit Hash
+      id: compare
       run: |
-        echo ${{ steps.getHash.outputs.commitHash }} | tee .commitHash
+        git clone --depth 1 -b ${{ github.ref_name }} https://user:${{ secrets.ACTIONS_TRIGGER_PAT }}@github.com/${GITHUB_REPOSITORY}.git /tmp/builder
+        cd /tmp/builder
+        UNCHANGED=false
+        if [[ -f .lastCommitHash ]] && [[ "$(cat .lastCommitHash)" == "${{ steps.getHash.outputs.commitHash }}" ]]; then
+          UNCHANGED=true
+        else
+          echo "${{ steps.getHash.outputs.commitHash }}" > .lastCommitHash
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git add .lastCommitHash
+          git commit -m "Update LEDE commit hash: ${{ steps.getHash.outputs.commitHash }}"
+          git push --quiet https://user:${{ secrets.ACTIONS_TRIGGER_PAT }}@github.com/${GITHUB_REPOSITORY}.git HEAD:${{ github.ref_name }}
+        fi
+        echo "unchanged=${UNCHANGED}" >> $GITHUB_OUTPUT
 
     - name: Trigger build
-      if: steps.cacheHash.outputs.cache-hit != 'true'
+      if: steps.compare.outputs.unchanged == 'false'
       uses: peter-evans/repository-dispatch@v4
       with:
         event-type: OpenWrt From Lean Firemware Update
         
     - name: Delete workflow runs
-      uses: Mattraks/delete-workflow-runs@v2
+      uses: Mattraks/delete-workflow-runs@v2.1.0
       with:
         token: ${{ secrets.ACTIONS_TRIGGER_PAT }}
         retain_days: 0

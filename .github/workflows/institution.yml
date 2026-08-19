@@ -10,20 +10,8 @@ name: 创建文件夹
 on:
   workflow_dispatch:
     inputs:
-      establish_sample:
-        description: '请选择创建文件夹的源码'
-        required: false
-        default: 'Lede'
-        type: choice
-        options:
-          - 'Lede'
-          - 'Immortalwrt'
-          - 'Lienol'
-          - 'Official'
-          - 'Xwrt'
-          - 'Mt798x'
       establish_name:
-        description: '输入您需要创建的文件夹名称'
+        description: '输入您需要创建的文件夹名称（从 build/_template 模板创建，创建后请自行修改 settings.ini、diy-part.sh、seed/）'
         required: true
         default: ''
 env:
@@ -58,15 +46,16 @@ jobs:
         
     - name: 准备结束
       uses: actions/checkout@v7
-      
+
+    - name: 获取编译框架(openwrt-common)
+      uses: ./.github/actions/clone-common
+
     - name: 部署环境
-      timeout-minutes: 15
+      timeout-minutes: 60
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
-        sudo sh -c 'printf "%s\n" "Acquire::ForceIPv4 \"true\";" "Acquire::Retries \"0\";" "Acquire::http::Timeout \"10\";" "Acquire::https::Timeout \"10\";" "Acquire::http::ConnectionTimeout \"10\";" > /etc/apt/apt.conf.d/99ci-timeout'
-        sudo -E apt-get update -y
-        sudo -E apt-get install -y git subversion git-core wget curl grep
+        sudo bash ${LINSHI_COMMON}/custom/ubuntu.sh
         sudo timedatectl set-timezone "$TZ"
         git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --global user.name "github-actions[bot]"
@@ -75,30 +64,27 @@ jobs:
       if: env.REPO_TOKEN
       run: |
         cd $GITHUB_WORKSPACE
-        git clone -b main https://user:${REPO_TOKEN}@github.com/${{github.repository}} repogx
+        git clone -b ${{ github.ref_name }} https://user:${REPO_TOKEN}@github.com/${{github.repository}} repogx
         if [[ -d "repogx/build/${{ inputs.establish_name }}" ]]; then
           echo "${{ inputs.establish_name }}已存在，无法继续创建"
           exit 1
         else
-          cp -Rf build/${{ inputs.establish_sample }} repogx/build/${{ inputs.establish_name }}
-          cp -Rf .github/workflows/${{ inputs.establish_sample }}.yml repogx/.github/workflows/${{ inputs.establish_name }}.yml
-          export X="repogx/.github/workflows/${{ inputs.establish_name }}.yml"
-          export FOLDER_NE1="target: \\[.*\\]"
-          export FOLDER_NE2="target: \\[${{ inputs.establish_name }}\\]"
-          sed -i "s?${FOLDER_NE1}?${FOLDER_NE2}?g" "${X}"
-          export yml_name1="$(grep 'name:' "${X}" |sed 's/^[ ]*//g' |grep -v '^#\|^-' |awk 'NR==1')"
-          if [[ -n "$(echo "${{ inputs.establish_name }}" |grep -i "${{ inputs.establish_sample }}")" ]]; then
-            sample_name="${{ inputs.establish_name }}"
+          # 从 _template 模板创建新源码文件夹，减少占位文件重复
+          cp -Rf build/_template repogx/build/${{ inputs.establish_name }}
+          # 单入口 compile.yml 编译：把新源码追加进 FOLDER_NAME 下拉选项（已存在则跳过）
+          YML="repogx/.github/workflows/compile.yml"
+          if ! grep -qE "^[[:space:]]*- '${{ inputs.establish_name }}'$" "${YML}"; then
+            LAST_OPT="$(grep -n '^          - ' "${YML}" | tail -1 | cut -d: -f1)"
+            sed -i "${LAST_OPT}a\\          - '${{ inputs.establish_name }}'" "${YML}"
+            echo "已将 ${{ inputs.establish_name }} 追加到 compile.yml 的 FOLDER_NAME 下拉选项"
           else
-            sample_name="${{ inputs.establish_sample }}_${{ inputs.establish_name }}"
+            echo "${{ inputs.establish_name }} 已在下拉选项中，跳过追加"
           fi
-          export yml_name2="name: ${sample_name}"
-          sed -i "s?${yml_name1}?${yml_name2}?g" "${X}"
         fi
         cd ${GITHUB_WORKSPACE}/repogx
         git add .
         git commit -m "Update $(date +%Y-%m%d-%H%M%S)"
-        git push --quiet "https://${{ secrets.REPO_TOKEN }}@github.com/${{github.repository}}" HEAD:main
+        git push --quiet "https://${{ secrets.REPO_TOKEN }}@github.com/${{github.repository}}" HEAD:${{ github.ref_name }}
         if [[ $? -ne 0 ]]; then
           echo "${{ inputs.establish_name }}文件夹创建失败"
         else

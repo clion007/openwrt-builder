@@ -1,0 +1,26 @@
+name: 'Clone OpenWrt Common Framework'
+description: 'Clone the openwrt-common framework repo, validate key scripts and export framework paths to GITHUB_ENV'
+runs:
+  using: "composite"
+  steps:
+    - name: 获取编译框架(openwrt-common)
+      shell: bash
+      run: |
+        LINSHI_COMMON="/tmp/common"
+        rm -rf ${LINSHI_COMMON}
+        git clone --depth 1 https://github.com/clion007/openwrt-common.git ${LINSHI_COMMON}
+        COMMON_SH="${LINSHI_COMMON}/common.sh"
+        UPGRADE_SH="${LINSHI_COMMON}/upgrade.sh"
+        CONFIG_TXT="${LINSHI_COMMON}/config.txt"
+        if grep -q "TIME" "${COMMON_SH}" && grep -q "Diy_Part2" "${UPGRADE_SH}"; then
+          echo "LINSHI_COMMON=${LINSHI_COMMON}" >> ${GITHUB_ENV}
+          echo "COMMON_SH=${COMMON_SH}" >> ${GITHUB_ENV}
+          echo "UPGRADE_SH=${UPGRADE_SH}" >> ${GITHUB_ENV}
+          echo "CONFIG_TXT=${CONFIG_TXT}" >> ${GITHUB_ENV}
+        else
+          echo "common文件下载失败"
+          exit 1
+        fi
+branding:
+  icon: "terminal"
+  color: "gray-dark"

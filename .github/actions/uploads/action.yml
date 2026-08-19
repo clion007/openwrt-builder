@@ -22,7 +22,7 @@ runs:
     - name: 上传固件在 github Artifacts
       id: shang
       if: env.UPLOAD_FIRMWARE == 'true'
-      uses: actions/upload-artifact@main
+      uses: actions/upload-artifact@v4
       with:
         name: ${{ env.SHANGCHUAN_MINGCHEN }}-firmware-${{ env.FIRMWARE_DATE }}
         path: ${{ env.FIRMWARE_PATH }}
@@ -36,7 +36,7 @@ runs:
     - name: 发布固件
       id: fabu
       if: env.UPLOAD_RELEASE == 'true' && env.RR_RELEASE == 'a'
-      uses: ncipollo/release-action@v1
+      uses: ncipollo/release-action@v1.21.0
       with:
         name: ${{ env.SHANGCHUAN_MINGCHEN }}
         tag: a${{ env.DATE }}
@@ -47,7 +47,7 @@ runs:
     - name: 发布固件到 Github Releases
       id: nfabu
       if: env.UPLOAD_RELEASE == 'true' && env.RR_RELEASE == 'b'
-      uses: ncipollo/release-action@v1
+      uses: ncipollo/release-action@v1.21.0
       with:
         name: ${{ env.amlogic_model }}
         tag: a${{ env.DATE }}
@@ -68,15 +68,11 @@ runs:
         
     - name: Telegram或pushplus信息通知
       if: env.PUSH_PLUS_TOKEN && env.INFORMATION_NOTICE == 'PUSH' || env.TELEGRAM_BOT_TOKEN && env.INFORMATION_NOTICE == 'TG'
-      shell: bash
-      run: |
-        cd ${GITHUB_WORKSPACE}
-        if [[ "${{ env.INFORMATION_NOTICE }}" == "TG" ]]; then
-           curl -s -X POST -H "Content-Type: application/json" -d '{"chat_id":"${{env.TELEGRAM_CHAT_ID}}", "text":"${{env.SOURCE}}-${{env.LUCI_EDITION}}，${{env.TARGET_PROFILE}}固件，编译${{env.DABAO_MESSAGE}}${{env.SHANG_MESSAGE}}${{env.FABU_MESSAGE}}${{env.YUNDUAN_MESSAGE}}成功，✌️💐(${{env.WAREHOUSE_MAN}}-#${{env.RUN_NUMBER}})，${{env.TZ_Message}}💯"}' https://api.telegram.org/bot${{env.TELEGRAM_BOT_TOKEN}}/sendMessage
-        fi
-        if [[ "${{ env.INFORMATION_NOTICE }}" == "PUSH" ]]; then
-           curl -s -X POST -H "Content-Type: application/json" -d '{"token":"${{env.PUSH_PLUS_TOKEN}}","title":"${{env.SOURCE}}-${{env.LUCI_EDITION}}","content":"${{env.TARGET_PROFILE}}固件，编译${{env.DABAO_MESSAGE}}${{env.SHANG_MESSAGE}}${{env.FABU_MESSAGE}}${{env.YUNDUAN_MESSAGE}}成功，✌️💐(${{env.WAREHOUSE_MAN}}-#${{env.RUN_NUMBER}})，${{env.TZ_Message}}💯"}' https://www.pushplus.plus/send
-        fi
+      uses: ./.github/actions/notice
+      with:
+        tg_text: "${{env.SOURCE}}-${{env.LUCI_EDITION}}，${{env.TARGET_PROFILE}}固件，编译${{env.DABAO_MESSAGE}}${{env.SHANG_MESSAGE}}${{env.FABU_MESSAGE}}${{env.YUNDUAN_MESSAGE}}成功，✌️💐(${{env.WAREHOUSE_MAN}}-#${{env.RUN_NUMBER}})，${{env.TZ_Message}}💯"
+        push_title: "${{env.SOURCE}}-${{env.LUCI_EDITION}}"
+        push_content: "${{env.TARGET_PROFILE}}固件，编译${{env.DABAO_MESSAGE}}${{env.SHANG_MESSAGE}}${{env.FABU_MESSAGE}}${{env.YUNDUAN_MESSAGE}}成功，✌️💐(${{env.WAREHOUSE_MAN}}-#${{env.RUN_NUMBER}})，${{env.TZ_Message}}💯"
 branding:
   icon: "terminal"
   color: "gray-dark"

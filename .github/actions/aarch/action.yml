@@ -19,7 +19,7 @@ runs:
     - name: 将rootfs.tar.gz发布releases的targz
       id: targz
       if: env.BENDI_VERSION == '2'
-      uses: ncipollo/release-action@v1
+      uses: ncipollo/release-action@v1.21.0
       with:
         name: rootfs.tar.gz
         tag: targz
@@ -63,7 +63,7 @@ runs:
     - name: 打包aarch64系列固件
       id: dabao
       if: env.PACKAGING_FIRMWARE == 'true'
-      uses: ophub/amlogic-s9xxx-openwrt@main
+      uses: ophub/amlogic-s9xxx-openwrt@fa67b9c5a66af6c91e6a721d39da7ec1afa730e1
       with:
         openwrt_path: openwrt/targz/*rootfs.tar.gz
         openwrt_board: ${{ env.amlogic_model }}

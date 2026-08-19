@@ -1,0 +1,4 @@
+编译机型配置文件存放目录
+1、按 Add file 然后选 Create new file 建立机型配置文件，文件内容参考现有源码的 seed/ 目录下的文件（形如 CONFIG_TARGET_xxx=y 的配置行）
+2、文件命名随意，但必须与 settings.ini 中的 CONFIG_FILE 填写一致，例如 seed/x86_64 对应 settings.ini 里 CONFIG_FILE="x86_64"
+3、本目录附带了示例文件 x86_64，可直接作为编译入口，按需修改

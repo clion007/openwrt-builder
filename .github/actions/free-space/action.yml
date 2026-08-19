@@ -1,0 +1,20 @@
+name: 'Free Disk Space'
+description: 'Remove pre-installed heavy packages to free disk space for the build'
+runs:
+  using: "composite"
+  steps:
+    - name: 释放Ubuntu磁盘空间
+      uses: endersonmenezes/free-disk-space@v3
+      with:
+        remove_android: true
+        remove_dotnet: true
+        remove_haskell: true
+        remove_tool_cache: true
+        remove_swap: true
+        remove_packages: "azure-cli google-cloud-cli microsoft-edge-stable google-chrome-stable firefox postgresql* temurin-* *llvm* mysql* dotnet-sdk-*"
+        remove_packages_one_command: true
+        remove_folders: "/usr/share/swift /usr/share/miniconda /usr/share/az* /usr/share/glade* /usr/local/lib/node_modules /usr/local/share/chromium /usr/local/share/powershell"
+        testing: false
+branding:
+  icon: "terminal"
+  color: "gray-dark"
