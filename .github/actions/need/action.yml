@@ -76,7 +76,7 @@ runs:
         echo "SendMessage=true" >> ${GITHUB_ENV}
     - name: 上传配置文件在 Github Artifacts
       if: env.SHANG_CHUAN == 'true'
-      uses: actions/upload-artifact@v5
+      uses: actions/upload-artifact@v7
       with:
         name: .config_${{ env.SOURCE }}_${{ env.LUCI_EDITION }}_${{ env.TARGET_PROFILE }}_${{ env.CONFIG_DATE }}
         path: ${{ env.CONFIG_TXT }}
