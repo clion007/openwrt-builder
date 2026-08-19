@@ -251,6 +251,7 @@ jobs:
       uses: ./.github/actions/clone-common
 
     - name: 部署编译环境
+      timeout-minutes: 60
       uses: ./.github/actions/env-setup
 
     - name: 拉取rootfs.tar.gz

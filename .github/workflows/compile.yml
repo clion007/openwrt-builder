@@ -115,6 +115,7 @@ jobs:
       uses: ./.github/actions/var
         
     - name: 部署编译环境
+      timeout-minutes: 60
       uses: ./.github/actions/env-setup
 
     - name: 下载源码
