@@ -257,6 +257,7 @@ jobs:
         echo "Tongzhi_Date=$(date +%Y年%m月%d日)" >> ${GITHUB_ENV}
 
     - name: 部署编译环境
+      timeout-minutes: 60
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |

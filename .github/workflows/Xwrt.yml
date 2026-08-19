@@ -110,11 +110,13 @@ jobs:
       uses: clion007/openwrt-var@main
 
     - name: 部署编译环境
+      timeout-minutes: 15
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
-        sudo -E apt-get -qq -o Acquire::Retries=3 -o Acquire::http::Timeout=30 update -y
-        sudo -E apt-get -qq install -y gawk git gettext libssl-dev xsltproc zip git-core wget curl grep python3 python3-pip libpython3-dev
+        sudo sh -c 'printf "%s\n" "Acquire::ForceIPv4 \"true\";" "Acquire::Retries \"0\";" "Acquire::http::Timeout \"10\";" "Acquire::https::Timeout \"10\";" "Acquire::http::ConnectionTimeout \"10\";" > /etc/apt/apt.conf.d/99ci-timeout'
+        sudo -E apt-get update -y
+        sudo -E apt-get install -y gawk git gettext libssl-dev xsltproc zip git-core wget curl grep python3 python3-pip libpython3-dev
         sudo timedatectl set-timezone "$TZ"
         sudo mkdir -p /${{ env.DIY_WORK }}
         sudo chown $USER:$GROUPS /${{ env.DIY_WORK }}

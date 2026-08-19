@@ -57,6 +57,7 @@ jobs:
       uses: clion007/openwrt-var@main
         
     - name: 部署编译环境
+      timeout-minutes: 60
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
