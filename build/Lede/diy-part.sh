@@ -81,6 +81,8 @@ sed -i 's/"上网时间控制"/"时间控制"/g' `egrep "上网时间控制" -rl
 sed -i 's/"USB 打印服务器"/"打印服务"/g' `egrep "USB 打印服务器" -rl ./`
 sed -i 's/"Web 管理"/"Web管理"/g' `egrep "Web 管理" -rl ./`
 sed -i 's/"Tcpdump 流量监控"/"数据捕获"/g' `egrep "Tcpdump 流量监控" -rl ./`
+sed -i 's/"Vlmcsd KMS 服务器"/"KMS"/g' `egrep "Vlmcsd KMS 服务器" -rl ./`
+sed -i 's/"解除网易云音乐播放限制"/"解锁网易音乐"/g' `egrep "解除网易云音乐播放限制" -rl ./`
 
 
 # 整理固件包时候,删除您不想要的固件或者文件,让它不需要上传到Actions空间(根据编译机型变化,自行调整删除名称)
