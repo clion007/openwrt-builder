@@ -73,7 +73,6 @@ export rootfs_size="2560"
 export kernel_usage="stable"
 
 
-
 # 修改插件名字
 sed -i 's/"Turbo ACC 网络加速"/"网络加速"/g' `egrep "Turbo ACC 网络加速" -rl ./`
 sed -i 's/"实时流量监测"/"流量监测"/g' `egrep "实时流量监测" -rl ./`
