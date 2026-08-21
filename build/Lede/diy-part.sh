@@ -74,13 +74,17 @@ export kernel_usage="stable"
 
 
 # 修改插件名字
+sed -i 's/"备份与更新"/"备份升级"/g' `egrep "备份与更新" -rl ./`
+sed -i 's/"在线更新"/"在线升级"/g' `egrep "在线更新" -rl ./`
+sed -i 's/"IP/MAC绑定"/"ARP绑定"/g' `egrep "IP/MAC绑定" -rl ./`
 sed -i 's/"Turbo ACC 网络加速"/"网络加速"/g' `egrep "Turbo ACC 网络加速" -rl ./`
 sed -i 's/"实时流量监测"/"流量监测"/g' `egrep "实时流量监测" -rl ./`
 sed -i 's/"上网时间控制"/"时间控制"/g' `egrep "上网时间控制" -rl ./`
 sed -i 's/"USB 打印服务器"/"打印服务"/g' `egrep "USB 打印服务器" -rl ./`
 sed -i 's/"Web 管理"/"Web管理"/g' `egrep "Web 管理" -rl ./`
+sed -i 's/"UPnP IGD 和 PCP"/"UPnP服务"/g' `egrep "UPnP IGD 和 PCP" -rl ./`
 sed -i 's/"Tcpdump 流量监控"/"数据捕获"/g' `egrep "Tcpdump 流量监控" -rl ./`
-sed -i 's/"Vlmcsd KMS 服务器"/"KMS"/g' `egrep "Vlmcsd KMS 服务器" -rl ./`
+sed -i 's/"Vlmcsd KMS 服务器"/"KMS服务"/g' `egrep "Vlmcsd KMS 服务器" -rl ./`
 sed -i 's/"解除网易云音乐播放限制"/"解锁网易音乐"/g' `egrep "解除网易云音乐播放限制" -rl ./`
 
 
