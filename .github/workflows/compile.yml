@@ -86,7 +86,9 @@ jobs:
   build:
     name: 编译固件
     runs-on: ubuntu-24.04
-    if: ${{ github.event.repository.owner.id == github.event.sender.id }}
+    # repository_dispatch 已受仓库 PAT 保护(仅 owner 的 checker 机器人能触发),直接放行;
+    # workflow_dispatch 手动触发仍校验 sender==owner,防止有写权限的协作方乱触发
+    if: ${{ github.event_name == 'repository_dispatch' || github.event.repository.owner.id == github.event.sender.id }}
 
     permissions:
       actions: write
