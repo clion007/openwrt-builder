@@ -82,6 +82,22 @@ runs:
       with:
         name: .config_${{ env.SOURCE }}_${{ env.LUCI_EDITION }}_${{ env.TARGET_PROFILE }}_${{ env.CONFIG_DATE }}
         path: ${{ env.CONFIG_TXT }}
+
+    - name: 写回seed配置（仅手动SSH远程配置后执行）
+      if: env.SSH_ACTION == 'true' && env.REPO_TOKEN != ''
+      shell: bash
+      run: |
+        set -e
+        cd $GITHUB_WORKSPACE
+        SEED_DST="build/${FOLDER_NAME}/seed/${CONFIG_FILE}"
+        # CONFIG_TXT 为过滤后相对 LEDE 默认的 diffconfig,与上传 artifact 一致
+        cp -f "${CONFIG_TXT}" "${SEED_DST}"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config user.name "github-actions[bot]"
+        git add "${SEED_DST}"
+        git commit -m "Sync seed/${CONFIG_FILE} from SSH remote config" || echo "无变化,无需提交"
+        git push --quiet "https://user:${REPO_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" \
+          HEAD:${GITHUB_REF_NAME} || echo "写回seed推送失败,请检查token权限"
 branding:
   icon: "terminal"
   color: "gray-dark"
