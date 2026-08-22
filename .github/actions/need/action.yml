@@ -24,12 +24,11 @@ runs:
       run: |
         cd $HOME_PATH
         echo -e "\n\033[33m正在执行：远程make menuconfig\033[0m"
-    - name: SSH远程连接（sshx公网终端）
+    - name: SSH远程连接（upterm终端）
       if: env.SSH_ACTION == 'true'
-      shell: bash
-      run: |
-        cd $HOME_PATH
-        curl -sSf https://sshx.io/get | sh -s run
+      uses: owenthereal/action-upterm@v1
+      with:
+        limit-access-to-actor: true
     - name: 生成配置文件和提取机型
       shell: bash
       run: |
