@@ -32,7 +32,6 @@ Red="\e[31m"
 Blue="\e[34m"
 Grey="\e[36m"
 Green="\e[32m"
-Div="${Grey}|${White}"
 
 clear
 [ -e /tmp/.failsafe ] && export FAILSAFE=1

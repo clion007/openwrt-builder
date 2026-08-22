@@ -24,9 +24,12 @@ runs:
       run: |
         cd $HOME_PATH
         echo -e "\n\033[33m正在执行：远程make menuconfig\033[0m"
-    - name: SSH远程连接（make menuconfig）
+    - name: SSH远程连接（sshx公网终端）
       if: env.SSH_ACTION == 'true'
-      uses: danshui-git/debugger-action@bc075325920b866feeccbabce0408b3e43a8b00f
+      shell: bash
+      run: |
+        cd $HOME_PATH
+        curl -sSf https://sshx.io/get | sh -s run
     - name: 生成配置文件和提取机型
       shell: bash
       run: |
