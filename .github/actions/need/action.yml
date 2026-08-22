@@ -27,6 +27,8 @@ runs:
     - name: SSH远程连接（upterm终端）
       if: env.SSH_ACTION == 'true'
       uses: owenthereal/action-upterm@v1
+      with:
+        limit-access-to-actor: true
     - name: 生成配置文件和提取机型
       shell: bash
       run: |
