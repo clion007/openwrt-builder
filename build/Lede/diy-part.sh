@@ -107,4 +107,4 @@ cat >>$DELETE <<-EOF
 EOF
 
 # 在线更新保留配置:声明需保留的后台/应用路径(空格分隔,以/开头)
-echo 'KEEP_CONF_FILES="/usr/share/adss/ /etc/init.d/adss /etc/rc.d/S18adss /etc/puship/ /etc/hotplug.d/iface/99-puship"' >> ${GITHUB_ENV}
+echo 'KEEP_CONF_FILES="/etc/puship/ /etc/hotplug.d/iface/99-puship"' >> ${GITHUB_ENV}
