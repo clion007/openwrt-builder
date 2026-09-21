@@ -103,4 +103,4 @@ cat >>$DELETE <<-EOF
 EOF
 
 # 在线更新保留配置(方式乙):声明需保留的后台/应用路径(空格分隔,以/开头),由common统一追加到保留名单
-echo "KEEP_CONF_FILES=''" >> ${GITHUB_ENV}
+echo 'KEEP_CONF_FILES=' >> ${GITHUB_ENV}
