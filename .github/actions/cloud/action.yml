@@ -25,12 +25,31 @@ runs:
           echo "云端不存在Release ${UPDATE_TAG},无需清理"
           exit 0
         fi
-        # Delete all historical assets of the same source+profile (this build has not been uploaded yet)
-        echo "${RELEASE_JSON}" | jq -r --arg sp "${SOURCE_PROFILE}" \
-          '.assets[] | select(.name | test("-" + $sp + "-[0-9]{10,}-")) | "\(.id)|\(.name)"' | while IFS='|' read -r ASSET_ID ASSET_NAME; do
+        # Keep the newest KEEP_COUNT timestamp groups of the same source+profile,
+        # delete older groups and malformed assets without a timestamp.
+        KEEP_COUNT=3
+        # Same-profile assets: "-${SOURCE_PROFILE}-" anywhere in the name
+        ASSET_LINES="$(echo "${RELEASE_JSON}" | jq -r --arg sp "${SOURCE_PROFILE}" \
+          '.assets[] | select(.name | test("-" + $sp + "-")) | "\(.id)|\(.name)"')"
+        if [[ -z "${ASSET_LINES}" ]]; then
+          echo "云端无同机型资产,无需清理"
+          exit 0
+        fi
+        # Newest KEEP_COUNT timestamp groups
+        KEEP_EPOCHS="$(echo "${ASSET_LINES}" | awk -F'|' '{print $2}' \
+          | grep -oE -e "-${SOURCE_PROFILE}-[0-9]{10,}-" | grep -oE '[0-9]{10,}' \
+          | sort -rn | uniq | head -n "${KEEP_COUNT}")"
+        echo "保留时间戳组:"
+        echo "${KEEP_EPOCHS}"
+        echo "${ASSET_LINES}" | while IFS='|' read -r ASSET_ID ASSET_NAME; do
+          TS="$(echo "${ASSET_NAME}" | grep -oE -e "-${SOURCE_PROFILE}-[0-9]{10,}-" | grep -oE '[0-9]{10,}' || echo "")"
+          if [[ -n "${TS}" ]] && echo "${KEEP_EPOCHS}" | grep -qx "${TS}"; then
+            echo "保留: ${ASSET_NAME}"
+            continue
+          fi
           if curl --fail -sS -X DELETE -H "Authorization: Bearer ${{ env.REPO_TOKEN }}" \
             "https://api.github.com/repos/${{ github.repository }}/releases/assets/${ASSET_ID}" 2>/dev/null; then
-            echo "已清理旧固件: ${ASSET_NAME}"
+            echo "已清理: ${ASSET_NAME}"
           else
             echo "清理失败: ${ASSET_NAME}"
           fi
